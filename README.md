@@ -8,7 +8,7 @@
 
 | สมาชิก | บทบาท / ตำแหน่ง | Branch ที่รับผิดชอบ | ชิ้นงานหลัก (Deliverables) |
 | :--- | :--- | :--- | :--- |
-| **สมาชิกคนที่ 1 (คุณ)** | **Database & Admin Lead** | `feat/db`<br>`feat/admin` | `docker-compose.yaml` (db, pgadmin), `schema.prisma`, `seed.ts`, `.env.simple` |
+| **สมาชิกคนที่ 1 ** | **Database & Admin Lead** | `feat/db`<br>`feat/admin` | `docker-compose.yaml` (db, pgadmin), `schema.prisma`, `seed.ts`, `.env.simple` |
 | **สมาชิกคนที่ 2** | **App Core & Auth Lead** | `feat/app` | โครงสร้าง NestJS Core, Service `app`, Auth Module (JWT + Login/Register) |
 | **สมาชิกคนที่ 3** | **REST API & Testing Lead** | `feat/rest` | CRUD Controllers (Tickets, Categories, Comments), ไฟล์ `api.http.simple` |
 
