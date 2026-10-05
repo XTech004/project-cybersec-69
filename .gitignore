@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+
+# Environment variables
+.env
+!.env.simple
+
+# API Client
+api.http
+
+# Database & Volume Storage
+data/
+*.db
+*.db-journal
+
+# Build outputs
+dist/
+build/
+
+# Logs & OS
+*.log
+.DS_Store
+Thumbs.db

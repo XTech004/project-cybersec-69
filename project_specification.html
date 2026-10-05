@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>IT Service Desk & Incident Ticket API - Project Specification</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Prompt:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+  @page {
+    size: A4;
+    margin: 10mm 13mm 10mm 13mm;
+  }
+
+  * {
+    box-sizing: border-box;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body {
+    font-family: 'Sarabun', 'Segoe UI', Tahoma, sans-serif;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: #1e293b;
+    background-color: #ffffff;
+    margin: 0;
+    padding: 0;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Prompt', 'Sarabun', sans-serif;
+    color: #0f172a;
+    margin-top: 0;
+    font-weight: 700;
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  h1 { font-size: 22px; color: #1e40af; border-bottom: 2px solid #3b82f6; padding-bottom: 5px; margin-bottom: 10px; }
+  h2 { font-size: 15.5px; color: #0f172a; border-left: 4px solid #2563eb; padding-left: 9px; margin-top: 14px; margin-bottom: 8px; }
+  h3 { font-size: 13.5px; color: #1e3a8a; margin-top: 10px; margin-bottom: 5px; }
+
+  p { margin: 0 0 7px 0; text-align: justify; }
+
+  /* Cover Page */
+  .cover-container {
+    height: 260mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 2px solid #cbd5e1;
+    border-radius: 12px;
+    padding: 30px;
+    background: linear-gradient(135deg, #f8fafc 0%, #edf2f7 100%);
+    page-break-after: always;
+    break-after: page;
+  }
+
+  .cover-header {
+    border-bottom: 3px solid #2563eb;
+    padding-bottom: 12px;
+  }
+
+  .badge-tag {
+    display: inline-block;
+    background: #2563eb;
+    color: white;
+    font-family: 'Prompt', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+
+  .cover-title {
+    font-size: 25px;
+    line-height: 1.3;
+    color: #0f172a;
+    margin-bottom: 6px;
+  }
+
+  .cover-subtitle {
+    font-size: 14px;
+    color: #475569;
+    font-weight: 500;
+  }
+
+  .meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    background: white;
+    padding: 14px 18px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    margin: 16px 0;
+  }
+
+  .meta-item {
+    font-size: 12px;
+  }
+  .meta-label {
+    font-weight: 600;
+    color: #64748b;
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+  }
+  .meta-value {
+    color: #0f172a;
+    font-weight: 600;
+    font-size: 13px;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 6px 0 10px 0;
+    font-size: 11.5px;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  th, td {
+    border: 1px solid #cbd5e1;
+    padding: 6px 8px;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  th {
+    background-color: #f1f5f9;
+    color: #1e293b;
+    font-family: 'Prompt', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+  }
+
+  tr:nth-child(even) td {
+    background-color: #f8fafc;
+  }
+
+  /* Cards & Boxes */
+  .card-box {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .code-block {
+    background: #0f172a;
+    color: #f8fafc;
+    font-family: 'JetBrains Mono', Consolas, monospace;
+    font-size: 10px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    line-height: 1.4;
+    margin: 6px 0 8px 0;
+    white-space: pre-wrap;
+    word-break: break-all;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 9.5px;
+    font-weight: 600;
+    font-family: 'Prompt', sans-serif;
+  }
+  .badge-blue { background: #dbeafe; color: #1e40af; }
+  .badge-green { background: #dcfce7; color: #166534; }
+  .badge-purple { background: #f3e8ff; color: #6b21a8; }
+
+  ul, ol {
+    margin: 0 0 6px 0;
+    padding-left: 18px;
+  }
+  li { margin-bottom: 2px; }
+
+  .diagram-container {
+    background: #f8fafc;
+    border: 1px dashed #94a3b8;
+    border-radius: 8px;
+    padding: 6px 10px;
+    text-align: center;
+    margin: 6px 0;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .footer-note {
+    border-top: 1px solid #cbd5e1;
+    padding-top: 5px;
+    font-size: 10px;
+    color: #64748b;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<!-- PAGE 1: COVER -->
+<div class="cover-container">
+  <div class="cover-header">
+    <span class="badge-tag">Project Specification & Architecture Guide</span>
+    <h1 class="cover-title">ระบบแจ้งซ่อมและขอความช่วยเหลือด้านไอที<br><span style="color:#2563eb;">IT Service Desk & Incident Ticket API</span></h1>
+    <div class="cover-subtitle">ตามมาตรฐานสถาปัตยกรรม Amplication (NestJS + Prisma ORM + PostgreSQL + pgAdmin)</div>
+  </div>
+
+  <div>
+    <div class="meta-grid">
+      <div class="meta-item">
+        <span class="meta-label">รหัสโครงการ / รายวิชา</span>
+        <span class="meta-value">project-cybersec-69 (Sec 69)</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">รูปแบบสถาปัตยกรรม</span>
+        <span class="meta-value">Amplication Clean Architecture & REST Client</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">จำนวนสมาชิกทีม</span>
+        <span class="meta-value">3 คน (DevOps/DB, App/Auth, REST/Testing)</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">เครื่องมือทดสอบหลัก</span>
+        <span class="meta-value">api.http / api.http.simple (VS Code REST Client)</span>
+      </div>
+    </div>
+
+    <div class="card-box" style="border-left: 4px solid #10b981;">
+      <h3 style="margin-top:0; color:#065f46;">🎯 สรุปภาพรวมและวัตถุประสงค์โครงการ</h3>
+      <p>โครงการนี้เป็นการพัฒนาระบบ <strong>IT Service Desk & Incident Ticket API</strong> เพื่อเป็นศูนย์กลางในการรับเรื่อง แจ้งปัญหาทางเทคนิค (Hardware, Software, Network, Security Incident) และขอสิทธิ์เข้าใช้งานภายในองค์กร โดยจำลองโครงสร้างและขั้นตอนการทำงานตามโปรเจกต์ <code>69-s1-cybersec</code> เดิม พร้อมยกระดับไปสู่สถาปัตยกรรมสมัยใหม่ที่สร้างด้วยแนวคิดของ <strong>Amplication</strong> (NestJS, Prisma ORM, Dual-mode Database, และ Web Dashboard ครบวงจร)</p>
+    </div>
+
+    <div class="card-box" style="border-left: 4px solid #3b82f6;">
+      <h3 style="margin-top:0; color:#1e40af;">📌 ผลสัมฤทธิ์ที่ส่งมอบในโครงการ</h3>
+      <ul style="margin-bottom:0;">
+        <li>ระบบ Docker Compose รัน PostgreSQL 16 + pgAdmin 4 + NestJS Backend Service</li>
+        <li>ฐานข้อมูล Prisma ORM รองรับ 4 Entities (User, Category, Ticket, Comment) พร้อม Seed Data</li>
+        <li>ระบบยืนยันตัวตน JWT Passport พร้อมการแยกสิทธิ์ 3 บทบาท (ADMIN, IT_SUPPORT, EMPLOYEE)</li>
+        <li>ชุดทดสอบครบวงจรผ่านไฟล์ <code>api.http.simple</code> ในสไตล์เดียวกับโปรเจกต์เดิม</li>
+        <li>หน้าเว็บควบคุม Web Dashboard, Swagger OpenAPI Docs และ Prisma Studio Web GUI</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    จัดทำโดย: ทีมพัฒนาประจำโครงการ project-cybersec-69 | ปรับปรุงล่าสุด: ตุลาคม 2026
+  </div>
+</div>
+
+<!-- PAGE 2: CONTENT STARTS -->
+<h2>1. ที่มา จุดเด่น และประโยชน์ของสถาปัตยกรรม Amplication</h2>
+
+<p><strong>Amplication</strong> เป็นแพลตฟอร์ม Open-source ชั้นนำสำหรับสร้าง Backend Services และ APIs (Node.js / NestJS) แบบอัตโนมัติ โดยผสมผสานข้อดีของ Low-Code เข้ากับ Professional Code Generation (ได้โค้ดภาษา TypeScript แท้ 100%)</p>
+
+<h3>1.1 จุดเด่นสำคัญ (Key Highlights)</h3>
+<ul>
+  <li><strong>Clean Architecture ระดับ Enterprise</strong>: ผลิตโค้ด NestJS ที่แยกเป็น Modules, Controllers, Services, DTOs และ Prisma Service อย่างเป็นระเบียบ อ่านเข้าใจง่าย และปรับแต่งต่อยอดได้อย่างอิสระ</li>
+  <li><strong>Type-Safety สูงสุดด้วย Prisma ORM</strong>: ใช้ Prisma ในการเชื่อมโยงฐานข้อมูล ทำให้การสืบค้นข้อมูลมี Type-checking ป้องกันข้อผิดพลาดตั้งแต่ตอนเขียนโค้ด</li>
+  <li><strong>ระบบ Authentication & Role-Based Access Control (RBAC)</strong>: ติดตั้ง Passport-JWT และ Bcrypt Hashing มาตรฐาน พร้อมโครงสร้าง Guard สำหรับจำแนกสิทธิ์ผู้ใช้งาน</li>
+  <li><strong>ไร้ปัญหา Vendor Lock-in</strong>: เป็นเจ้าของซอร์สโค้ด 100% สามารถนำไปรันบนเซิร์ฟเวอร์หรือ Cloud ใดก็ได้โดยไม่ต้องพึ่งพา Amplication ในอนาคต</li>
+</ul>
+
+<h3>1.2 เปรียบเทียบกับ Strapi 5 (โปรเจกต์ 69-s1-cybersec เดิม)</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 25%;">คุณสมบัติ</th>
+      <th style="width: 37%;">Strapi 5 (โปรเจกต์เดิม)</th>
+      <th style="width: 38%;">Amplication (โปรเจกต์ใหม่)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>รูปแบบระบบ</strong></td>
+      <td>Headless CMS สำเร็จรูป รันจาก Image</td>
+      <td><strong>Backend Code Generator</strong> (NestJS + TypeScript บริสุทธิ์)</td>
+    </tr>
+    <tr>
+      <td><strong>การปรับแต่งโค้ด</strong></td>
+      <td>ต้องทำ Monkey Patch ผ่าน Docker Volume Mounts</td>
+      <td><strong>แก้ไข Source Code โดยตรง</strong> ใน Controller, Service, DTO</td>
+    </tr>
+    <tr>
+      <td><strong>ฐานข้อมูลและ ORM</strong></td>
+      <td>Knex.js / Custom Query Engine</td>
+      <td><strong>Prisma ORM</strong> (ทันสมัย Type-Safe และจัดการ Migration ได้ง่าย)</td>
+    </tr>
+    <tr>
+      <td><strong>Admin Dashboard</strong></td>
+      <td>มี Built-in Admin Panel ที่พอร์ต 1337</td>
+      <td><strong>มี Web Service Desk Dashboard</strong> + <strong>Prisma Studio (พอร์ต 5555)</strong></td>
+    </tr>
+    <tr>
+      <td><strong>แนวทางการทดสอบ</strong></td>
+      <td>ใช้ <code>api.http.simple</code> ใน VS Code</td>
+      <td>ใช้ <strong><code>api.http.simple</code> รูปแบบเดียวกันเป๊ะ</strong> + Swagger UI</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>2. สถาปัตยกรรมระบบและโครงสร้าง Docker Environment</h2>
+
+<div class="diagram-container">
+  <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; line-height: 1.4; color: #1e293b;">
++-----------------------------------------------------------------------------------+<br>
+|                                 DOCKER COMPOSE                                    |<br>
+|   [ Service: db ]               [ Service: pgadmin ]      [ Service: app ]        |<br>
+|   postgres:16-alpine            dpage/pgadmin4            NestJS Application      |<br>
+|   Port: 5432                    Port: 5050                Port: 9091              |<br>
+|   Vol: ./data/db                Vol: ./data/pgadmin       Vol: ./src              |<br>
+|         |                             |                         |                 |<br>
+|         +<----------------------------+                         |                 |<br>
+|         +<------------------------------------------------------+                 |<br>
+|                                 (Prisma ORM Client)                               |<br>
++-----------------------------------------------------------------------------------+
+  </div>
+</div>
+
+<h3>การจัดสรรพอร์ต (Port Allocation Table)</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Service Name</th>
+      <th>Container Image</th>
+      <th>External Port</th>
+      <th>Internal Port</th>
+      <th>คำอธิบายหน้าที่</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong><code>db</code></strong></td>
+      <td><code>postgres:16-alpine</code></td>
+      <td><code>5432</code></td>
+      <td><code>5432</code></td>
+      <td>ฐานข้อมูลหลัก PostgreSQL เก็บข้อมูล Users, Tickets, Categories</td>
+    </tr>
+    <tr>
+      <td><strong><code>pgadmin</code></strong></td>
+      <td><code>dpage/pgadmin4</code></td>
+      <td><code>5050</code></td>
+      <td><code>80</code></td>
+      <td>Web GUI จัดการและดูโครงสร้างตารางฐานข้อมูล</td>
+    </tr>
+    <tr>
+      <td><strong><code>app</code></strong></td>
+      <td>Custom (Node.js 20)</td>
+      <td><code>9091</code></td>
+      <td><code>9091</code></td>
+      <td>NestJS API Service (Swagger ที่ <code>/api</code>, Web UI ที่ <code>/admin</code>)</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="code-block"># docker-compose.yaml ตัวอย่างคอนฟิกชัน
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: it-servicedesk-db
+    ports: ["${POSTGRES_PORT}:5432"]
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes: ["./data/db:/var/lib/postgresql/data"]
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: it-servicedesk-admin
+    ports: ["${PGADMIN_PORT}:80"]
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    volumes: ["./data/pgadmin:/var/lib/pgadmin"]
+    depends_on: [db]
+  app:
+    build: .
+    container_name: it-servicedesk-app
+    ports: ["${APP_PORT}:9091"]
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      JWT_SECRET: ${JWT_SECRET}
+      APP_PORT: ${APP_PORT}
+    depends_on: [db]</div>
+
+<h2>3. การออกแบบฐานข้อมูล (Database Schema & Seed Data)</h2>
+
+<p>ฐานข้อมูลถูกออกแบบให้ครอบคลุมการทำงานของ IT Service Desk ทั้งหมด <strong>4 ตารางหลัก</strong> เชื่อมโยงกันผ่าน Relational Constraints ใน Prisma Schema:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 15%;">ตาราง (Entity)</th>
+      <th style="width: 25%;">ฟิลด์สำคัญ (Columns)</th>
+      <th style="width: 28%;">ประเภทข้อมูล & Constraints</th>
+      <th style="width: 32%;">คำอธิบายและหน้าที่</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong><code>User</code></strong></td>
+      <td><code>id</code>, <code>email</code>, <code>password</code><br><code>firstName</code>, <code>lastName</code><br><code>role</code>, <code>department</code></td>
+      <td>String PK, String Unique<br>String (Bcrypt Hashed)<br>Enum (<code>ADMIN</code>, <code>IT_SUPPORT</code>, <code>EMPLOYEE</code>)</td>
+      <td>ผู้ใช้งานระบบทั้งหมด จำแนกสิทธิ์ตาม Role เพื่อควบคุมการเข้าถึงตั๋วและฟังก์ชันต่างๆ</td>
+    </tr>
+    <tr>
+      <td><strong><code>Category</code></strong></td>
+      <td><code>id</code>, <code>name</code>, <code>description</code></td>
+      <td>String PK, String Unique<br>String Optional</td>
+      <td>หมวดหมู่ปัญหา เช่น Hardware, Software, Network, Security Incident, Account Access</td>
+    </tr>
+    <tr>
+      <td><strong><code>Ticket</code></strong></td>
+      <td><code>id</code>, <code>title</code>, <code>description</code><br><code>priority</code>, <code>status</code><br><code>createdById</code>, <code>assignedToId</code><br><code>categoryId</code></td>
+      <td>String PK, Text<br>Enum (<code>LOW</code>, <code>MEDIUM</code>, <code>HIGH</code>, <code>CRITICAL</code>)<br>Enum (<code>OPEN</code>, <code>IN_PROGRESS</code>, <code>RESOLVED</code>, <code>CLOSED</code>)<br>FK -> User, FK -> Category</td>
+      <td>รายการตั๋วแจ้งซ่อม/ปัญหา มี Workflow การเปลี่ยนสถานะตามขั้นตอนการทำงานจริง</td>
+    </tr>
+    <tr>
+      <td><strong><code>Comment</code></strong></td>
+      <td><code>id</code>, <code>content</code>, <code>isInternal</code><br><code>ticketId</code>, <code>authorId</code></td>
+      <td>String PK, Text<br>Boolean (Internal IT note or Public)<br>FK -> Ticket, FK -> User</td>
+      <td>ความคิดเห็น บันทึกการติดตามงาน และการตอบกลับระหว่างผู้แจ้งกับทีมไอที</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="card-box">
+  <h3 style="margin-top:0;">ข้อมูลตั้งต้นสำหรับทดสอบ (Pre-populated Seed Data)</h3>
+  <ul>
+    <li><span class="badge badge-purple">Super Admin</span> : <code>admin@servicedesk.local</code> (รหัสผ่าน: <code>Password123!</code>) - ดูแลระบบทั้งหมด</li>
+    <li><span class="badge badge-blue">IT Support</span> : <code>support@servicedesk.local</code> (รหัสผ่าน: <code>Password123!</code>) - เจ้าหน้าที่รับเรื่องซ่อม</li>
+    <li><span class="badge badge-green">Employee 1 & 2</span> : <code>employee1@servicedesk.local</code>, <code>employee2@servicedesk.local</code> (รหัสผ่าน: <code>Password123!</code>)</li>
+    <li><strong>Categories 5 รายการ</strong>: Hardware, Software, Network, Security Incident, System Access</li>
+    <li><strong>Mock Tickets 3 รายการ</strong>: ครอบคลุมสถานะ <code>OPEN</code>, <code>IN_PROGRESS</code> และ <code>RESOLVED</code></li>
+  </ul>
+</div>
+
+<h2>4. การแบ่งบทบาทหน้าที่ 3 คน และ Git Branch Strategy</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 18%;">สมาชิก</th>
+      <th style="width: 24%;">บทบาท / ตำแหน่ง</th>
+      <th style="width: 20%;">Branch ที่รับผิดชอบ</th>
+      <th style="width: 38%;">ชิ้นงานที่ต้องส่งมอบ (Deliverables)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>สมาชิกคนที่ 1</strong></td>
+      <td><strong>Database & Admin Lead</strong><br>(ดูแลโครงสร้างพื้นฐาน)</td>
+      <td><span class="badge badge-blue">feat/db</span><br><span class="badge badge-blue">feat/admin</span></td>
+      <td>
+        • <code>docker-compose.yaml</code> (ส่วน db และ pgadmin)<br>
+        • <code>.env.simple</code> และ <code>.env</code><br>
+        • <code>prisma/schema.prisma</code> (4 Models)<br>
+        • <code>prisma/seed.ts</code> (Mock users & tickets)
+      </td>
+    </tr>
+    <tr>
+      <td><strong>สมาชิกคนที่ 2</strong></td>
+      <td><strong>App Core & Auth Lead</strong><br>(ดูแลตัวแอปและระบบล็อกอิน)</td>
+      <td><span class="badge badge-purple">feat/app</span></td>
+      <td>
+        • โครงสร้าง NestJS Amplication Core<br>
+        • <code>Dockerfile</code> และ Service <code>app</code> ใน compose<br>
+        • Authentication Module (JWT + Passport)<br>
+        • Endpoints: Admin/User Login, Register, <code>/me</code><br>
+        • Swagger OpenAPI Module ที่ <code>/api</code>
+      </td>
+    </tr>
+    <tr>
+      <td><strong>สมาชิกคนที่ 3</strong></td>
+      <td><strong>REST API & Testing Lead</strong><br>(ดูแล CRUD & ไฟล์ทดสอบ)</td>
+      <td><span class="badge badge-green">feat/rest</span></td>
+      <td>
+        • CRUD Controllers สำหรับ Tickets, Categories, Comments<br>
+        • DTOs พร้อม Data Validation<br>
+        • <strong>ไฟล์ <code>api.http</code> และ <code>api.http.simple</code></strong> สำหรับยิงทดสอบครบทุกข้อ<br>
+        • ตรวจสอบความถูกต้องของ Response ร่วมกับทีม
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="card-box">
+  <h3 style="margin-top:0;">ลำดับขั้นตอนการทำงานร่วมกัน (Team Handover Timeline)</h3>
+  <ol style="margin-bottom:0;">
+    <li><strong>ระยะที่ 1 (คนที่ 1 เริ่มต้น)</strong>: แตก Branch <code>feat/db</code> → เขียน Docker Postgres + Prisma Schema → รัน Seed ข้อมูล → แตก Branch <code>feat/admin</code> → เพิ่ม pgAdmin ใน Docker Compose (พอร์ต 5050) → Merge เข้าสู่ <code>main</code></li>
+    <li><strong>ระยะที่ 2 (คนที่ 2 รับไม้ต่อ)</strong>: แตก Branch <code>feat/app</code> → สร้าง NestJS App Core เชื่อมต่อกับ DB ของคนที่ 1 → พัฒนาโมดูล Authentication (JWT Strategy, Login, Register, Profile) → Merge เข้าสู่ <code>main</code></li>
+    <li><strong>ระยะที่ 3 (คนที่ 3 ดำเนินการขั้นสุดท้าย)</strong>: แตก Branch <code>feat/rest</code> → พัฒนา CRUD Controllers สำหรับ Tickets, Categories, Comments → <strong>จัดทำไฟล์ <code>api.http.simple</code></strong> ที่มีตัวแปร <code>{{$dotenv ...}}</code> ดึง Token และ ID อัตโนมัติ → ทดสอบยิง Request ครบทุกข้อ → Merge เข้าสู่ <code>main</code></li>
+  </ol>
+</div>
+
+<h2>5. การออกแบบ API และโครงสร้างไฟล์ <code>api.http.simple</code></h2>
+
+<p>เพื่อให้การทดสอบตรงกับรูปแบบเดิมใน <code>69-s1-cybersec/api.http.simple</code> โครงสร้างไฟล์ทดสอบจะถูกแบ่งเป็น 5 หมวดหมู่:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 20%;">หมวดหมู่</th>
+      <th style="width: 22%;">หัวข้อย่อย</th>
+      <th style="width: 32%;">HTTP Method & Endpoint</th>
+      <th style="width: 26%;">สิทธิ์ที่ต้องใช้</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="2"><strong>1. Admin</strong></td>
+      <td>1.1 Admin Login</td>
+      <td><code>POST /admin/login</code></td>
+      <td>ไม่ต้องมี Token (รับ Token กลับมา)</td>
+    </tr>
+    <tr>
+      <td>1.2 Admin Profile</td>
+      <td><code>GET /admin/users/me</code></td>
+      <td>Bearer Token (Admin)</td>
+    </tr>
+    <tr>
+      <td rowspan="3"><strong>2. User / Staff</strong></td>
+      <td>2.1 User Register</td>
+      <td><code>POST /api/auth/register</code></td>
+      <td>ไม่ต้องมี Token</td>
+    </tr>
+    <tr>
+      <td>2.2 User Login</td>
+      <td><code>POST /api/auth/login</code></td>
+      <td>ไม่ต้องมี Token (รับ Token กลับมา)</td>
+    </tr>
+    <tr>
+      <td>2.3 User Profile</td>
+      <td><code>GET /api/users/me</code></td>
+      <td>Bearer Token (User)</td>
+    </tr>
+    <tr>
+      <td rowspan="2"><strong>3. Categories</strong></td>
+      <td>3.1 List Categories</td>
+      <td><code>GET /api/categories</code></td>
+      <td>Bearer Token</td>
+    </tr>
+    <tr>
+      <td>3.2 Create Category</td>
+      <td><code>POST /api/categories</code></td>
+      <td>Bearer Token (Admin Only)</td>
+    </tr>
+    <tr>
+      <td rowspan="4"><strong>4. Tickets (CRUD)</strong></td>
+      <td>4.1 Create Ticket</td>
+      <td><code>POST /api/tickets</code></td>
+      <td>Bearer Token (Employee สร้างคำขอ)</td>
+    </tr>
+    <tr>
+      <td>4.2 List Tickets</td>
+      <td><code>GET /api/tickets</code></td>
+      <td>Bearer Token (ดึงตามสิทธิ์ผู้เรียก)</td>
+    </tr>
+    <tr>
+      <td>4.3 Assign Ticket</td>
+      <td><code>PATCH /api/tickets/:id/assign</code></td>
+      <td>Bearer Token (IT Support รับเคส)</td>
+    </tr>
+    <tr>
+      <td>4.4 Update Status</td>
+      <td><code>PATCH /api/tickets/:id/status</code></td>
+      <td>Bearer Token (เปลี่ยนเป็น RESOLVED)</td>
+    </tr>
+    <tr>
+      <td rowspan="2"><strong>5. Comments</strong></td>
+      <td>5.1 Add Comment</td>
+      <td><code>POST /api/tickets/:id/comments</code></td>
+      <td>Bearer Token</td>
+    </tr>
+    <tr>
+      <td>5.2 View Comments</td>
+      <td><code>GET /api/tickets/:id/comments</code></td>
+      <td>Bearer Token</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="code-block">### 1.1 Admin Login
+# @name adminLogin
+POST http://localhost:{{$dotenv APP_PORT}}/admin/login
+Content-Type: application/json
+
+{ "email": "{{$dotenv ADMIN_EMAIL}}", "password": "{{$dotenv ADMIN_PASSWORD}}" }
+
+### 1.2 Admin Profile
+GET http://localhost:{{$dotenv APP_PORT}}/admin/users/me
+Authorization: Bearer {{adminLogin.response.body.access_token}}
+
+### 4.1 Create Ticket (Employee)
+# @name createTicket
+POST http://localhost:{{$dotenv APP_PORT}}/api/tickets
+Content-Type: application/json
+Authorization: Bearer {{$dotenv USER_TOKEN}}
+
+{
+    "title": "จอคอมพิวเตอร์เปิดไม่ติด มีไฟกระพริบสีส้ม",
+    "description": "ใช้งานอยู่ดีๆ จอดับไป แผนกการเงิน ชั้น 3",
+    "priority": "HIGH",
+    "categoryId": "{{$dotenv CATEGORY_HARDWARE_ID}}"
+}</div>
+
+<h2>6. ระบบ Dashboard และหน้าจอควบคุม (User Interfaces)</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Dashboard Name</th>
+      <th>URL / คำสั่งเรียกใช้</th>
+      <th>กลุ่มผู้ใช้งาน</th>
+      <th>ความสามารถเด่น</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>1. Web Service Desk</strong></td>
+      <td><code>http://localhost:9091/admin</code></td>
+      <td>พนักงาน, ช่างไอที, ผู้บริหาร</td>
+      <td>ดูสถิติตั๋ว, ตารางแจ้งซ่อม, กดรับงาน/เปลี่ยนสถานะแบบ Visual</td>
+    </tr>
+    <tr>
+      <td><strong>2. Prisma Studio</strong></td>
+      <td><code>npx prisma studio</code> (5555)</td>
+      <td>นักพัฒนา, DBA</td>
+      <td>ดูและแก้ไขตารางข้อมูลโดยตรง เหมือน Strapi Content Manager</td>
+    </tr>
+    <tr>
+      <td><strong>3. Swagger OpenAPI</strong></td>
+      <td><code>http://localhost:9091/api</code></td>
+      <td>นักพัฒนา, QA Tester</td>
+      <td>ดูเอกสาร API ครบทุก Endpoint และกดทดสอบ Try it out</td>
+    </tr>
+    <tr>
+      <td><strong>4. pgAdmin 4</strong></td>
+      <td><code>http://localhost:5050</code></td>
+      <td>System Admin, DBA</td>
+      <td>จัดการ PostgreSQL, ดู Index, ตรวจสอบ Performance และ Query</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>7. ขั้นตอนการตรวจรับงาน (Verification Checklist)</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 8%;">ข้อ</th>
+      <th style="width: 38%;">รายการที่ต้องตรวจสอบ</th>
+      <th style="width: 28%;">วิธีทดสอบ</th>
+      <th style="width: 26%;">เกณฑ์ผ่าน (Criteria)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Service ใน Docker ติดตั้งและรันสำเร็จ</td>
+      <td>รันคำสั่ง <code>docker compose ps</code></td>
+      <td>สถานะเป็น Up ครบทั้ง 3 Services</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Prisma Migration & Seed สมบูรณ์</td>
+      <td>รัน <code>npx prisma db seed</code></td>
+      <td>มีบัญชี Admin, IT, User และ Category</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>ทดสอบ Admin Login & Profile</td>
+      <td>กด Send Request ข้อ 1.1 ใน <code>api.http</code></td>
+      <td>ได้ HTTP 200/201 พร้อม JWT Token</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>ทดสอบสร้างตั๋วแจ้งซ่อม (Create Ticket)</td>
+      <td>กด Send Request ข้อ 4.1 ใน <code>api.http</code></td>
+      <td>ตั๋วถูกบันทึก สถานะเริ่มต้นเป็น OPEN</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>ทดสอบเปลี่ยนสถานะตั๋ว (Update Status)</td>
+      <td>กด Send Request ข้อ 4.4 ใน <code>api.http</code></td>
+      <td>สถานะตั๋วเปลี่ยนเป็น RESOLVED สำเร็จ</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>ตรวจสอบหน้า Web Dashboard</td>
+      <td>เปิดเบราว์เซอร์ไปที่พอร์ต <code>9091</code></td>
+      <td>แสดงตัวเลขสถิติและตารางตั๋วถูกต้อง</td>
+    </tr>
+  </tbody>
+</table>
+
+<div style="margin-top: 14px; text-align: center; color: #64748b; font-size: 11px; border-top: 1px solid #e2e8f0; padding-top: 6px;">
+  — สิ้นสุดเอกสารข้อกำหนดโครงการ IT Service Desk & Incident Ticket API —
+</div>
+
+</body>
+</html>
