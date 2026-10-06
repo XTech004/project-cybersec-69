@@ -157,45 +157,27 @@
       padding: 0 24px;
       flex-shrink: 0;
     }
-    .role-switcher {
+    .topbar-brand-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .topbar-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
       display: flex;
       align-items: center;
       gap: 8px;
-      background: #12131c;
-      padding: 4px 6px;
-      border-radius: 10px;
-      border: 1px solid #2d2f48;
     }
-    .role-label {
-      font-size: 12px;
-      color: #94a3b8;
-      padding: 0 6px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .role-btn {
-      background: transparent;
-      border: none;
-      color: #94a3b8;
-      padding: 6px 12px;
+    .topbar-tag {
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      background: rgba(99, 102, 241, 0.15);
+      color: #818cf8;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      padding: 2px 8px;
       border-radius: 6px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      transition: all 0.2s;
-    }
-    .role-btn:hover {
-      color: #ffffff;
-      background: #212134;
-    }
-    .role-btn.active {
-      background: #4f46e5;
-      color: #ffffff;
-      box-shadow: 0 2px 8px rgba(79, 70, 229, 0.4);
     }
 
     .user-profile {
@@ -208,29 +190,53 @@
       color: #ffffff;
       font-size: 11px;
       font-weight: 700;
-      padding: 3px 8px;
+      padding: 4px 10px;
       border-radius: 6px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+    }
+    .user-pill.guest {
+      background: #475569;
     }
     .user-email {
       font-size: 13px;
       color: #cbd5e1;
       font-weight: 500;
     }
-    .btn-logout {
-      background: transparent;
-      border: 1px solid #334155;
-      color: #94a3b8;
-      padding: 5px 12px;
+    .btn-topbar {
+      background: #212134;
+      border: 1px solid #2d2f48;
+      color: #cbd5e1;
+      padding: 6px 14px;
       border-radius: 6px;
       font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-topbar:hover {
+      background: #27273d;
+      color: #ffffff;
+      border-color: #6366f1;
+    }
+    .btn-logout {
+      background: transparent;
+      border: 1px solid #475569;
+      color: #94a3b8;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
     }
     .btn-logout:hover {
-      color: #ef4444;
+      color: #f87171;
       border-color: #ef4444;
+      background: rgba(239, 68, 68, 0.1);
     }
 
     /* Content Area */
@@ -261,45 +267,7 @@
     }
     .action-group {
       display: flex;
-      align-items: center;
       gap: 10px;
-    }
-    .btn-primary {
-      background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
-      color: white;
-      border: none;
-      padding: 9px 16px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
-      transition: all 0.2s;
-    }
-    .btn-primary:hover {
-      opacity: 0.92;
-      transform: translateY(-1px);
-    }
-    .btn-secondary {
-      background: #212134;
-      color: #cbd5e1;
-      border: 1px solid #2d2f48;
-      padding: 9px 14px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s;
-    }
-    .btn-secondary:hover {
-      background: #27273d;
-      color: white;
     }
 
     /* Metric Cards */
@@ -312,90 +280,148 @@
       background: #181826;
       border: 1px solid #2d2f48;
       border-radius: 12px;
-      padding: 16px;
+      padding: 18px;
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 16px;
     }
     .metric-icon {
-      width: 44px;
-      height: 44px;
+      width: 48px;
+      height: 48px;
       border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
+      font-size: 22px;
     }
     .metric-val {
-      font-size: 22px;
+      font-size: 24px;
       font-weight: 700;
-      color: white;
-      line-height: 1.1;
+      color: #ffffff;
+      line-height: 1;
     }
     .metric-lbl {
       font-size: 12px;
       color: #94a3b8;
+      margin-top: 4px;
     }
 
-    /* Table Container */
-    .table-card {
+    /* Table & Filter Bar */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: #181826;
+      border: 1px solid #2d2f48;
+      border-radius: 10px;
+      padding: 12px 16px;
+    }
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .filter-label {
+      font-size: 12.5px;
+      color: #94a3b8;
+      font-weight: 500;
+    }
+    .filter-select {
+      background: #12131c;
+      border: 1px solid #2d2f48;
+      color: #e2e8f0;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12.5px;
+      outline: none;
+      cursor: pointer;
+    }
+    .filter-select:focus {
+      border-color: #6366f1;
+    }
+
+    .table-container {
       background: #181826;
       border: 1px solid #2d2f48;
       border-radius: 12px;
       overflow: hidden;
     }
-    .table-filters {
-      padding: 14px 18px;
-      border-bottom: 1px solid #2d2f48;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: #1c1d2e;
-    }
-    .filter-select {
-      background: #12131c;
-      color: #e2e8f0;
-      border: 1px solid #2d2f48;
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-size: 12.5px;
-      outline: none;
-    }
-
     table {
       width: 100%;
       border-collapse: collapse;
       text-align: left;
+      font-size: 13px;
+    }
+    thead {
+      background: #1f2033;
+      border-bottom: 1px solid #2d2f48;
     }
     th {
       padding: 12px 18px;
-      font-size: 11.5px;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      color: #64748b;
+      color: #94a3b8;
       font-weight: 600;
-      background: #181826;
-      border-bottom: 1px solid #2d2f48;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    tbody tr {
+      border-bottom: 1px solid #222338;
+      transition: background 0.15s;
+    }
+    tbody tr:last-child {
+      border-bottom: none;
+    }
+    tbody tr:hover {
+      background: #1d1e30;
     }
     td {
       padding: 14px 18px;
-      font-size: 13px;
-      border-bottom: 1px solid #232438;
       color: #cbd5e1;
       vertical-align: middle;
     }
-    tr:last-child td {
-      border-bottom: none;
+
+    /* Buttons & Badges */
+    .btn-primary {
+      background: #4f46e5;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
     }
-    tr:hover td {
-      background: #1f2033;
+    .btn-primary:hover {
+      background: #4338ca;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+    }
+    .btn-secondary {
+      background: #212134;
+      color: #cbd5e1;
+      border: 1px solid #2d2f48;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover {
+      background: #27273d;
+      color: white;
     }
 
-    /* Badges */
     .badge {
-      display: inline-flex;
-      align-items: center;
-      padding: 3px 8px;
+      display: inline-block;
+      padding: 4px 8px;
       border-radius: 6px;
       font-size: 11px;
       font-weight: 600;
@@ -431,13 +457,13 @@
       border-color: #6366f1;
     }
 
-    /* Modal */
+    /* Modal Backdrop & Box */
     .modal-backdrop {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.65);
-      backdrop-filter: blur(4px);
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(5px);
       z-index: 999;
       align-items: center;
       justify-content: center;
@@ -446,8 +472,10 @@
       display: flex;
     }
     .modal-box {
-      width: 500px;
-      max-width: 90vw;
+      width: 520px;
+      max-width: 92vw;
+      max-height: 90vh;
+      overflow-y: auto;
       background: #181826;
       border: 1px solid #2d2f48;
       border-radius: 14px;
@@ -457,10 +485,32 @@
       flex-direction: column;
       gap: 16px;
     }
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
     .modal-title {
       font-size: 18px;
       font-weight: 700;
       color: white;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .modal-close-btn {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 6px;
+      line-height: 1;
+    }
+    .modal-close-btn:hover {
+      color: white;
+      background: #212134;
     }
     .form-group {
       display: flex;
@@ -480,19 +530,105 @@
       border-radius: 8px;
       font-size: 13px;
       outline: none;
+      font-family: inherit;
     }
     .form-input:focus {
       border-color: #6366f1;
     }
     .modal-footer {
       display: flex;
-      align-items: center;
       justify-content: flex-end;
       gap: 10px;
-      margin-top: 10px;
+      margin-top: 8px;
     }
 
-    /* Toast */
+    /* Auth Navigation Tabs inside Modal */
+    .auth-tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
+      background: #12131c;
+      padding: 4px;
+      border-radius: 10px;
+      border: 1px solid #2d2f48;
+    }
+    .auth-tab-btn {
+      padding: 8px 6px;
+      border-radius: 6px;
+      border: none;
+      background: transparent;
+      color: #94a3b8;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    .auth-tab-btn:hover {
+      color: white;
+      background: #212134;
+    }
+    .auth-tab-btn.active {
+      background: #4f46e5;
+      color: white;
+      box-shadow: 0 2px 8px rgba(79, 70, 229, 0.4);
+    }
+
+    /* Sub Tabs (for Signup User vs Admin, or Reset flow) */
+    .sub-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .sub-tab-btn {
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: 1px solid #2d2f48;
+      background: #212134;
+      color: #94a3b8;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .sub-tab-btn.active {
+      background: rgba(99, 102, 241, 0.2);
+      border-color: #6366f1;
+      color: #c7d2fe;
+    }
+
+    .quick-chips {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 2px;
+    }
+    .chip-btn {
+      background: #212134;
+      border: 1px dashed #4338ca;
+      color: #a5b4fc;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .chip-btn:hover {
+      background: #312e81;
+      color: white;
+    }
+
+    .info-callout {
+      background: rgba(99, 102, 241, 0.1);
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 12px;
+      color: #c7d2fe;
+      line-height: 1.4;
+    }
+
     .toast {
       position: fixed;
       bottom: 24px;
@@ -506,6 +642,9 @@
       z-index: 9999;
       display: none;
       font-size: 13px;
+    }
+    .toast.error {
+      background: #ef4444;
     }
   </style>
 </head>
@@ -523,21 +662,21 @@
 
     <div class="nav-section">COLLECTIONS</div>
     <ul class="nav-list">
-      <li class="nav-item active" onclick="switchTab('tickets')">
+      <li class="nav-item active" onclick="switchTab('tickets', event)">
         <div class="nav-item-left">
           <span>🎫</span>
           <span>Tickets (ตั๋วแจ้งซ่อม)</span>
         </div>
         <span class="badge-count" id="badgeTickets">0</span>
       </li>
-      <li class="nav-item" onclick="switchTab('categories')">
+      <li class="nav-item" onclick="switchTab('categories', event)">
         <div class="nav-item-left">
           <span>📁</span>
           <span>Categories (หมวดหมู่)</span>
         </div>
         <span class="badge-count" id="badgeCategories">0</span>
       </li>
-      <li class="nav-item" onclick="switchTab('users')">
+      <li class="nav-item" onclick="switchTab('users', event)">
         <div class="nav-item-left">
           <span>👥</span>
           <span>Users (ผู้ใช้งานระบบ)</span>
@@ -566,20 +705,21 @@
   <div class="main-wrapper">
     <!-- Top Header Bar -->
     <header class="topbar">
-      <!-- Role Switcher -->
-      <div class="role-switcher">
-        <div class="role-label"><span>🎭</span> ทดลองสิทธิ์ Role:</div>
-        <button class="role-btn active" id="btnRoleAdmin" onclick="switchRole('admin')">👑 Admin</button>
-        <button class="role-btn" id="btnRoleIT" onclick="switchRole('it')">🛠️ IT Support</button>
-        <button class="role-btn" id="btnRoleEmp1" onclick="switchRole('emp1')">👔 Employee 1</button>
-        <button class="role-btn" id="btnRoleEmp2" onclick="switchRole('emp2')">👔 Employee 2</button>
+      <!-- Title & Status -->
+      <div class="topbar-brand-info">
+        <div class="topbar-title">
+          <span>🛡️ IT Service Desk Management Console</span>
+          <span class="topbar-tag">Strapi-Compatible Auth API</span>
+        </div>
       </div>
 
-      <!-- Current Profile -->
+      <!-- Current Profile & Actions -->
       <div class="user-profile">
-        <span class="user-pill" id="lblUserRole">ADMIN</span>
-        <span class="user-email" id="lblUserEmail">admin@servicedesk.local</span>
-        <button class="btn-logout" onclick="refreshData()">🔄 Sync</button>
+        <span class="user-pill" id="lblUserRole">GUEST</span>
+        <span class="user-email" id="lblUserEmail">ยังไม่ได้เข้าสู่ระบบ</span>
+        <button class="btn-topbar" id="btnOpenAuth" onclick="openAuthModal()">🔐 เข้าสู่ระบบ / สมัคร</button>
+        <button class="btn-topbar" id="btnSync" onclick="refreshData()">🔄 รีเฟรช</button>
+        <button class="btn-logout" id="btnLogout" style="display: none;" onclick="handleLogout()">🚪 ออกจากระบบ</button>
       </div>
     </header>
 
@@ -619,62 +759,70 @@
             <div class="metric-icon" style="background: rgba(168, 85, 247, 0.15); color: #c084fc;">🔧</div>
             <div>
               <div class="metric-val" id="metricProgress">0</div>
-              <div class="metric-lbl">กำลังดำเนินการ</div>
+              <div class="metric-lbl">กำลังดำเนินการ (IN_PROGRESS)</div>
             </div>
           </div>
           <div class="metric-card">
             <div class="metric-icon" style="background: rgba(34, 197, 94, 0.15); color: #4ade80;">✅</div>
             <div>
               <div class="metric-val" id="metricResolved">0</div>
-              <div class="metric-lbl">แก้ไขเสร็จสิ้น</div>
+              <div class="metric-lbl">แก้ไขแล้ว (RESOLVED)</div>
             </div>
           </div>
         </div>
 
-        <!-- Tickets Table -->
-        <div class="table-card" style="margin-top: 20px;">
-          <div class="table-filters">
-            <span style="font-size:12px; color:#94a3b8; font-weight:600;">ฟิลเตอร์:</span>
+        <!-- Filter Bar -->
+        <div class="filter-bar" style="margin-top: 18px;">
+          <div class="filter-group">
+            <span class="filter-label">ตัวกรองสถานะ:</span>
             <select class="filter-select" id="filterStatus" onchange="renderTicketTable()">
-              <option value="ALL">สถานะทั้งหมด</option>
-              <option value="OPEN">OPEN (เปิดคำขอ)</option>
-              <option value="IN_PROGRESS">IN_PROGRESS (กำลังซ่อม)</option>
-              <option value="RESOLVED">RESOLVED (เสร็จสิ้น)</option>
-              <option value="CLOSED">CLOSED (ปิดเคส)</option>
-            </select>
-            <select class="filter-select" id="filterPriority" onchange="renderTicketTable()">
-              <option value="ALL">ความเร่งด่วนทั้งหมด</option>
-              <option value="CRITICAL">CRITICAL (วิกฤต)</option>
-              <option value="HIGH">HIGH (สูง)</option>
-              <option value="MEDIUM">MEDIUM (ปานกลาง)</option>
-              <option value="LOW">LOW (ต่ำ)</option>
+              <option value="ALL">ทั้งหมด (All Status)</option>
+              <option value="OPEN">รอดำเนินการ (OPEN)</option>
+              <option value="IN_PROGRESS">กำลังดำเนินการ (IN_PROGRESS)</option>
+              <option value="RESOLVED">แก้ไขเสร็จสิ้น (RESOLVED)</option>
+              <option value="CLOSED">ปิดตั๋ว (CLOSED)</option>
             </select>
           </div>
+          <div class="filter-group">
+            <span class="filter-label">ความเร่งด่วน:</span>
+            <select class="filter-select" id="filterPriority" onchange="renderTicketTable()">
+              <option value="ALL">ทั้งหมด (All Priority)</option>
+              <option value="CRITICAL">ฉุกเฉิน (CRITICAL)</option>
+              <option value="HIGH">ด่วนสูง (HIGH)</option>
+              <option value="MEDIUM">ปานกลาง (MEDIUM)</option>
+              <option value="LOW">ไม่เร่งด่วน (LOW)</option>
+            </select>
+          </div>
+        </div>
 
+        <!-- Tickets Table -->
+        <div class="table-container" style="margin-top: 14px;">
           <table>
             <thead>
               <tr>
-                <th style="width: 28%;">หัวข้อปัญหา / รายละเอียด</th>
+                <th style="width: 32%;">หัวข้อปัญหา</th>
                 <th style="width: 14%;">หมวดหมู่</th>
                 <th style="width: 12%;">ความเร่งด่วน</th>
                 <th style="width: 14%;">สถานะ</th>
-                <th style="width: 16%;">ผู้แจ้ง / แผนก</th>
-                <th style="width: 16%; text-align:right;">การดำเนินการ</th>
+                <th style="width: 16%;">ผู้แจ้ง (Creator)</th>
+                <th style="width: 12%; text-align: right;">การจัดการ</th>
               </tr>
             </thead>
             <tbody id="tblTicketsBody">
-              <tr><td colspan="6" style="text-align:center; padding: 30px; color:#64748b;">กำลังโหลดข้อมูลตั๋ว...</td></tr>
+              <tr>
+                <td colspan="6" style="text-align: center; padding: 40px; color: #64748b;">กำลังโหลดข้อมูล...</td>
+              </tr>
             </tbody>
           </table>
         </div>
       </section>
 
       <!-- View 2: CATEGORIES VIEW -->
-      <section id="viewCategories" style="display:none;">
+      <section id="viewCategories" style="display: none;">
         <div class="view-header">
           <div class="view-title-group">
-            <h2>Problem Categories</h2>
-            <p>หมวดหมู่ปัญหาไอทีและประเภทคำขอบริการ</p>
+            <h2>Incident Categories</h2>
+            <p>หมวดหมู่การแจ้งซ่อมและปัญหาไอที</p>
           </div>
           <div class="action-group">
             <button class="btn-primary" onclick="openCreateCategoryModal()">➕ เพิ่มหมวดหมู่ใหม่</button>
@@ -682,51 +830,50 @@
           </div>
         </div>
 
-        <div class="table-card" style="margin-top: 20px;">
+        <div class="table-container" style="margin-top: 18px;">
           <table>
             <thead>
               <tr>
                 <th style="width: 25%;">ชื่อหมวดหมู่</th>
-                <th style="width: 55%;">คำอธิบาย</th>
-                <th style="width: 20%; text-align:right;">รหัส ID</th>
+                <th style="width: 50%;">คำอธิบายรายละเอียด</th>
+                <th style="width: 25%; text-align: right;">รหัสหมวดหมู่ (ID)</th>
               </tr>
             </thead>
             <tbody id="tblCategoriesBody">
-              <tr><td colspan="3" style="text-align:center; padding: 30px; color:#64748b;">กำลังโหลดหมวดหมู่...</td></tr>
+              <tr>
+                <td colspan="3" style="text-align: center; padding: 40px; color: #64748b;">กำลังโหลดหมวดหมู่...</td>
+              </tr>
             </tbody>
           </table>
         </div>
       </section>
 
       <!-- View 3: USERS VIEW -->
-      <section id="viewUsers" style="display:none;">
+      <section id="viewUsers" style="display: none;">
         <div class="view-header">
           <div class="view-title-group">
-            <h2>System Accounts & RBAC</h2>
-            <p>บัญชีผู้ใช้งานในระบบและบทบาทสิทธิ์ (Role-Based Access Control)</p>
-          </div>
-          <div class="action-group">
-            <button class="btn-secondary" onclick="refreshData()">🔄 รีเฟรช</button>
+            <h2>System Users & RBAC Roles</h2>
+            <p>รายชื่อผู้ใช้งานและบทบาทในระบบ IT Service Desk</p>
           </div>
         </div>
 
-        <div class="table-card" style="margin-top: 20px;">
+        <div class="table-container" style="margin-top: 18px;">
           <table>
             <thead>
               <tr>
-                <th>ชื่อ - นามสกุล</th>
-                <th>อีเมล</th>
-                <th>บทบาท (Role)</th>
-                <th>แผนก</th>
-                <th style="text-align:right;">สิทธิ์ในการใช้งาน</th>
+                <th>ชื่อ-นามสกุล / Username</th>
+                <th>อีเมล (Email)</th>
+                <th>สิทธิ์การใช้งาน (Role)</th>
+                <th>แผนก (Department)</th>
+                <th style="text-align: right;">สิทธิ์การทำงาน</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="tblUsersBody">
               <tr>
-                <td style="font-weight:600; color:white;">Sorasak Administrator</td>
-                <td>admin@servicedesk.local</td>
+                <td style="font-weight:600; color:white;">Admin User</td>
+                <td>admin@example.com</td>
                 <td><span class="badge" style="background:#4f46e5; color:white;">ADMIN</span></td>
-                <td>IT Security</td>
+                <td>Management</td>
                 <td style="text-align:right; color:#4ade80;">Full SuperAdmin Permissions</td>
               </tr>
               <tr>
@@ -737,17 +884,17 @@
                 <td style="text-align:right; color:#38bdf8;">Manage & Resolve Tickets</td>
               </tr>
               <tr>
+                <td style="font-weight:600; color:white;">Employee User</td>
+                <td>employee@example.com</td>
+                <td><span class="badge" style="background:#334155; color:#cbd5e1;">EMPLOYEE</span></td>
+                <td>General</td>
+                <td style="text-align:right; color:#94a3b8;">Create & View Own Tickets</td>
+              </tr>
+              <tr>
                 <td style="font-weight:600; color:white;">Wichai Accountant</td>
                 <td>employee1@servicedesk.local</td>
                 <td><span class="badge" style="background:#334155; color:#cbd5e1;">EMPLOYEE</span></td>
                 <td>Finance</td>
-                <td style="text-align:right; color:#94a3b8;">Create & View Own Tickets</td>
-              </tr>
-              <tr>
-                <td style="font-weight:600; color:white;">Suda HRStaff</td>
-                <td>employee2@servicedesk.local</td>
-                <td><span class="badge" style="background:#334155; color:#cbd5e1;">EMPLOYEE</span></td>
-                <td>Human Resources</td>
                 <td style="text-align:right; color:#94a3b8;">Create & View Own Tickets</td>
               </tr>
             </tbody>
@@ -758,17 +905,198 @@
     </main>
   </div>
 
+  <!-- Modal: Authentication (Login / Register / Forgot Password) -->
+  <div class="modal-backdrop" id="modalAuth">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">🔐 เข้าสู่ระบบ & จัดการบัญชี</div>
+        <button class="modal-close-btn" onclick="closeModal('modalAuth')">✕</button>
+      </div>
+
+      <!-- Auth Main Tabs -->
+      <div class="auth-tabs">
+        <button class="auth-tab-btn active" id="tabBtnAdminLogin" onclick="switchAuthTab('adminLogin')">👑 1.1 Admin</button>
+        <button class="auth-tab-btn" id="tabBtnUserLogin" onclick="switchAuthTab('userLogin')">👤 2.1 User</button>
+        <button class="auth-tab-btn" id="tabBtnRegister" onclick="switchAuthTab('register')">📝 สมัครบัญชี</button>
+        <button class="auth-tab-btn" id="tabBtnForgot" onclick="switchAuthTab('forgot')">🔑 รีเซ็ตรหัส</button>
+      </div>
+
+      <!-- Form 1: Admin Login (1.1) -->
+      <div id="authSecAdminLogin">
+        <div class="info-callout">
+          <strong>1.1 Admin Login:</strong> POST /admin/login<br>
+          ส่ง <code>email</code>, <code>password</code>, <code>rememberMe</code> เพื่อรับ token ใน <code>data.token</code>
+        </div>
+        <div class="form-group" style="margin-top: 10px;">
+          <label>อีเมลผู้ดูแล (Admin Email) *</label>
+          <input type="email" class="form-input" id="inpAdminLoginEmail" value="admin@example.com" placeholder="admin@example.com">
+        </div>
+        <div class="form-group">
+          <label>รหัสผ่าน (Password) *</label>
+          <input type="password" class="form-input" id="inpAdminLoginPass" value="password123" placeholder="password">
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 4px;">
+          <label style="font-size: 12px; color: #94a3b8; display: flex; align-items: center; gap: 6px; cursor: pointer;">
+            <input type="checkbox" id="chkAdminRemember"> จดจำฉันไว้ (rememberMe)
+          </label>
+          <div class="quick-chips">
+            <span style="font-size: 11px; color: #64748b;">ตัวอย่าง:</span>
+            <button class="chip-btn" onclick="fillAdminLogin('admin@example.com', 'password123')">admin@example.com</button>
+            <button class="chip-btn" onclick="fillAdminLogin('admin@servicedesk.local', 'Password123!')">servicedesk.local</button>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="submitAdminLogin()">เข้าสู่ระบบฝั่ง ADMIN 👑</button>
+        </div>
+      </div>
+
+      <!-- Form 2: User Login (2.1) -->
+      <div id="authSecUserLogin" style="display: none;">
+        <div class="info-callout">
+          <strong>2.1 User Login:</strong> POST /api/auth/local<br>
+          ส่ง <code>identifier</code> (อีเมลหรือ Username) และ <code>password</code> เพื่อรับ <code>jwt</code>
+        </div>
+        <div class="form-group" style="margin-top: 10px;">
+          <label>อีเมลหรือชื่อผู้ใช้ (Identifier) *</label>
+          <input type="text" class="form-input" id="inpUserLoginIdent" value="employee@example.com" placeholder="employee@example.com หรือ somchai">
+        </div>
+        <div class="form-group">
+          <label>รหัสผ่าน (Password) *</label>
+          <input type="password" class="form-input" id="inpUserLoginPass" value="password123" placeholder="password">
+        </div>
+        <div class="quick-chips" style="margin-top: 6px;">
+          <span style="font-size: 11px; color: #64748b;">เลือกบัญชีทดสอบ:</span>
+          <button class="chip-btn" onclick="fillUserLogin('employee@example.com', 'password123')">employee@example.com</button>
+          <button class="chip-btn" onclick="fillUserLogin('it@example.com', 'password123')">it@example.com</button>
+          <button class="chip-btn" onclick="fillUserLogin('employee1@servicedesk.local', 'Password123!')">employee1</button>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="submitUserLogin()">เข้าสู่ระบบฝั่ง USER 👤</button>
+        </div>
+      </div>
+
+      <!-- Form 3: Register (1.2 Admin Signup & 2.2 User Signup) -->
+      <div id="authSecRegister" style="display: none;">
+        <div class="sub-tabs">
+          <button class="sub-tab-btn active" id="subTabRegUser" onclick="switchRegType('user')">👤 2.2 User Signup</button>
+          <button class="sub-tab-btn" id="subTabRegAdmin" onclick="switchRegType('admin')">👑 1.2 Admin Signup</button>
+        </div>
+
+        <!-- 3A: User Register -->
+        <div id="regUserBox">
+          <div class="info-callout">
+            <strong>2.2 User Signup:</strong> POST /api/auth/local/register<br>
+            สร้างผู้ใช้งานทั่วไป พร้อมรับ <code>jwt</code> ทันที
+          </div>
+          <div class="form-group" style="margin-top: 10px;">
+            <label>ชื่อผู้ใช้งาน (Username) *</label>
+            <input type="text" class="form-input" id="inpRegUsername" placeholder="เช่น somchai_d">
+          </div>
+          <div class="form-group">
+            <label>อีเมล (Email) *</label>
+            <input type="email" class="form-input" id="inpRegUserEmail" placeholder="เช่น somchai@company.com">
+          </div>
+          <div class="form-group">
+            <label>รหัสผ่าน (Password) *</label>
+            <input type="password" class="form-input" id="inpRegUserPass" placeholder="อย่างน้อย 6 ตัวอักษร">
+          </div>
+          <div class="modal-footer">
+            <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="submitUserRegister()">สมัครสมาชิก User 👤</button>
+          </div>
+        </div>
+
+        <!-- 3B: Admin Register -->
+        <div id="regAdminBox" style="display: none;">
+          <div class="info-callout">
+            <strong>1.2 Admin Signup:</strong> POST /admin/register-admin<br>
+            สร้างผู้ดูแลระบบ (Super Admin) ส่ง <code>firstname</code>, <code>lastname</code>, <code>email</code>, <code>password</code>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+            <div class="form-group">
+              <label>ชื่อ (Firstname) *</label>
+              <input type="text" class="form-input" id="inpAdminRegFirst" placeholder="ชื่อ">
+            </div>
+            <div class="form-group">
+              <label>นามสกุล (Lastname) *</label>
+              <input type="text" class="form-input" id="inpAdminRegLast" placeholder="นามสกุล">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>อีเมลผู้ดูแล (Email) *</label>
+            <input type="email" class="form-input" id="inpAdminRegEmail" placeholder="superadmin@company.com">
+          </div>
+          <div class="form-group">
+            <label>รหัสผ่าน (Password) *</label>
+            <input type="password" class="form-input" id="inpAdminRegPass" placeholder="อย่างน้อย 6 ตัวอักษร">
+          </div>
+          <div class="modal-footer">
+            <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="submitAdminRegister()">สมัครผู้ดูแล Super Admin 👑</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form 4: Forgot & Reset Password (1.3 / 2.3) -->
+      <div id="authSecForgot" style="display: none;">
+        <div class="sub-tabs">
+          <button class="sub-tab-btn active" id="subTabForgotUser" onclick="switchForgotRole('user')">👤 ฝั่ง User (2.3 / 2.3.1)</button>
+          <button class="sub-tab-btn" id="subTabForgotAdmin" onclick="switchForgotRole('admin')">👑 ฝั่ง Admin (1.3 / 1.3.1)</button>
+        </div>
+
+        <div class="info-callout" id="forgotInfoText">
+          <strong>2.3 User Forgot Password:</strong> POST /api/auth/forgot-password<br>
+          รับ <code>code</code> เพื่อนำไปใช้รีเซ็ตรหัสผ่านใน 2.3.1
+        </div>
+
+        <!-- Step 1: Request Token / Code -->
+        <div style="background: #12131c; border: 1px solid #2d2f48; border-radius: 8px; padding: 12px; margin-top: 10px;">
+          <div style="font-weight: 600; font-size: 12.5px; color: #ffffff; margin-bottom: 8px;">ขั้นตอนที่ 1: ขอรหัสรีเซ็ต (Forgot Password)</div>
+          <div class="form-group">
+            <label>ระบุอีเมลบัญชีของคุณ *</label>
+            <input type="email" class="form-input" id="inpForgotEmail" placeholder="email@example.com">
+          </div>
+          <button class="btn-secondary" style="width: 100%; justify-content: center; margin-top: 8px;" onclick="submitForgotPassword()">
+            📩 ส่งคำขอและรับรหัส Code / Token
+          </button>
+        </div>
+
+        <!-- Step 2: Reset Password with Code -->
+        <div style="background: #12131c; border: 1px solid #2d2f48; border-radius: 8px; padding: 12px; margin-top: 10px;">
+          <div style="font-weight: 600; font-size: 12.5px; color: #ffffff; margin-bottom: 8px;">ขั้นตอนที่ 2: ตั้งรหัสผ่านใหม่ (Reset Password)</div>
+          <div class="form-group">
+            <label>รหัส Token หรือ Code ที่ได้รับ *</label>
+            <input type="text" class="form-input" id="inpResetCode" placeholder="ใส่ code หรือ resetPasswordToken ที่ได้จากข้อ 1">
+          </div>
+          <div class="form-group">
+            <label>รหัสผ่านใหม่ (New Password) *</label>
+            <input type="password" class="form-input" id="inpResetNewPass" placeholder="รหัสผ่านใหม่">
+          </div>
+          <div class="form-group" id="groupPasswordConfirm">
+            <label>ยืนยันรหัสผ่านใหม่ (Password Confirmation) *</label>
+            <input type="password" class="form-input" id="inpResetConfirmPass" placeholder="ยืนยันรหัสผ่านใหม่">
+          </div>
+          <button class="btn-primary" style="width: 100%; justify-content: center; margin-top: 8px;" onclick="submitResetPassword()">
+            🔐 ยืนยันเปลี่ยนรหัสผ่านใหม่
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
   <!-- Modal: Create Ticket -->
   <div class="modal-backdrop" id="modalCreateTicket">
     <div class="modal-box">
-      <div class="modal-title">➕ แจ้งซ่อม / สร้างตั๋วใหม่</div>
+      <div class="modal-header">
+        <div class="modal-title">➕ แจ้งซ่อม / สร้างตั๋วใหม่</div>
+        <button class="modal-close-btn" onclick="closeModal('modalCreateTicket')">✕</button>
+      </div>
       <div class="form-group">
         <label>หัวข้อปัญหา *</label>
         <input type="text" class="form-input" id="inpTicketTitle" placeholder="เช่น ปริ้นเตอร์ไม่ดูดกระดาษ, เข้าเน็ตไม่ได้">
       </div>
       <div class="form-group">
         <label>รายละเอียดปัญหา *</label>
-        <textarea class="form-input" id="inpTicketDesc" rows="3" placeholder="ระบุอาการ ตำแหน่งโต๊ะ หรือข้อมูลเพิ่มเติม..."></textarea>
+        <textarea class="form-input" id="inpTicketDesc" rows="3" placeholder="ระบุอาการ ตำแหน่ง หรือข้อมูลเพิ่มเติม..."></textarea>
       </div>
       <div class="form-group">
         <label>หมวดหมู่ปัญหา *</label>
@@ -793,10 +1121,13 @@
   <!-- Modal: Create Category -->
   <div class="modal-backdrop" id="modalCreateCategory">
     <div class="modal-box">
-      <div class="modal-title">➕ สร้างหมวดหมู่ปัญหาใหม่</div>
+      <div class="modal-header">
+        <div class="modal-title">➕ สร้างหมวดหมู่ปัญหาใหม่</div>
+        <button class="modal-close-btn" onclick="closeModal('modalCreateCategory')">✕</button>
+      </div>
       <div class="form-group">
         <label>ชื่อหมวดหมู่ *</label>
-        <input type="text" class="form-input" id="inpCatName" placeholder="เช่น Database, Security Incident">
+        <input type="text" class="form-input" id="inpCatName" placeholder="เช่น Hardware, Software, Security">
       </div>
       <div class="form-group">
         <label>คำอธิบาย</label>
@@ -809,10 +1140,13 @@
     </div>
   </div>
 
-  <!-- Modal: Comments & Discussion Drawer -->
+  <!-- Modal: Comments & Discussion -->
   <div class="modal-backdrop" id="modalComments">
     <div class="modal-box" style="width: 580px;">
-      <div class="modal-title" id="lblCommentTicketTitle">💬 ความคิดเห็นในตั๋ว</div>
+      <div class="modal-header">
+        <div class="modal-title" id="lblCommentTicketTitle">💬 ความคิดเห็นในตั๋ว</div>
+        <button class="modal-close-btn" onclick="closeModal('modalComments')">✕</button>
+      </div>
       <div id="commentsList" style="max-height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 4px;"></div>
       <div class="form-group" style="margin-top: 10px;">
         <label>ตอบกลับ / บันทึกการแก้ไขงาน</label>
@@ -830,108 +1164,383 @@
   <script>
     const API_BASE = window.location.origin;
 
-    // Test accounts
-    const ROLES = {
-      admin: { email: 'admin@servicedesk.local', pass: 'Password123!', role: 'ADMIN' },
-      it: { email: 'support@servicedesk.local', pass: 'Password123!', role: 'IT_SUPPORT' },
-      emp1: { email: 'employee1@servicedesk.local', pass: 'Password123!', role: 'EMPLOYEE' },
-      emp2: { email: 'employee2@servicedesk.local', pass: 'Password123!', role: 'EMPLOYEE' }
-    };
+    let currentToken = localStorage.getItem('auth_token') || '';
+    let currentUser = null;
+    try {
+      currentUser = JSON.parse(localStorage.getItem('auth_user') || 'null');
+    } catch (e) {
+      currentUser = null;
+    }
 
-    let currentRoleKey = 'admin';
-    let currentToken = '';
-    let currentUserId = '';
     let allTickets = [];
     let allCategories = [];
     let activeTicketId = null;
+    let forgotTargetRole = 'user'; // 'user' or 'admin'
+    let regTargetRole = 'user';    // 'user' or 'admin'
 
-    async function loginAsRole(roleKey) {
-      const user = ROLES[roleKey];
-      try {
-        const res = await fetch(`${API_BASE}/api/auth/login`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: user.email, password: user.pass })
-        });
-        if (!res.ok) throw new Error('Login failed');
-        const data = await res.json();
-        currentToken = data.access_token;
-        currentUserId = data.user.id;
-        
-        document.getElementById('lblUserRole').textContent = data.user.role;
-        document.getElementById('lblUserEmail').textContent = data.user.email;
-        showToast(`สลับบทบาทเป็น ${data.user.role} สำเร็จ!`);
-        refreshData();
-      } catch (err) {
-        console.error(err);
-      }
+    // --- Modal Helpers ---
+    function openModal(id) {
+      document.getElementById(id).classList.add('active');
     }
 
-    function switchRole(roleKey) {
-      currentRoleKey = roleKey;
-      document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
-      if (roleKey === 'admin') document.getElementById('btnRoleAdmin').classList.add('active');
-      if (roleKey === 'it') document.getElementById('btnRoleIT').classList.add('active');
-      if (roleKey === 'emp1') document.getElementById('btnRoleEmp1').classList.add('active');
-      if (roleKey === 'emp2') document.getElementById('btnRoleEmp2').classList.add('active');
-      loginAsRole(roleKey);
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
     }
 
-    function switchTab(tab) {
+    function openAuthModal() {
+      openModal('modalAuth');
+    }
+
+    function showToast(msg, isError = false) {
+      const t = document.getElementById('toastMsg');
+      t.textContent = msg;
+      t.className = 'toast' + (isError ? ' error' : '');
+      t.style.display = 'block';
+      setTimeout(() => { t.style.display = 'none'; }, 2800);
+    }
+
+    // --- Tab Switching ---
+    function switchTab(tab, event) {
       document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-      event.currentTarget.classList.add('active');
+      if (event && event.currentTarget) {
+        event.currentTarget.classList.add('active');
+      }
 
       document.getElementById('viewTickets').style.display = tab === 'tickets' ? 'block' : 'none';
       document.getElementById('viewCategories').style.display = tab === 'categories' ? 'block' : 'none';
       document.getElementById('viewUsers').style.display = tab === 'users' ? 'block' : 'none';
     }
 
+    function switchAuthTab(tab) {
+      const tabs = ['adminLogin', 'userLogin', 'register', 'forgot'];
+      tabs.forEach(t => {
+        const btn = document.getElementById(`tabBtn${t.charAt(0).toUpperCase() + t.slice(1)}`);
+        const sec = document.getElementById(`authSec${t.charAt(0).toUpperCase() + t.slice(1)}`);
+        if (btn) btn.classList.remove('active');
+        if (sec) sec.style.display = 'none';
+      });
+
+      const activeBtn = document.getElementById(`tabBtn${tab.charAt(0).toUpperCase() + tab.slice(1)}`);
+      const activeSec = document.getElementById(`authSec${tab.charAt(0).toUpperCase() + tab.slice(1)}`);
+      if (activeBtn) activeBtn.classList.add('active');
+      if (activeSec) activeSec.style.display = 'block';
+    }
+
+    function switchRegType(type) {
+      regTargetRole = type;
+      document.getElementById('subTabRegUser').classList.toggle('active', type === 'user');
+      document.getElementById('subTabRegAdmin').classList.toggle('active', type === 'admin');
+      document.getElementById('regUserBox').style.display = type === 'user' ? 'block' : 'none';
+      document.getElementById('regAdminBox').style.display = type === 'admin' ? 'block' : 'none';
+    }
+
+    function switchForgotRole(role) {
+      forgotTargetRole = role;
+      document.getElementById('subTabForgotUser').classList.toggle('active', role === 'user');
+      document.getElementById('subTabForgotAdmin').classList.toggle('active', role === 'admin');
+      
+      const infoText = document.getElementById('forgotInfoText');
+      const confirmGroup = document.getElementById('groupPasswordConfirm');
+      if (role === 'user') {
+        infoText.innerHTML = '<strong>2.3 User Forgot Password:</strong> POST /api/auth/forgot-password<br>รับ <code>code</code> เพื่อนำไปใช้รีเซ็ตรหัสผ่านใน 2.3.1';
+        confirmGroup.style.display = 'flex';
+      } else {
+        infoText.innerHTML = '<strong>1.3 Admin Forgot Password:</strong> POST /admin/forgot-password<br>รับ <code>resetPasswordToken</code> เพื่อนำไปใช้รีเซ็ตรหัสผ่านใน 1.3.1';
+        confirmGroup.style.display = 'none';
+      }
+    }
+
+    // --- Fill Helpers ---
+    function fillAdminLogin(email, pass) {
+      document.getElementById('inpAdminLoginEmail').value = email;
+      document.getElementById('inpAdminLoginPass').value = pass;
+    }
+
+    function fillUserLogin(ident, pass) {
+      document.getElementById('inpUserLoginIdent').value = ident;
+      document.getElementById('inpUserLoginPass').value = pass;
+    }
+
+    // --- Auth API Actions ---
+    function updateAuthState(token, user) {
+      currentToken = token;
+      currentUser = user;
+      localStorage.setItem('auth_token', token);
+      localStorage.setItem('auth_user', JSON.stringify(user));
+
+      if (token && user) {
+        document.getElementById('lblUserRole').textContent = user.role || 'USER';
+        document.getElementById('lblUserRole').classList.remove('guest');
+        document.getElementById('lblUserEmail').textContent = user.email || user.username || 'User';
+        document.getElementById('btnOpenAuth').style.display = 'none';
+        document.getElementById('btnLogout').style.display = 'inline-block';
+      } else {
+        document.getElementById('lblUserRole').textContent = 'GUEST';
+        document.getElementById('lblUserRole').classList.add('guest');
+        document.getElementById('lblUserEmail').textContent = 'ยังไม่ได้เข้าสู่ระบบ';
+        document.getElementById('btnOpenAuth').style.display = 'inline-block';
+        document.getElementById('btnLogout').style.display = 'none';
+      }
+    }
+
+    function handleLogout() {
+      localStorage.removeItem('auth_token');
+      localStorage.removeItem('auth_user');
+      currentToken = '';
+      currentUser = null;
+      updateAuthState('', null);
+      showToast('ออกจากระบบเรียบร้อยแล้ว');
+      openAuthModal();
+    }
+
+    // 1.1 Admin Login
+    async function submitAdminLogin() {
+      const email = document.getElementById('inpAdminLoginEmail').value.trim();
+      const password = document.getElementById('inpAdminLoginPass').value;
+      const rememberMe = document.getElementById('chkAdminRemember').checked;
+
+      if (!email || !password) return showToast('กรุณากรอกอีเมลและรหัสผ่าน', true);
+
+      try {
+        const res = await fetch(`${API_BASE}/admin/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password, rememberMe })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'Login failed');
+
+        const token = data.data?.token || data.access_token || data.jwt;
+        const user = data.data?.user || data.user;
+        updateAuthState(token, user);
+        closeModal('modalAuth');
+        showToast('เข้าสู่ระบบ ADMIN สำเร็จ!');
+        refreshData();
+      } catch (err) {
+        showToast(err.message, true);
+      }
+    }
+
+    // 2.1 User Login
+    async function submitUserLogin() {
+      const identifier = document.getElementById('inpUserLoginIdent').value.trim();
+      const password = document.getElementById('inpUserLoginPass').value;
+
+      if (!identifier || !password) return showToast('กรุณากรอกอีเมล/Username และรหัสผ่าน', true);
+
+      try {
+        const res = await fetch(`${API_BASE}/api/auth/local`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ identifier, password })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'Login failed');
+
+        const token = data.jwt || data.access_token;
+        const user = data.user;
+        updateAuthState(token, user);
+        closeModal('modalAuth');
+        showToast(`เข้าสู่ระบบสำเร็จในฐานะ ${user.role}!`);
+        refreshData();
+      } catch (err) {
+        showToast(err.message, true);
+      }
+    }
+
+    // 2.2 User Register
+    async function submitUserRegister() {
+      const username = document.getElementById('inpRegUsername').value.trim();
+      const email = document.getElementById('inpRegUserEmail').value.trim();
+      const password = document.getElementById('inpRegUserPass').value;
+
+      if (!username || !email || !password) return showToast('กรุณากรอกข้อมูลให้ครบถ้วน', true);
+
+      try {
+        const res = await fetch(`${API_BASE}/api/auth/local/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, email, password })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'Signup failed');
+
+        const token = data.jwt || data.access_token;
+        const user = data.user;
+        updateAuthState(token, user);
+        closeModal('modalAuth');
+        showToast('สมัครสมาชิกสำเร็จและเข้าสู่ระบบเรียบร้อย!');
+        refreshData();
+      } catch (err) {
+        showToast(err.message, true);
+      }
+    }
+
+    // 1.2 Admin Register
+    async function submitAdminRegister() {
+      const firstname = document.getElementById('inpAdminRegFirst').value.trim();
+      const lastname = document.getElementById('inpAdminRegLast').value.trim();
+      const email = document.getElementById('inpAdminRegEmail').value.trim();
+      const password = document.getElementById('inpAdminRegPass').value;
+
+      if (!firstname || !lastname || !email || !password) return showToast('กรุณากรอกข้อมูลให้ครบถ้วน', true);
+
+      try {
+        const res = await fetch(`${API_BASE}/admin/register-admin`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ firstname, lastname, email, password })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'Signup failed');
+
+        const token = data.data?.token || data.access_token;
+        const user = data.data?.user || data.user;
+        updateAuthState(token, user);
+        closeModal('modalAuth');
+        showToast('สร้าง Super Admin สำเร็จและเข้าสู่ระบบแล้ว!');
+        refreshData();
+      } catch (err) {
+        showToast(err.message, true);
+      }
+    }
+
+    // 1.3 / 2.3 Forgot Password
+    async function submitForgotPassword() {
+      const email = document.getElementById('inpForgotEmail').value.trim();
+      if (!email) return showToast('กรุณากรอกอีเมล', true);
+
+      const endpoint = forgotTargetRole === 'admin' ? `${API_BASE}/admin/forgot-password` : `${API_BASE}/api/auth/forgot-password`;
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'Forgot password failed');
+
+        const receivedCode = data.code || data.resetPasswordToken;
+        document.getElementById('inpResetCode').value = receivedCode || '';
+        showToast(`สร้างรหัสรีเซ็ตสำเร็จ: ${receivedCode}`);
+      } catch (err) {
+        showToast(err.message, true);
+      }
+    }
+
+    // 1.3.1 / 2.3.1 Reset Password
+    async function submitResetPassword() {
+      const codeOrToken = document.getElementById('inpResetCode').value.trim();
+      const password = document.getElementById('inpResetNewPass').value;
+      const passwordConfirmation = document.getElementById('inpResetConfirmPass').value;
+
+      if (!codeOrToken || !password) return showToast('กรุณากรอก Code และรหัสผ่านใหม่', true);
+
+      if (forgotTargetRole === 'user') {
+        if (password !== passwordConfirmation) return showToast('รหัสผ่านและการยืนยันไม่ตรงกัน', true);
+        try {
+          const res = await fetch(`${API_BASE}/api/auth/reset-password`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ code: codeOrToken, password, passwordConfirmation })
+          });
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.message || 'Reset failed');
+
+          const token = data.jwt || data.access_token;
+          const user = data.user;
+          updateAuthState(token, user);
+          closeModal('modalAuth');
+          showToast('รีเซ็ตรหัสผ่านสำเร็จและเข้าสู่ระบบเรียบร้อย!');
+          refreshData();
+        } catch (err) {
+          showToast(err.message, true);
+        }
+      } else {
+        try {
+          const res = await fetch(`${API_BASE}/admin/reset-password`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ resetPasswordToken: codeOrToken, password })
+          });
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.message || 'Reset failed');
+
+          showToast('รีเซ็ตรหัสผ่าน Admin สำเร็จ! กรุณา Login ด้วยรหัสผ่านใหม่');
+          switchAuthTab('adminLogin');
+          document.getElementById('inpAdminLoginPass').value = password;
+        } catch (err) {
+          showToast(err.message, true);
+        }
+      }
+    }
+
+    // --- Data Loaders ---
     async function refreshData() {
+      if (!currentToken) {
+        openAuthModal();
+        return;
+      }
       await loadCategories();
       await loadTickets();
     }
 
     async function loadCategories() {
+      if (!currentToken) return;
       try {
         const res = await fetch(`${API_BASE}/api/categories`, {
           headers: { 'Authorization': `Bearer ${currentToken}` }
         });
+        if (res.status === 401) {
+          handleLogout();
+          return;
+        }
         allCategories = await res.json();
-        document.getElementById('badgeCategories').textContent = allCategories.length;
+        document.getElementById('badgeCategories').textContent = Array.isArray(allCategories) ? allCategories.length : 0;
         
         // Populate Select
         const catSelect = document.getElementById('inpTicketCategory');
-        catSelect.innerHTML = allCategories.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+        if (Array.isArray(allCategories)) {
+          catSelect.innerHTML = allCategories.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
 
-        // Populate Table
-        const tbody = document.getElementById('tblCategoriesBody');
-        tbody.innerHTML = allCategories.map(c => `
-          <tr>
-            <td style="font-weight:600; color:white;">📁 ${c.name}</td>
-            <td style="color:#94a3b8;">${c.description || '-'}</td>
-            <td style="text-align:right; font-family:'JetBrains Mono', monospace; font-size:11px; color:#64748b;">${c.id.substring(0,10)}...</td>
-          </tr>
-        `).join('');
+          // Populate Table
+          const tbody = document.getElementById('tblCategoriesBody');
+          tbody.innerHTML = allCategories.map(c => `
+            <tr>
+              <td style="font-weight:600; color:white;">📁 ${c.name}</td>
+              <td style="color:#94a3b8;">${c.description || '-'}</td>
+              <td style="text-align:right; font-family:'JetBrains Mono', monospace; font-size:11px; color:#64748b;">${c.id.substring(0,10)}...</td>
+            </tr>
+          `).join('');
+        }
       } catch (err) {
         console.error(err);
       }
     }
 
     async function loadTickets() {
+      if (!currentToken) return;
       try {
         const res = await fetch(`${API_BASE}/api/tickets`, {
           headers: { 'Authorization': `Bearer ${currentToken}` }
         });
+        if (res.status === 401) {
+          handleLogout();
+          return;
+        }
         allTickets = await res.json();
-        document.getElementById('badgeTickets').textContent = allTickets.length;
-        updateMetrics();
-        renderTicketTable();
+        if (Array.isArray(allTickets)) {
+          document.getElementById('badgeTickets').textContent = allTickets.length;
+          updateMetrics();
+          renderTicketTable();
+        }
       } catch (err) {
         console.error(err);
       }
     }
 
     function updateMetrics() {
+      if (!Array.isArray(allTickets)) return;
       document.getElementById('metricTotal').textContent = allTickets.length;
       document.getElementById('metricOpen').textContent = allTickets.filter(t => t.status === 'OPEN').length;
       document.getElementById('metricProgress').textContent = allTickets.filter(t => t.status === 'IN_PROGRESS').length;
@@ -942,6 +1551,7 @@
       const fStatus = document.getElementById('filterStatus').value;
       const fPriority = document.getElementById('filterPriority').value;
 
+      if (!Array.isArray(allTickets)) return;
       let filtered = allTickets;
       if (fStatus !== 'ALL') filtered = filtered.filter(t => t.status === fStatus);
       if (fPriority !== 'ALL') filtered = filtered.filter(t => t.priority === fPriority);
@@ -964,7 +1574,7 @@
         if (t.priority === 'LOW') priBadge = `<span class="badge badge-low">LOW</span>`;
 
         const catName = t.category?.name || 'General';
-        const authorName = t.createdBy ? `${t.createdBy.firstName} ${t.createdBy.lastName}` : 'User';
+        const authorName = t.createdBy ? `${t.createdBy.firstName || ''} ${t.createdBy.lastName || ''}`.trim() : 'User';
         const dept = t.createdBy?.department || '-';
 
         return `
@@ -977,7 +1587,7 @@
             <td>${priBadge}</td>
             <td>${statusBadge}</td>
             <td>
-              <div style="font-weight:500; color:#f1f5f9;">${authorName}</div>
+              <div style="font-weight:500; color:#f1f5f9;">${authorName || 'User'}</div>
               <div style="font-size:11px; color:#64748b;">แผนก ${dept}</div>
             </td>
             <td style="text-align:right;">
@@ -998,6 +1608,7 @@
     }
 
     async function changeTicketStatus(id, newStatus) {
+      if (!currentToken) return openAuthModal();
       try {
         const res = await fetch(`${API_BASE}/api/tickets/${id}`, {
           method: 'PUT',
@@ -1011,14 +1622,15 @@
         showToast(`เปลี่ยนสถานะเป็น ${newStatus} สำเร็จ!`);
         loadTickets();
       } catch (err) {
-        alert('เกิดข้อผิดพลาดในการเปลี่ยนสถานะ (อาจไม่มีสิทธิ์)');
+        showToast('เกิดข้อผิดพลาดในการเปลี่ยนสถานะ (อาจไม่มีสิทธิ์)', true);
       }
     }
 
     function openCreateTicketModal() {
+      if (!currentToken) return openAuthModal();
       document.getElementById('inpTicketTitle').value = '';
       document.getElementById('inpTicketDesc').value = '';
-      document.getElementById('modalCreateTicket').classList.add('active');
+      openModal('modalCreateTicket');
     }
 
     async function submitCreateTicket() {
@@ -1027,7 +1639,7 @@
       const categoryId = document.getElementById('inpTicketCategory').value;
       const priority = document.getElementById('inpTicketPriority').value;
 
-      if (!title || !description) return alert('กรุณากรอกหัวข้อและรายละเอียด');
+      if (!title || !description) return showToast('กรุณากรอกหัวข้อและรายละเอียด', true);
 
       try {
         const res = await fetch(`${API_BASE}/api/tickets`, {
@@ -1043,20 +1655,21 @@
         showToast('สร้างตั๋วแจ้งซ่อมสำเร็จ!');
         loadTickets();
       } catch (err) {
-        alert('เกิดข้อผิดพลาดในการสร้างตั๋ว');
+        showToast('เกิดข้อผิดพลาดในการสร้างตั๋ว', true);
       }
     }
 
     function openCreateCategoryModal() {
+      if (!currentToken) return openAuthModal();
       document.getElementById('inpCatName').value = '';
       document.getElementById('inpCatDesc').value = '';
-      document.getElementById('modalCreateCategory').classList.add('active');
+      openModal('modalCreateCategory');
     }
 
     async function submitCreateCategory() {
       const name = document.getElementById('inpCatName').value.trim();
       const description = document.getElementById('inpCatDesc').value.trim();
-      if (!name) return alert('กรุณาระบุชื่อหมวดหมู่');
+      if (!name) return showToast('กรุณาระบุชื่อหมวดหมู่', true);
 
       try {
         const res = await fetch(`${API_BASE}/api/categories`, {
@@ -1072,17 +1685,18 @@
         showToast('สร้างหมวดหมู่สำเร็จ!');
         refreshData();
       } catch (err) {
-        alert('เกิดข้อผิดพลาด (เฉพาะ ADMIN / IT_SUPPORT)');
+        showToast('เกิดข้อผิดพลาด (เฉพาะ ADMIN / IT_SUPPORT เท่านั้น)', true);
       }
     }
 
     function openCommentsModal(ticketId) {
+      if (!currentToken) return openAuthModal();
       activeTicketId = ticketId;
       const t = allTickets.find(x => x.id === ticketId);
       document.getElementById('lblCommentTicketTitle').textContent = `💬 ความคิดเห็น: ${t?.title || ''}`;
       renderCommentsList(t?.comments || []);
       document.getElementById('inpNewComment').value = '';
-      document.getElementById('modalComments').classList.add('active');
+      openModal('modalComments');
     }
 
     function renderCommentsList(comments) {
@@ -1120,24 +1734,20 @@
         closeModal('modalComments');
         loadTickets();
       } catch (err) {
-        alert('เกิดข้อผิดพลาดในการส่งความคิดเห็น');
+        showToast('เกิดข้อผิดพลาดในการส่งความคิดเห็น', true);
       }
     }
 
-    function closeModal(id) {
-      document.getElementById(id).classList.remove('active');
-    }
-
-    function showToast(msg) {
-      const t = document.getElementById('toastMsg');
-      t.textContent = msg;
-      t.style.display = 'block';
-      setTimeout(() => { t.style.display = 'none'; }, 2500);
-    }
-
-    // Startup
-    window.addEventListener('DOMContentLoaded', () => {
-      loginAsRole('admin');
+    // --- Verify Existing Session or Open Modal on Boot ---
+    window.addEventListener('DOMContentLoaded', async () => {
+      if (currentToken && currentUser) {
+        updateAuthState(currentToken, currentUser);
+        refreshData();
+      } else {
+        // If no saved token, try default Admin login or open modal
+        updateAuthState('', null);
+        openAuthModal();
+      }
     });
   </script>
 </body>

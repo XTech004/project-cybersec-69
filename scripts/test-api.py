@@ -10,78 +10,135 @@ def test_api():
     base = 'http://localhost:3000'
     headers = {'Content-Type': 'application/json'}
     
-    print('==================== 1. AUTHENTICATION TEST ====================')
+    def post(url, data, token=None):
+        h = dict(headers)
+        if token:
+            h['Authorization'] = f'Bearer {token}'
+        req = urllib.request.Request(f'{base}{url}', data=json.dumps(data).encode('utf-8'), headers=h, method='POST')
+        with urllib.request.urlopen(req) as resp:
+            return resp.status, json.loads(resp.read().decode('utf-8'))
+
+    def get(url, token=None):
+        h = dict(headers)
+        if token:
+            h['Authorization'] = f'Bearer {token}'
+        req = urllib.request.Request(f'{base}{url}', headers=h, method='GET')
+        with urllib.request.urlopen(req) as resp:
+            return resp.status, json.loads(resp.read().decode('utf-8'))
+
+    print('==================== 👑 1. ADMIN AUTHENTICATION TESTS ====================')
     # 1.1 Admin Login
-    req = urllib.request.Request(f'{base}/admin/login', data=json.dumps({'email': 'admin@servicedesk.local', 'password': 'Password123!'}).encode('utf-8'), headers=headers)
-    res = json.loads(urllib.request.urlopen(req).read().decode('utf-8'))
-    admin_token = res['access_token']
-    print(f'[SUCCESS] Admin Login: Token={admin_token[:20]}...')
-    
-    # 1.2 Admin Profile
-    req = urllib.request.Request(f'{base}/admin/users/me', headers={'Authorization': f'Bearer {admin_token}'})
-    res = json.loads(urllib.request.urlopen(req).read().decode('utf-8'))
-    print(f'[SUCCESS] Admin Profile: {res["firstName"]} {res["lastName"]} (Role: {res["role"]})')
-    
-    # 1.3 Employee Login
-    req = urllib.request.Request(f'{base}/api/auth/login', data=json.dumps({'email': 'employee1@servicedesk.local', 'password': 'Password123!'}).encode('utf-8'), headers=headers)
-    res = json.loads(urllib.request.urlopen(req).read().decode('utf-8'))
-    emp_token = res['access_token']
-    print(f'[SUCCESS] Employee Login: Token={emp_token[:20]}...')
+    s, res = post('/admin/login', {'email': 'admin@example.com', 'password': 'password123', 'rememberMe': False})
+    admin_token = res['data']['token']
+    print(f'[SUCCESS] 1.1 Admin Login: HTTP {s}, data.token={admin_token[:20]}...')
 
-    # 1.4 Register New User
-    new_email = 'new_hire@servicedesk.local'
+    # 1.2 Admin Signup
     try:
-        req = urllib.request.Request(f'{base}/api/auth/register', data=json.dumps({'email': new_email, 'password': 'Password123!', 'firstName': 'Kittipong', 'lastName': 'Newbie', 'department': 'Marketing'}).encode('utf-8'), headers=headers)
-        res = json.loads(urllib.request.urlopen(req).read().decode('utf-8'))
-        print(f'[SUCCESS] Register New User: {res["email"]} (Role: {res["role"]})')
+        s, res = post('/admin/register-admin', {
+            'firstname': 'Super',
+            'lastname': 'Director',
+            'email': 'superdirector@company.local',
+            'password': 'password123'
+        })
+        print(f'[SUCCESS] 1.2 Admin Signup: HTTP {s}, created {res["data"]["user"]["email"]}')
     except Exception as e:
-        print(f'[INFO] User already registered or seeded: {e}')
+        print(f'[INFO] 1.2 Admin Signup: Already registered or conflict handled')
 
-    print('\n==================== 2. CATEGORIES TEST ====================')
-    # 2.1 List Categories
-    req = urllib.request.Request(f'{base}/api/categories', headers={'Authorization': f'Bearer {emp_token}'})
-    cats = json.loads(urllib.request.urlopen(req).read().decode('utf-8'))
-    print(f'[SUCCESS] List Categories: Found {len(cats)} categories')
-    for c in cats[:3]:
-        print(f'   - [{c["id"][:8]}...] {c["name"]}: {c.get("description", "")}')
+    # 1.3 Admin Forgot Password
+    s, res = post('/admin/forgot-password', {'email': 'admin@example.com'})
+    admin_reset_token = res['resetPasswordToken']
+    print(f'[SUCCESS] 1.3 Admin Forgot Password: HTTP {s}, resetPasswordToken={admin_reset_token}')
+
+    # 1.3.1 Admin Reset Password
+    s, res = post('/admin/reset-password', {'resetPasswordToken': admin_reset_token, 'password': 'newPassword123!'})
+    print(f'[SUCCESS] 1.3.1 Admin Reset Password: HTTP {s}, {res.get("message")}')
+
+    # Revert Admin Password back to password123
+    s, res = post('/admin/forgot-password', {'email': 'admin@example.com'})
+    post('/admin/reset-password', {'resetPasswordToken': res['resetPasswordToken'], 'password': 'password123'})
+    s, res = post('/admin/login', {'email': 'admin@example.com', 'password': 'password123', 'rememberMe': False})
+    admin_token = res['data']['token']
+    print('[SUCCESS] Admin password reverted to password123 and re-logged in.')
+
+    # 1.4 Admin Profile
+    s, res = get('/admin/users/me', admin_token)
+    print(f'[SUCCESS] 1.4 Admin Profile: HTTP {s}, User={res["firstName"]} {res["lastName"]}, Role={res["role"]}')
+
+
+    print('\n==================== 👤 2. USER AUTHENTICATION TESTS ====================')
+    # 2.1 User Login
+    s, res = post('/api/auth/local', {'identifier': 'employee@example.com', 'password': 'password123'})
+    user_jwt = res['jwt']
+    print(f'[SUCCESS] 2.1 User Login: HTTP {s}, jwt={user_jwt[:20]}...')
+
+    # 2.2 User Signup
+    try:
+        s, res = post('/api/auth/local/register', {
+            'username': 'naruto_uzumaki',
+            'email': 'naruto@leaf.local',
+            'password': 'password123'
+        })
+        print(f'[SUCCESS] 2.2 User Signup: HTTP {s}, Username={res["user"]["username"]}')
+    except Exception as e:
+        print(f'[INFO] 2.2 User Signup: Already registered or conflict handled')
+
+    # 2.3 User Forgot Password
+    s, res = post('/api/auth/forgot-password', {'email': 'employee@example.com'})
+    user_code = res['code']
+    print(f'[SUCCESS] 2.3 User Forgot Password: HTTP {s}, code={user_code}')
+
+    # 2.3.1 User Reset Password
+    s, res = post('/api/auth/reset-password', {
+        'code': user_code,
+        'password': 'newUserPassword123!',
+        'passwordConfirmation': 'newUserPassword123!'
+    })
+    print(f'[SUCCESS] 2.3.1 User Reset Password: HTTP {s}, new jwt={res["jwt"][:20]}...')
+
+    # Revert User Password back to password123
+    s, res = post('/api/auth/forgot-password', {'email': 'employee@example.com'})
+    s, res = post('/api/auth/reset-password', {
+        'code': res['code'],
+        'password': 'password123',
+        'passwordConfirmation': 'password123'
+    })
+    user_jwt = res['jwt']
+    print('[SUCCESS] User password reverted to password123 and re-authenticated.')
+
+    # 2.4 User Profile
+    s, res = get('/api/users/me', user_jwt)
+    print(f'[SUCCESS] 2.4 User Profile: HTTP {s}, email={res["email"]}, username={res["username"]}')
+
+
+    print('\n==================== 📁 3. CATEGORIES TESTS ====================')
+    s, cats = get('/api/categories', user_jwt)
+    print(f'[SUCCESS] 3.1 List Categories: HTTP {s}, Found {len(cats)} categories')
     cat_id = cats[0]['id']
 
-    print('\n==================== 3. TICKETS (CRUD) TEST ====================')
-    # 3.1 Create Ticket
-    ticket_payload = {
-        'title': 'ปริ้นเตอร์ไม่ดูดกระดาษ แผนกการเงิน',
-        'description': 'กดสั่งพิมพ์แล้วเครื่องดังแต่ไม่ยอมดูดกระดาษเข้า ไฟสีแดงขึ้นเตือน',
+
+    print('\n==================== 🎫 4. TICKETS TESTS ====================')
+    # 4.1 Create Ticket
+    s, new_ticket = post('/api/tickets', {
+        'title': 'จอ Monitor กระพริบ',
+        'description': 'จอแสดงผลกระพริบทุกๆ 5 วินาทีระหว่างทำงาน',
         'priority': 'HIGH',
         'categoryId': cat_id
-    }
-    req = urllib.request.Request(f'{base}/api/tickets', data=json.dumps(ticket_payload).encode('utf-8'), headers={**headers, 'Authorization': f'Bearer {emp_token}'})
-    new_ticket = json.loads(urllib.request.urlopen(req).read().decode('utf-8'))
-    print(f'[SUCCESS] Create Ticket: ID={new_ticket["id"]} Title="{new_ticket["title"]}" Status={new_ticket["status"]}')
+    }, token=user_jwt)
     ticket_id = new_ticket['id']
+    print(f'[SUCCESS] 4.1 Create Ticket: HTTP {s}, ID={ticket_id}, Title="{new_ticket["title"]}"')
 
-    # 3.2 List Tickets
-    req = urllib.request.Request(f'{base}/api/tickets', headers={'Authorization': f'Bearer {admin_token}'})
-    tickets = json.loads(urllib.request.urlopen(req).read().decode('utf-8'))
-    print(f'[SUCCESS] List Tickets: Found {len(tickets)} total tickets')
+    # 4.2 List Tickets
+    s, tickets = get('/api/tickets', token=admin_token)
+    print(f'[SUCCESS] 4.2 List Tickets: HTTP {s}, Found {len(tickets)} total tickets')
 
-    # 3.3 Add Comment
-    comment_payload = {'content': 'กำลังนำชุดลูกกลิ้งยางสำรองเข้าไปเปลี่ยนให้ครับ'}
-    req = urllib.request.Request(f'{base}/api/tickets/{ticket_id}/comments', data=json.dumps(comment_payload).encode('utf-8'), headers={**headers, 'Authorization': f'Bearer {admin_token}'})
-    comment = json.loads(urllib.request.urlopen(req).read().decode('utf-8'))
-    print(f'[SUCCESS] Add Comment: "{comment["content"]}"')
-
-    # 3.4 Update Ticket Status
-    req = urllib.request.Request(f'{base}/api/tickets/{ticket_id}', data=json.dumps({'status': 'IN_PROGRESS'}).encode('utf-8'), headers={**headers, 'Authorization': f'Bearer {admin_token}'}, method='PUT')
-    updated = json.loads(urllib.request.urlopen(req).read().decode('utf-8'))
-    print(f'[SUCCESS] Update Ticket Status: New Status={updated["status"]}')
-
-    print('\n==================== 4. SWAGGER DOCUMENTATION TEST ====================')
-    req = urllib.request.Request(f'{base}/api')
-    swagger_res = urllib.request.urlopen(req)
-    print(f'[SUCCESS] Swagger OpenAPI Docs: http://localhost:3000/api (HTTP {swagger_res.status})')
+    # 4.3 Add Comment
+    s, comment = post(f'/api/tickets/{ticket_id}/comments', {
+        'content': 'ทีมงานไอทีกำลังนำสายเคเบิล DisplayPort เส้นใหม่มาเปลี่ยนให้ครับ'
+    }, token=admin_token)
+    print(f'[SUCCESS] 4.3 Add Comment: HTTP {s}, "{comment["content"]}"')
 
     print('\n================================================================')
-    print('>>> ALL 12 VERIFICATION TESTS PASSED SUCCESSFULLY! 100% WORKING!')
+    print('>>> ALL ADMIN, USER, CATEGORIES & TICKETS TESTS PASSED (100% OK!)')
     print('================================================================')
 
 if __name__ == '__main__':

@@ -1,240 +1,266 @@
 @baseUrl = http://localhost:3000
-@access_token =
 
-### ==================== AUTH ====================
+# Admin Variables
+@adminEmail = admin@example.com
+@adminPassword = password123
+@adminNewPassword = newAdminPass123!
+@adminRegisterFirstname = Super
+@adminRegisterLastname = Admin
+@adminRegisterEmail = superadmin@company.local
 
-### Register Admin
-POST {{baseUrl}}/api/auth/register
+# User Variables
+@userEmail = employee@example.com
+@userPassword = password123
+@userNewPassword = newUserPass123!
+@userRegisterUsername = john_doe
+@userRegisterEmail = newuser@company.local
+
+### ==========================================
+### 👑 1. ฝั่ง ADMIN (ผู้ดูแลระบบ)
+### ==========================================
+
+# 1.1 Admin: Login
+# @name adminLogin
+POST {{baseUrl}}/admin/login
 Content-Type: application/json
 
 {
-  "email": "admin@example.com",
-  "password": "password123",
-  "firstName": "Admin",
-  "lastName": "User"
+  "email": "{{adminEmail}}",
+  "password": "{{adminPassword}}",
+  "rememberMe": false
 }
 
-### Login Admin
-# @name loginAdmin
-POST {{baseUrl}}/api/auth/login
+###
+# 1.2 Admin: Signup
+// ใช้ได้เฉพาะตอนที่ยังไม่มี Super Admin (ครั้งแรกหลัง setup เท่านั้น)
+POST {{baseUrl}}/admin/register-admin
 Content-Type: application/json
 
 {
-  "email": "admin@example.com",
-  "password": "password123"
+  "firstname": "{{adminRegisterFirstname}}",
+  "lastname": "{{adminRegisterLastname}}",
+  "email": "{{adminRegisterEmail}}",
+  "password": "{{adminPassword}}"
 }
 
-### Login IT Support
-# @name loginIT
-POST {{baseUrl}}/api/auth/login
+###
+# 1.3 Admin: Forgot Password
+# @name adminForgot
+POST {{baseUrl}}/admin/forgot-password
 Content-Type: application/json
 
 {
-  "email": "it@example.com",
-  "password": "password123"
+  "email": "{{adminEmail}}"
 }
 
-### Login Employee
-# @name loginEmployee
-POST {{baseUrl}}/api/auth/login
+###
+# 1.3.1 Admin: Reset Password
+// เอา token (query param ชื่อ code) จากลิงก์ในอีเมลที่ 1.3 ส่งกลับไปใส่ใน field resetPasswordToken
+POST {{baseUrl}}/admin/reset-password
 Content-Type: application/json
 
 {
-  "email": "employee@example.com",
-  "password": "password123"
+  "resetPasswordToken": "{{adminForgot.response.body.resetPasswordToken}}",
+  "password": "{{adminNewPassword}}"
 }
 
-### ==================== CATEGORIES ====================
+###
+# 1.4 Admin: Profile 
+// เอา token จาก response ของข้อ 1.1 ไปใส่ใน Authorization
+GET {{baseUrl}}/admin/users/me
+Authorization: Bearer {{adminLogin.response.body.data.token}}
 
-### Create Category (Admin/IT)
+
+### ==========================================
+### 👤 2. ฝั่ง USER (ผู้ใช้งานทั่วไป)
+### ==========================================
+
+# 2.1 User: Login
+# @name userLogin
+POST {{baseUrl}}/api/auth/local
+Content-Type: application/json
+
+{
+  "identifier": "{{userEmail}}",
+  "password": "{{userPassword}}"
+}
+
+###
+# 2.2 User: Signup
+POST {{baseUrl}}/api/auth/local/register
+Content-Type: application/json
+
+{
+  "username": "{{userRegisterUsername}}",
+  "email": "{{userRegisterEmail}}",
+  "password": "{{userPassword}}"
+}
+
+###
+# 2.3 User: Forgot Password
+// Strapi จะคืน 500 ถ้ายังไม่ได้ตั้งค่า SMTP สำหรับส่งอีเมล
+# @name userForgot
+POST {{baseUrl}}/api/auth/forgot-password
+Content-Type: application/json
+
+{
+  "email": "{{userEmail}}"
+}
+
+###
+# 2.3.1 User: Reset Password
+// เอา code จากลิงก์ในอีเมลที่ 2.3 ส่งกลับไปใส่ใน field code
+POST {{baseUrl}}/api/auth/reset-password
+Content-Type: application/json
+
+{
+  "code": "{{userForgot.response.body.code}}",
+  "password": "{{userNewPassword}}",
+  "passwordConfirmation": "{{userNewPassword}}"
+}
+
+###
+# 2.4 User: Profile
+// เอา token จาก response ของข้อ 2.1 ไปใส่ใน Authorization
+GET {{baseUrl}}/api/users/me
+Authorization: Bearer {{userLogin.response.body.jwt}}
+
+
+### ==========================================
+### 📁 3. หมวดหมู่ (CATEGORIES)
+### ==========================================
+
+### 3.1 Create Category (Admin)
+# @name createCategory
 POST {{baseUrl}}/api/categories
 Content-Type: application/json
-Authorization: Bearer {{loginAdmin.response.body.access_token}}
+Authorization: Bearer {{adminLogin.response.body.data.token}}
 
 {
   "name": "Hardware",
   "description": "ปัญหาเกี่ยวกับฮาร์ดแวร์ เช่น คอมพิวเตอร์ จอภาพ คีย์บอร์ด เมาส์"
 }
 
-### Create Another Category
+### 3.2 Create Category 2 (Admin)
+# @name createCategory2
 POST {{baseUrl}}/api/categories
 Content-Type: application/json
-Authorization: Bearer {{loginAdmin.response.body.access_token}}
+Authorization: Bearer {{adminLogin.response.body.data.token}}
 
 {
   "name": "Software",
   "description": "ปัญหาเกี่ยวกับซอฟต์แวร์ ระบบปฏิบัติการ แอปพลิเคชัน"
 }
 
-### Create Network Category
+### 3.3 Create Category 3 (Admin)
+# @name createCategory3
 POST {{baseUrl}}/api/categories
 Content-Type: application/json
-Authorization: Bearer {{loginAdmin.response.body.access_token}}
+Authorization: Bearer {{adminLogin.response.body.data.token}}
 
 {
   "name": "Network",
   "description": "ปัญหาเกี่ยวกับเครือข่าย อินเทอร์เน็ต VPN ไวไฟ"
 }
 
-### Get All Categories (All roles)
+### 3.4 Get All Categories (User)
 GET {{baseUrl}}/api/categories
-Authorization: Bearer {{loginEmployee.response.body.access_token}}
+Authorization: Bearer {{userLogin.response.body.jwt}}
 
-### Get Category by ID
+### 3.5 Get Category by ID
 GET {{baseUrl}}/api/categories/{{createCategory.response.body.id}}
-Authorization: Bearer {{loginEmployee.response.body.access_token}}
+Authorization: Bearer {{userLogin.response.body.jwt}}
 
-### Update Category (Admin/IT)
+### 3.6 Update Category (Admin)
 PUT {{baseUrl}}/api/categories/{{createCategory.response.body.id}}
 Content-Type: application/json
-Authorization: Bearer {{loginAdmin.response.body.access_token}}
+Authorization: Bearer {{adminLogin.response.body.data.token}}
 
 {
   "name": "Hardware & Peripherals",
   "description": "ปัญหาเกี่ยวกับฮาร์ดแวร์และอุปกรณ์เสริม"
 }
 
-### Delete Category (Admin only)
+### 3.7 Delete Category (Admin)
 DELETE {{baseUrl}}/api/categories/{{createCategory.response.body.id}}
-Authorization: Bearer {{loginAdmin.response.body.access_token}}
+Authorization: Bearer {{adminLogin.response.body.data.token}}
 
 
-### ==================== TICKETS ====================
+### ==========================================
+### 🎫 4. ตั๋วแจ้งซ่อม (TICKETS)
+### ==========================================
 
-### Create Ticket (Employee)
+### 4.1 Create Ticket (User)
+# @name createTicket
 POST {{baseUrl}}/api/tickets
 Content-Type: application/json
-Authorization: Bearer {{loginEmployee.response.body.access_token}}
+Authorization: Bearer {{userLogin.response.body.jwt}}
 
 {
   "title": "คอมพิวเตอร์ไม่เปิดเครื่อง",
   "description": "คอมพิวเตอร์ไม่ตอบสนองเมื่อกดปุ่มเปิด ไฟไม่ติดเลย",
   "priority": "HIGH",
-  "categoryId": "{{createCategory.response.body.id}}"
-}
-
-### Create Another Ticket (IT Support)
-POST {{baseUrl}}/api/tickets
-Content-Type: application/json
-Authorization: Bearer {{loginIT.response.body.access_token}}
-
-{
-  "title": "Outlook ไม่สามารถส่งอีเมลได้",
-  "description": "คลิกส่งแล้วค้างอยู่ที่ Outbox ไม่มี Error แสดง",
-  "priority": "MEDIUM",
   "categoryId": "{{createCategory2.response.body.id}}"
 }
 
-### Create Network Ticket
+### 4.2 Create Another Ticket
+# @name createTicket2
 POST {{baseUrl}}/api/tickets
 Content-Type: application/json
-Authorization: Bearer {{loginEmployee.response.body.access_token}}
+Authorization: Bearer {{userLogin.response.body.jwt}}
 
 {
-  "title": "WiFi ตัดขาดบ่อย",
-  "description": "WiFi ในห้องประชุมชั้น 3 ตัดขาดบ่อยมาก ใช้งานไม่ได้",
+  "title": "WiFi หลุดบ่อย",
+  "description": "WiFi ในห้องประชุมตัดบ่อย ใช้งานอินเทอร์เน็ตไม่ได้",
   "priority": "CRITICAL",
   "categoryId": "{{createCategory3.response.body.id}}"
 }
 
-### Get All Tickets (Employee - own tickets only)
+### 4.3 Get Tickets (User - own tickets)
 GET {{baseUrl}}/api/tickets
-Authorization: Bearer {{loginEmployee.response.body.access_token}}
+Authorization: Bearer {{userLogin.response.body.jwt}}
 
-### Get All Tickets (Admin - all tickets)
+### 4.4 Get Tickets (Admin - all tickets)
 GET {{baseUrl}}/api/tickets
-Authorization: Bearer {{loginAdmin.response.body.access_token}}
+Authorization: Bearer {{adminLogin.response.body.data.token}}
 
-### Get All Tickets with Filters
-GET {{baseUrl}}/api/tickets?status=OPEN&priority=HIGH
-Authorization: Bearer {{loginAdmin.response.body.access_token}}
+### 4.5 Get Tickets with Filter
+GET {{baseUrl}}/api/tickets?status=OPEN&priority=CRITICAL
+Authorization: Bearer {{adminLogin.response.body.data.token}}
 
-### Get Ticket by ID (Owner)
+### 4.6 Get Ticket by ID
 GET {{baseUrl}}/api/tickets/{{createTicket.response.body.id}}
-Authorization: Bearer {{loginEmployee.response.body.access_token}}
+Authorization: Bearer {{userLogin.response.body.jwt}}
 
-### Get Ticket by ID (Admin)
-GET {{baseUrl}}/api/tickets/{{createTicket.response.body.id}}
-Authorization: Bearer {{loginAdmin.response.body.access_token}}
-
-### Update Ticket (Employee - own ticket)
+### 4.7 Update Ticket (User)
 PUT {{baseUrl}}/api/tickets/{{createTicket.response.body.id}}
 Content-Type: application/json
-Authorization: Bearer {{loginEmployee.response.body.access_token}}
+Authorization: Bearer {{userLogin.response.body.jwt}}
 
 {
-  "title": "คอมพิวเตอร์ไม่เปิดเครื่อง (อัปเดต: เช็คสายไฟแล้ว)",
-  "description": "คอมพิวเตอร์ไม่ตอบสนองเมื่อกดปุ่มเปิด ไฟไม่ติดเลย เช็คสายไฟแล้ว ต่อดีอยู่",
-  "priority": "CRITICAL"
+  "title": "คอมพิวเตอร์ไม่เปิดเครื่อง (เช็คปลั๊กแล้ว)",
+  "description": "คอมพิวเตอร์ไม่เปิดเครื่อง เช็คปลั๊กไฟแล้ว เสียบแน่นหนาดี",
+  "priority": "HIGH"
 }
 
-### Update Ticket Status (IT Support - can change status)
+### 4.8 Update Ticket Status (Admin)
 PUT {{baseUrl}}/api/tickets/{{createTicket.response.body.id}}
 Content-Type: application/json
-Authorization: Bearer {{loginIT.response.body.access_token}}
+Authorization: Bearer {{adminLogin.response.body.data.token}}
 
 {
   "status": "IN_PROGRESS"
 }
 
-### Assign Ticket (IT Support)
-PUT {{baseUrl}}/api/tickets/{{createTicket.response.body.id}}
-Content-Type: application/json
-Authorization: Bearer {{loginIT.response.body.access_token}}
-
-{
-  "assignedToId": "{{loginIT.response.body.user.id}}",
-  "status": "IN_PROGRESS"
-}
-
-### Resolve Ticket (IT Support)
-PUT {{baseUrl}}/api/tickets/{{createTicket.response.body.id}}
-Content-Type: application/json
-Authorization: Bearer {{loginIT.response.body.access_token}}
-
-{
-  "status": "RESOLVED"
-}
-
-### Close Ticket (Admin)
-PUT {{baseUrl}}/api/tickets/{{createTicket.response.body.id}}
-Content-Type: application/json
-Authorization: Bearer {{loginAdmin.response.body.access_token}}
-
-{
-  "status": "CLOSED"
-}
-
-### Add Comment (Employee - ticket owner)
+### 4.9 Add Comment to Ticket
 POST {{baseUrl}}/api/tickets/{{createTicket.response.body.id}}/comments
 Content-Type: application/json
-Authorization: Bearer {{loginEmployee.response.body.access_token}}
+Authorization: Bearer {{userLogin.response.body.jwt}}
 
 {
-  "content": "ขอบคุณทีม IT ที่ช่วยดูแลครับ ปัญหาแก้ไขได้แล้ว"
+  "content": "ขอแจ้งเพิ่มเติมว่าไฟสถานะ Adapter ติดปกติครับ"
 }
 
-### Add Internal Comment (IT Support)
-POST {{baseUrl}}/api/tickets/{{createTicket.response.body.id}}/comments
-Content-Type: application/json
-Authorization: Bearer {{loginIT.response.body.access_token}}
-
-{
-  "content": "เปลี่ยน Power Supply ใหม่แล้ว ทดสอบทำงานปกติ",
-  "isInternal": true
-}
-
-### Delete Ticket (Owner - Employee)
+### 4.10 Delete Ticket
 DELETE {{baseUrl}}/api/tickets/{{createTicket2.response.body.id}}
-Authorization: Bearer {{loginEmployee.response.body.access_token}}
-
-### Delete Ticket (Admin)
-DELETE {{baseUrl}}/api/tickets/{{createTicket3.response.body.id}}
-Authorization: Bearer {{loginAdmin.response.body.access_token}}
-
-
-### ==================== USER PROFILE ====================
-
-### Get My Profile
-GET {{baseUrl}}/api/users/me
-Authorization: Bearer {{loginEmployee.response.body.access_token}}
+Authorization: Bearer {{adminLogin.response.body.data.token}}

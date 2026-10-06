@@ -62,6 +62,46 @@ async function main() {
     },
   });
 
+  const hashedStandardPassword = await bcrypt.hash('password123', 10);
+  await prisma.user.upsert({
+    where: { email: 'admin@example.com' },
+    update: { password: hashedStandardPassword },
+    create: {
+      email: 'admin@example.com',
+      password: hashedStandardPassword,
+      firstName: 'Admin',
+      lastName: 'User',
+      role: Role.ADMIN,
+      department: 'Management',
+    },
+  });
+
+  await prisma.user.upsert({
+    where: { email: 'it@example.com' },
+    update: { password: hashedStandardPassword },
+    create: {
+      email: 'it@example.com',
+      password: hashedStandardPassword,
+      firstName: 'IT',
+      lastName: 'Support',
+      role: Role.IT_SUPPORT,
+      department: 'IT Operations',
+    },
+  });
+
+  await prisma.user.upsert({
+    where: { email: 'employee@example.com' },
+    update: { password: hashedStandardPassword },
+    create: {
+      email: 'employee@example.com',
+      password: hashedStandardPassword,
+      firstName: 'Employee',
+      lastName: 'User',
+      role: Role.EMPLOYEE,
+      department: 'General',
+    },
+  });
+
   // 2. Seed Categories
   console.log('📁 Seeding Categories...');
   const catHardware = await prisma.category.upsert({
