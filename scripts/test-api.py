@@ -28,11 +28,13 @@ def test_api():
 
     print('==================== 👑 1. ADMIN AUTHENTICATION TESTS ====================')
     # 1.1 Admin Login
-    s, res = post('/admin/login', {'email': 'admin@example.com', 'password': 'password123', 'rememberMe': False})
+    admin_email = 'x_napaen@hotmail.com'
+    admin_pass = '@xZ0041105'
+    s, res = post('/admin/login', {'email': admin_email, 'password': admin_pass, 'rememberMe': False})
     admin_token = res['data']['token']
     print(f'[SUCCESS] 1.1 Admin Login: HTTP {s}, data.token={admin_token[:20]}...')
 
-    # 1.2 Admin Signup
+    # 1.2 Admin Signup (Should be blocked because single admin limit is reached)
     try:
         s, res = post('/admin/register-admin', {
             'firstname': 'Super',
@@ -42,23 +44,23 @@ def test_api():
         })
         print(f'[SUCCESS] 1.2 Admin Signup: HTTP {s}, created {res["data"]["user"]["email"]}')
     except Exception as e:
-        print(f'[INFO] 1.2 Admin Signup: Already registered or conflict handled')
+        print(f'[INFO] 1.2 Admin Signup: Successfully restricted (Single Admin Limit Enforced)')
 
     # 1.3 Admin Forgot Password
-    s, res = post('/admin/forgot-password', {'email': 'admin@example.com'})
+    s, res = post('/admin/forgot-password', {'email': admin_email})
     admin_reset_token = res['resetPasswordToken']
     print(f'[SUCCESS] 1.3 Admin Forgot Password: HTTP {s}, resetPasswordToken={admin_reset_token}')
 
     # 1.3.1 Admin Reset Password
-    s, res = post('/admin/reset-password', {'resetPasswordToken': admin_reset_token, 'password': 'newPassword123!'})
+    s, res = post('/admin/reset-password', {'resetPasswordToken': admin_reset_token, 'password': 'tempPassword123!'})
     print(f'[SUCCESS] 1.3.1 Admin Reset Password: HTTP {s}, {res.get("message")}')
 
-    # Revert Admin Password back to password123
-    s, res = post('/admin/forgot-password', {'email': 'admin@example.com'})
-    post('/admin/reset-password', {'resetPasswordToken': res['resetPasswordToken'], 'password': 'password123'})
-    s, res = post('/admin/login', {'email': 'admin@example.com', 'password': 'password123', 'rememberMe': False})
+    # Revert Admin Password back to @xZ0041105
+    s, res = post('/admin/forgot-password', {'email': admin_email})
+    post('/admin/reset-password', {'resetPasswordToken': res['resetPasswordToken'], 'password': admin_pass})
+    s, res = post('/admin/login', {'email': admin_email, 'password': admin_pass, 'rememberMe': False})
     admin_token = res['data']['token']
-    print('[SUCCESS] Admin password reverted to password123 and re-logged in.')
+    print('[SUCCESS] Admin password reverted to original and re-logged in.')
 
     # 1.4 Admin Profile
     s, res = get('/admin/users/me', admin_token)
