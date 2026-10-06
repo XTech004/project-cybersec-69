@@ -59,10 +59,32 @@ export class AdminController {
     return this.authService.createAuthResponse(user);
   }
 
+  @Get('setup-status')
+  @ApiOperation({ summary: 'ตรวจสอบว่ามี Super Admin ในระบบแล้วหรือไม่' })
+  async getSetupStatus() {
+    const adminCount = await this.prisma.user.count({
+      where: { role: Role.ADMIN },
+    });
+
+    return {
+      hasAdmin: adminCount >= 1,
+      adminCount,
+      maxAllowed: 1,
+    };
+  }
+
   @Post('register-admin')
-  @ApiOperation({ summary: '1.2 Admin: Signup สมัครแอดมินคนแรก / Super Admin' })
+  @ApiOperation({ summary: '1.2 Admin: Signup สมัครแอดมินคนแรก / Super Admin (จำกัด 1 คน)' })
   @ApiCreatedResponse({ description: 'สร้าง Super Admin สำเร็จ' })
   async registerAdmin(@Body() dto: AdminRegisterDto) {
+    const adminCount = await this.prisma.user.count({
+      where: { role: Role.ADMIN },
+    });
+
+    if (adminCount >= 1) {
+      throw new BadRequestException('ระบบอนุญาตให้มีผู้ดูแลระบบ (Admin) ได้เพียง 1 คนเท่านั้น');
+    }
+
     const existing = await this.prisma.user.findUnique({
       where: { email: dto.email },
     });

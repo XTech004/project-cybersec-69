@@ -202,36 +202,49 @@
       <div class="brand-tag">👑 Admin Setup</div>
     </div>
 
-    <div class="section-intro">
-      ลงทะเบียนบัญชี Super Admin สำหรับผู้ดูแลระบบคนแรก
+    <div id="lockedBox" style="display: none; text-align: center; padding: 10px 0;">
+      <div style="font-size: 36px; margin-bottom: 10px;">🔒</div>
+      <div style="font-size: 16px; font-weight: 700; color: #ffffff; margin-bottom: 6px;">ระบบมีผู้ดูแลระบบ (Admin) แล้ว</div>
+      <div style="font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 18px;">
+        ระบบถูกกำหนดให้อนุญาตมีผู้ดูแลระบบได้เพียง <strong style="color: #a5b4fc;">1 คนเท่านั้น</strong> และมีผู้ลงทะเบียนในระบบเรียบร้อยแล้ว
+      </div>
+      <a href="/admin/login" class="btn-submit" style="text-decoration: none;">
+        <span>ไปที่หน้าเข้าสู่ระบบ Admin ↗</span>
+      </a>
     </div>
 
-    <form id="adminRegisterForm" onsubmit="handleAdminRegister(event)" style="display: flex; flex-direction: column; gap: 14px;">
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-        <div class="form-group">
-          <label for="inpFirstName">ชื่อ (Firstname) *</label>
-          <input type="text" class="form-input" id="inpFirstName" placeholder="ชื่อ" required autofocus>
+    <div id="registerFormBox">
+      <div class="section-intro" style="margin-bottom: 14px;">
+        ลงทะเบียนบัญชี Super Admin สำหรับผู้ดูแลระบบคนแรก (จำกัด 1 คน)
+      </div>
+
+      <form id="adminRegisterForm" onsubmit="handleAdminRegister(event)" style="display: flex; flex-direction: column; gap: 14px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div class="form-group">
+            <label for="inpFirstName">ชื่อ (Firstname) *</label>
+            <input type="text" class="form-input" id="inpFirstName" placeholder="ชื่อ" required autofocus>
+          </div>
+          <div class="form-group">
+            <label for="inpLastName">นามสกุล (Lastname) *</label>
+            <input type="text" class="form-input" id="inpLastName" placeholder="นามสกุล" required>
+          </div>
         </div>
+
         <div class="form-group">
-          <label for="inpLastName">นามสกุล (Lastname) *</label>
-          <input type="text" class="form-input" id="inpLastName" placeholder="นามสกุล" required>
+          <label for="inpAdminEmail">อีเมล (Admin Email) *</label>
+          <input type="email" class="form-input" id="inpAdminEmail" placeholder="เช่น admin@domain.com" required autocomplete="email">
         </div>
-      </div>
 
-      <div class="form-group">
-        <label for="inpAdminEmail">อีเมล (Admin Email) *</label>
-        <input type="email" class="form-input" id="inpAdminEmail" placeholder="admin@example.com" required>
-      </div>
+        <div class="form-group">
+          <label for="inpAdminPassword">รหัสผ่าน (Password) *</label>
+          <input type="password" class="form-input" id="inpAdminPassword" placeholder="อย่างน้อย 6 ตัวอักษร" required autocomplete="new-password">
+        </div>
 
-      <div class="form-group">
-        <label for="inpAdminPassword">รหัสผ่าน (Password) *</label>
-        <input type="password" class="form-input" id="inpAdminPassword" placeholder="อย่างน้อย 6 ตัวอักษร" required>
-      </div>
-
-      <button type="submit" class="btn-submit" id="btnSubmit">
-        <span>สร้างบัญชี Super Admin 👑</span>
-      </button>
-    </form>
+        <button type="submit" class="btn-submit" id="btnSubmit">
+          <span>สร้างบัญชี Super Admin 👑</span>
+        </button>
+      </form>
+    </div>
 
     <div class="auth-footer">
       <div>
@@ -256,6 +269,22 @@
       setTimeout(() => { t.style.display = 'none'; }, 2800);
     }
 
+    async function checkSetupStatus() {
+      try {
+        const res = await fetch(`${API_BASE}/admin/setup-status`);
+        const data = await res.json();
+        if (data.hasAdmin) {
+          document.getElementById('lockedBox').style.display = 'block';
+          document.getElementById('registerFormBox').style.display = 'none';
+        } else {
+          document.getElementById('lockedBox').style.display = 'none';
+          document.getElementById('registerFormBox').style.display = 'block';
+        }
+      } catch (err) {
+        console.error('Failed to check admin setup status', err);
+      }
+    }
+
     async function handleAdminRegister(e) {
       e.preventDefault();
       const firstname = document.getElementById('inpFirstName').value.trim();
@@ -276,7 +305,7 @@
 
         const data = await res.json();
         if (!res.ok) {
-          throw new Error(data.message || 'ลงทะเบียนไม่สำเร็จ (อาจมี Super Admin อยู่ในระบบแล้ว)');
+          throw new Error(data.message || 'ระบบอนุญาตให้มีผู้ดูแลระบบได้เพียงคนเดียวเท่านั้น');
         }
 
         showToast('ลงทะเบียน Super Admin สำเร็จ! กำลังนำไปหน้าเข้าสู่ระบบ...');
@@ -289,6 +318,8 @@
         btn.innerHTML = '<span>สร้างบัญชี Super Admin 👑</span>';
       }
     }
+
+    window.addEventListener('DOMContentLoaded', checkSetupStatus);
   </script>
 </body>
 </html>
