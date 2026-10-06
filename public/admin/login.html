@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - IT Service Desk & Incident Gateway</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Prompt:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Inter', 'Prompt', sans-serif;
+      background-color: #0b0c14;
+      color: #e2e8f0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow-x: hidden;
+      padding: 24px;
+    }
+
+    /* ✨ React Bits: Particles Canvas */
+    #particlesCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.5;
+    }
+
+    /* ✨ React Bits: SpotlightCard */
+    .card-spotlight {
+      position: relative;
+      overflow: hidden;
+      --mouse-x: 50%;
+      --mouse-y: 50%;
+      --spotlight-color: rgba(99, 102, 241, 0.22);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card-spotlight::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle 240px at var(--mouse-x) var(--mouse-y), var(--spotlight-color), transparent 80%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .card-spotlight:hover::before {
+      opacity: 1;
+    }
+
+    /* ✨ React Bits: ShinyText */
+    @keyframes shiny-sweep {
+      0% { background-position: 200% center; }
+      100% { background-position: -200% center; }
+    }
+    .shiny-brand {
+      background: linear-gradient(120deg, #818cf8 0%, #c7d2fe 30%, #ffffff 50%, #38bdf8 70%, #818cf8 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shiny-sweep 3.5s linear infinite;
+      display: inline-block;
+    }
+
+    /* ✨ React Bits: BorderGlow */
+    @keyframes border-glow-anim {
+      0% { border-color: rgba(99, 102, 241, 0.4); box-shadow: 0 0 20px rgba(99, 102, 241, 0.2); }
+      50% { border-color: rgba(6, 182, 212, 0.7); box-shadow: 0 0 35px rgba(6, 182, 212, 0.35); }
+      100% { border-color: rgba(99, 102, 241, 0.4); box-shadow: 0 0 20px rgba(99, 102, 241, 0.2); }
+    }
+    .border-glow-active {
+      animation: border-glow-anim 4s ease-in-out infinite;
+    }
+
+    /* Main Login Container */
+    .auth-container {
+      width: 520px;
+      max-width: 100%;
+      background: #141424;
+      border: 1px solid #282a46;
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75);
+      z-index: 10;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .auth-header {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .brand-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      box-shadow: 0 8px 24px rgba(79, 70, 229, 0.5);
+      margin-bottom: 4px;
+    }
+    .brand-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.2;
+    }
+    .brand-sub {
+      font-size: 12px;
+      color: #94a3b8;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Auth Navigation Tabs */
+    .auth-tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 5px;
+      background: #0d0e18;
+      padding: 5px;
+      border-radius: 12px;
+      border: 1px solid #282a46;
+    }
+    .auth-tab-btn {
+      padding: 10px 6px;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      color: #94a3b8;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    .auth-tab-btn:hover {
+      color: white;
+      background: #1c1d30;
+    }
+    .auth-tab-btn.active {
+      background: #4f46e5;
+      color: white;
+      box-shadow: 0 4px 14px rgba(79, 70, 229, 0.45);
+    }
+
+    /* Sub Tabs */
+    .sub-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    .sub-tab-btn {
+      padding: 7px 14px;
+      border-radius: 8px;
+      border: 1px solid #282a46;
+      background: #1c1d30;
+      color: #94a3b8;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .sub-tab-btn.active {
+      background: rgba(99, 102, 241, 0.2);
+      border-color: #6366f1;
+      color: #c7d2fe;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 10px;
+    }
+    .form-group label {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #94a3b8;
+    }
+    .form-input {
+      background: #0d0e18;
+      border: 1px solid #282a46;
+      color: white;
+      padding: 11px 14px;
+      border-radius: 9px;
+      font-size: 13.5px;
+      outline: none;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+    .form-input:focus {
+      border-color: #6366f1;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    }
+
+    .btn-submit {
+      background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+      color: white;
+      border: none;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+      width: 100%;
+      margin-top: 14px;
+      box-shadow: 0 4px 14px rgba(79, 70, 229, 0.4);
+    }
+    .btn-submit:hover {
+      background: #4338ca;
+      box-shadow: 0 6px 20px rgba(79, 70, 229, 0.6);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: #1c1d30;
+      color: #cbd5e1;
+      border: 1px solid #282a46;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s;
+      width: 100%;
+      margin-top: 8px;
+    }
+    .btn-secondary:hover {
+      background: #25263d;
+      color: white;
+      border-color: #6366f1;
+    }
+
+    .quick-chips {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+    .chip-btn {
+      background: #1c1d30;
+      border: 1px dashed #4338ca;
+      color: #a5b4fc;
+      font-size: 11px;
+      padding: 4px 9px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .chip-btn:hover {
+      background: #312e81;
+      color: white;
+    }
+
+    .info-callout {
+      background: rgba(99, 102, 241, 0.1);
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      border-radius: 10px;
+      padding: 11px 14px;
+      font-size: 12.5px;
+      color: #c7d2fe;
+      line-height: 1.45;
+    }
+
+    .auth-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid #282a46;
+      padding-top: 16px;
+      margin-top: 6px;
+      font-size: 12px;
+      color: #64748b;
+    }
+    .auth-footer a {
+      color: #38bdf8;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .auth-footer a:hover {
+      color: #7dd3fc;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      padding: 12px 20px;
+      background: #10b981;
+      color: white;
+      font-weight: 600;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+      z-index: 9999;
+      display: none;
+      font-size: 13px;
+    }
+    .toast.error {
+      background: #ef4444;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ✨ React Bits: Interactive Particles Canvas -->
+  <canvas id="particlesCanvas"></canvas>
+
+  <div class="auth-container card-spotlight border-glow-active">
+    <!-- Header -->
+    <div class="auth-header">
+      <div class="brand-icon">🛠️</div>
+      <div class="brand-title shiny-brand">IT Service Desk</div>
+      <div class="brand-sub" id="lblGateway">SECURE AUTHENTICATION GATEWAY</div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="auth-tabs">
+      <button class="auth-tab-btn active" id="tabBtnAdminLogin" onclick="switchAuthTab('adminLogin')">👑 1.1 Admin</button>
+      <button class="auth-tab-btn" id="tabBtnUserLogin" onclick="switchAuthTab('userLogin')">👤 2.1 User</button>
+      <button class="auth-tab-btn" id="tabBtnRegister" onclick="switchAuthTab('register')">📝 สมัครสมาชิก</button>
+      <button class="auth-tab-btn" id="tabBtnForgot" onclick="switchAuthTab('forgot')">🔑 ลืมรหัสผ่าน</button>
+    </div>
+
+    <!-- 1. Admin Login (1.1) -->
+    <div id="authSecAdminLogin">
+      <div class="info-callout">
+        <strong>1.1 Admin: Login</strong> (POST /admin/login)<br>
+        เข้าสู่ระบบด้วยสิทธิ์ผู้ดูแลระบบ Token จะถูกเก็บใน <code>data.token</code>
+      </div>
+      <div class="form-group">
+        <label>อีเมลผู้ดูแล (Admin Email) *</label>
+        <input type="email" class="form-input" id="inpAdminLoginEmail" value="admin@example.com" placeholder="admin@example.com">
+      </div>
+      <div class="form-group">
+        <label>รหัสผ่าน (Password) *</label>
+        <input type="password" class="form-input" id="inpAdminLoginPass" value="password123" placeholder="password">
+      </div>
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 8px;">
+        <label style="font-size: 12px; color: #94a3b8; display: flex; align-items: center; gap: 6px; cursor: pointer;">
+          <input type="checkbox" id="chkAdminRemember"> จดจำฉันไว้ (rememberMe)
+        </label>
+        <div class="quick-chips">
+          <span style="font-size: 11px; color: #64748b;">บัญชีทดสอบ:</span>
+          <button class="chip-btn" onclick="fillAdminLogin('admin@example.com', 'password123')">admin@example.com</button>
+          <button class="chip-btn" onclick="fillAdminLogin('admin@servicedesk.local', 'Password123!')">servicedesk.local</button>
+        </div>
+      </div>
+      <button class="btn-submit" onclick="submitAdminLogin()">เข้าสู่ระบบฝั่ง ADMIN 👑</button>
+    </div>
+
+    <!-- 2. User Login (2.1) -->
+    <div id="authSecUserLogin" style="display: none;">
+      <div class="info-callout">
+        <strong>2.1 User: Login</strong> (POST /api/auth/local)<br>
+        เข้าสู่ระบบด้วย <code>identifier</code> (อีเมลหรือ Username) เพื่อรับ <code>jwt</code>
+      </div>
+      <div class="form-group">
+        <label>อีเมลหรือชื่อผู้ใช้ (Identifier) *</label>
+        <input type="text" class="form-input" id="inpUserLoginIdent" value="employee@example.com" placeholder="employee@example.com หรือ username">
+      </div>
+      <div class="form-group">
+        <label>รหัสผ่าน (Password) *</label>
+        <input type="password" class="form-input" id="inpUserLoginPass" value="password123" placeholder="password">
+      </div>
+      <div class="quick-chips">
+        <span style="font-size: 11px; color: #64748b;">เลือกบัญชีทดสอบ:</span>
+        <button class="chip-btn" onclick="fillUserLogin('employee@example.com', 'password123')">employee@example.com</button>
+        <button class="chip-btn" onclick="fillUserLogin('it@example.com', 'password123')">it@example.com</button>
+        <button class="chip-btn" onclick="fillUserLogin('employee1@servicedesk.local', 'Password123!')">employee1</button>
+      </div>
+      <button class="btn-submit" onclick="submitUserLogin()">เข้าสู่ระบบฝั่ง USER 👤</button>
+    </div>
+
+    <!-- 3. Register (1.2 / 2.2) -->
+    <div id="authSecRegister" style="display: none;">
+      <div class="sub-tabs">
+        <button class="sub-tab-btn active" id="subTabRegUser" onclick="switchRegType('user')">👤 2.2 User Signup</button>
+        <button class="sub-tab-btn" id="subTabRegAdmin" onclick="switchRegType('admin')">👑 1.2 Admin Signup</button>
+      </div>
+
+      <!-- 3A: User Register -->
+      <div id="regUserBox">
+        <div class="info-callout">
+          <strong>2.2 User: Signup</strong> (POST /api/auth/local/register)<br>
+          สร้างผู้ใช้งานใหม่พร้อมรับ JWT Token ใช้งานได้ทันที
+        </div>
+        <div class="form-group">
+          <label>ชื่อผู้ใช้งาน (Username) *</label>
+          <input type="text" class="form-input" id="inpRegUsername" placeholder="เช่น somchai_d">
+        </div>
+        <div class="form-group">
+          <label>อีเมล (Email) *</label>
+          <input type="email" class="form-input" id="inpRegUserEmail" placeholder="เช่น somchai@company.com">
+        </div>
+        <div class="form-group">
+          <label>รหัสผ่าน (Password) *</label>
+          <input type="password" class="form-input" id="inpRegUserPass" placeholder="อย่างน้อย 6 ตัวอักษร">
+        </div>
+        <button class="btn-submit" onclick="submitUserRegister()">สมัครสมาชิก User 👤</button>
+      </div>
+
+      <!-- 3B: Admin Register -->
+      <div id="regAdminBox" style="display: none;">
+        <div class="info-callout">
+          <strong>1.2 Admin: Signup</strong> (POST /admin/register-admin)<br>
+          สร้างบัญชี Super Admin คนใหม่ของระบบ
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+          <div class="form-group" style="margin-top: 0;">
+            <label>ชื่อ (Firstname) *</label>
+            <input type="text" class="form-input" id="inpAdminRegFirst" placeholder="ชื่อ">
+          </div>
+          <div class="form-group" style="margin-top: 0;">
+            <label>นามสกุล (Lastname) *</label>
+            <input type="text" class="form-input" id="inpAdminRegLast" placeholder="นามสกุล">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>อีเมลผู้ดูแล (Email) *</label>
+          <input type="email" class="form-input" id="inpAdminRegEmail" placeholder="superadmin@company.com">
+        </div>
+        <div class="form-group">
+          <label>รหัสผ่าน (Password) *</label>
+          <input type="password" class="form-input" id="inpAdminRegPass" placeholder="อย่างน้อย 6 ตัวอักษร">
+        </div>
+        <button class="btn-submit" onclick="submitAdminRegister()">สร้างบัญชีผู้ดูแล Super Admin 👑</button>
+      </div>
+    </div>
+
+    <!-- 4. Forgot & Reset Password (1.3 / 2.3) -->
+    <div id="authSecForgot" style="display: none;">
+      <div class="sub-tabs">
+        <button class="sub-tab-btn active" id="subTabForgotUser" onclick="switchForgotRole('user')">👤 ฝั่ง User (2.3 / 2.3.1)</button>
+        <button class="sub-tab-btn" id="subTabForgotAdmin" onclick="switchForgotRole('admin')">👑 ฝั่ง Admin (1.3 / 1.3.1)</button>
+      </div>
+
+      <div class="info-callout" id="forgotInfoText">
+        <strong>2.3 User: Forgot Password</strong> (POST /api/auth/forgot-password)<br>
+        ระบบจะสร้าง <code>code</code> สำหรับนำไปตั้งรหัสใหม่
+      </div>
+
+      <div style="background: #0d0e18; border: 1px solid #282a46; border-radius: 10px; padding: 12px; margin-top: 10px;">
+        <div style="font-weight: 600; font-size: 12.5px; color: #ffffff; margin-bottom: 6px;">1. ขอรหัสรีเซ็ต (Forgot Password)</div>
+        <div class="form-group" style="margin-top: 0;">
+          <label>ระบุอีเมลบัญชีของคุณ *</label>
+          <input type="email" class="form-input" id="inpForgotEmail" placeholder="email@example.com">
+        </div>
+        <button class="btn-secondary" onclick="submitForgotPassword()">📩 ขอรับ Code / Token</button>
+      </div>
+
+      <div style="background: #0d0e18; border: 1px solid #282a46; border-radius: 10px; padding: 12px; margin-top: 10px;">
+        <div style="font-weight: 600; font-size: 12.5px; color: #ffffff; margin-bottom: 6px;">2. ตั้งรหัสผ่านใหม่ (Reset Password)</div>
+        <div class="form-group" style="margin-top: 0;">
+          <label>รหัส Code / Token ที่ได้รับ *</label>
+          <input type="text" class="form-input" id="inpResetCode" placeholder="ใส่ code หรือ resetPasswordToken">
+        </div>
+        <div class="form-group">
+          <label>รหัสผ่านใหม่ (New Password) *</label>
+          <input type="password" class="form-input" id="inpResetNewPass" placeholder="รหัสผ่านใหม่">
+        </div>
+        <div class="form-group" id="groupPasswordConfirm">
+          <label>ยืนยันรหัสผ่านใหม่ *</label>
+          <input type="password" class="form-input" id="inpResetConfirmPass" placeholder="ยืนยันรหัสผ่านใหม่">
+        </div>
+        <button class="btn-submit" onclick="submitResetPassword()">🔐 ยืนยันเปลี่ยนรหัสผ่านใหม่</button>
+      </div>
+    </div>
+
+    <!-- Footer Links -->
+    <div class="auth-footer">
+      <div>IT Service Desk v1.0 • Sec 69</div>
+      <div>
+        <a href="/api" target="_blank">📑 Swagger Docs</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toastMsg">เข้าสู่ระบบสำเร็จ!</div>
+
+  <script>
+    const API_BASE = window.location.origin;
+
+    let forgotTargetRole = 'user';
+    let regTargetRole = 'user';
+
+    // Check if already authenticated on boot
+    const existingToken = localStorage.getItem('auth_token');
+    if (existingToken) {
+      window.location.replace('/admin');
+    }
+
+    function showToast(msg, isError = false) {
+      const t = document.getElementById('toastMsg');
+      t.textContent = msg;
+      t.className = 'toast' + (isError ? ' error' : '');
+      t.style.display = 'block';
+      setTimeout(() => { t.style.display = 'none'; }, 2800);
+    }
+
+    function switchAuthTab(tab) {
+      const tabs = ['adminLogin', 'userLogin', 'register', 'forgot'];
+      tabs.forEach(t => {
+        const btn = document.getElementById(`tabBtn${t.charAt(0).toUpperCase() + t.slice(1)}`);
+        const sec = document.getElementById(`authSec${t.charAt(0).toUpperCase() + t.slice(1)}`);
+        if (btn) btn.classList.remove('active');
+        if (sec) sec.style.display = 'none';
+      });
+
+      const activeBtn = document.getElementById(`tabBtn${tab.charAt(0).toUpperCase() + tab.slice(1)}`);
+      const activeSec = document.getElementById(`authSec${tab.charAt(0).toUpperCase() + tab.slice(1)}`);
+      if (activeBtn) activeBtn.classList.add('active');
+      if (activeSec) activeSec.style.display = 'block';
+    }
+
+    function switchRegType(type) {
+      regTargetRole = type;
+      document.getElementById('subTabRegUser').classList.toggle('active', type === 'user');
+      document.getElementById('subTabRegAdmin').classList.toggle('active', type === 'admin');
+      document.getElementById('regUserBox').style.display = type === 'user' ? 'block' : 'none';
+      document.getElementById('regAdminBox').style.display = type === 'admin' ? 'block' : 'none';
+    }
+
+    function switchForgotRole(role) {
+      forgotTargetRole = role;
+      document.getElementById('subTabForgotUser').classList.toggle('active', role === 'user');
+      document.getElementById('subTabForgotAdmin').classList.toggle('active', role === 'admin');
+      
+      const infoText = document.getElementById('forgotInfoText');
+      const confirmGroup = document.getElementById('groupPasswordConfirm');
+      if (role === 'user') {
+        infoText.innerHTML = '<strong>2.3 User: Forgot Password</strong> (POST /api/auth/forgot-password)<br>ระบบจะสร้าง <code>code</code> สำหรับนำไปตั้งรหัสใหม่';
+        confirmGroup.style.display = 'flex';
+      } else {
+        infoText.innerHTML = '<strong>1.3 Admin: Forgot Password</strong> (POST /admin/forgot-password)<br>ระบบจะสร้าง <code>resetPasswordToken</code> สำหรับนำไปตั้งรหัสใหม่';
+        confirmGroup.style.display = 'none';
+      }
+    }
+
+    function fillAdminLogin(email, pass) {
+      document.getElementById('inpAdminLoginEmail').value = email;
+      document.getElementById('inpAdminLoginPass').value = pass;
+    }
+
+    function fillUserLogin(ident, pass) {
+      document.getElementById('inpUserLoginIdent').value = ident;
+      document.getElementById('inpUserLoginPass').value = pass;
+    }
+
+    function saveSessionAndRedirect(token, user) {
+      localStorage.setItem('auth_token', token);
+      localStorage.setItem('auth_user', JSON.stringify(user));
+      showToast('เข้าสู่ระบบสำเร็จ! กำลังไปยังหน้า Dashboard...');
+      setTimeout(() => {
+        window.location.replace('/admin');
+      }, 700);
+    }
+
+    // 1.1 Admin Login
+    async function submitAdminLogin() {
+      const email = document.getElementById('inpAdminLoginEmail').value.trim();
+      const password = document.getElementById('inpAdminLoginPass').value;
+      const rememberMe = document.getElementById('chkAdminRemember').checked;
+
+      if (!email || !password) return showToast('กรุณากรอกอีเมลและรหัสผ่าน', true);
+
+      try {
+        const res = await fetch(`${API_BASE}/admin/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password, rememberMe })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'เข้าสู่ระบบไม่สำเร็จ');
+
+        const token = data.data?.token || data.access_token;
+        const user = data.data?.user || data.user;
+        saveSessionAndRedirect(token, user);
+      } catch (err) {
+        showToast(err.message, true);
+      }
+    }
+
+    // 2.1 User Login
+    async function submitUserLogin() {
+      const identifier = document.getElementById('inpUserLoginIdent').value.trim();
+      const password = document.getElementById('inpUserLoginPass').value;
+
+      if (!identifier || !password) return showToast('กรุณากรอกอีเมล/ชื่อผู้ใช้ และรหัสผ่าน', true);
+
+      try {
+        const res = await fetch(`${API_BASE}/api/auth/local`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ identifier, password })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'เข้าสู่ระบบไม่สำเร็จ');
+
+        const token = data.jwt || data.access_token;
+        const user = data.user;
+        saveSessionAndRedirect(token, user);
+      } catch (err) {
+        showToast(err.message, true);
+      }
+    }
+
+    // 2.2 User Register
+    async function submitUserRegister() {
+      const username = document.getElementById('inpRegUsername').value.trim();
+      const email = document.getElementById('inpRegUserEmail').value.trim();
+      const password = document.getElementById('inpRegUserPass').value;
+
+      if (!username || !email || !password) return showToast('กรุณากรอกข้อมูลให้ครบถ้วน', true);
+
+      try {
+        const res = await fetch(`${API_BASE}/api/auth/local/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, email, password })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'สมัครสมาชิกไม่สำเร็จ');
+
+        const token = data.jwt || data.access_token;
+        const user = data.user;
+        saveSessionAndRedirect(token, user);
+      } catch (err) {
+        showToast(err.message, true);
+      }
+    }
+
+    // 1.2 Admin Register
+    async function submitAdminRegister() {
+      const firstname = document.getElementById('inpAdminRegFirst').value.trim();
+      const lastname = document.getElementById('inpAdminRegLast').value.trim();
+      const email = document.getElementById('inpAdminRegEmail').value.trim();
+      const password = document.getElementById('inpAdminRegPass').value;
+
+      if (!firstname || !lastname || !email || !password) return showToast('กรุณากรอกข้อมูลให้ครบถ้วน', true);
+
+      try {
+        const res = await fetch(`${API_BASE}/admin/register-admin`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ firstname, lastname, email, password })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'สร้าง Super Admin ไม่สำเร็จ');
+
+        const token = data.data?.token || data.access_token;
+        const user = data.data?.user || data.user;
+        saveSessionAndRedirect(token, user);
+      } catch (err) {
+        showToast(err.message, true);
+      }
+    }
+
+    // 1.3 / 2.3 Forgot Password
+    async function submitForgotPassword() {
+      const email = document.getElementById('inpForgotEmail').value.trim();
+      if (!email) return showToast('กรุณาระบุอีเมล', true);
+
+      const endpoint = forgotTargetRole === 'admin' ? `${API_BASE}/admin/forgot-password` : `${API_BASE}/api/auth/forgot-password`;
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'ขอรหัสรีเซ็ตไม่สำเร็จ');
+
+        const receivedCode = data.code || data.resetPasswordToken;
+        document.getElementById('inpResetCode').value = receivedCode || '';
+        showToast(`สร้างรหัสรีเซ็ตสำเร็จ: ${receivedCode}`);
+      } catch (err) {
+        showToast(err.message, true);
+      }
+    }
+
+    // 1.3.1 / 2.3.1 Reset Password
+    async function submitResetPassword() {
+      const codeOrToken = document.getElementById('inpResetCode').value.trim();
+      const password = document.getElementById('inpResetNewPass').value;
+      const passwordConfirmation = document.getElementById('inpResetConfirmPass').value;
+
+      if (!codeOrToken || !password) return showToast('กรุณากรอก Code และรหัสผ่านใหม่', true);
+
+      if (forgotTargetRole === 'user') {
+        if (password !== passwordConfirmation) return showToast('รหัสผ่านและการยืนยันไม่ตรงกัน', true);
+        try {
+          const res = await fetch(`${API_BASE}/api/auth/reset-password`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ code: codeOrToken, password, passwordConfirmation })
+          });
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.message || 'รีเซ็ตรหัสผ่านไม่สำเร็จ');
+
+          const token = data.jwt || data.access_token;
+          const user = data.user;
+          saveSessionAndRedirect(token, user);
+        } catch (err) {
+          showToast(err.message, true);
+        }
+      } else {
+        try {
+          const res = await fetch(`${API_BASE}/admin/reset-password`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ resetPasswordToken: codeOrToken, password })
+          });
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.message || 'รีเซ็ตรหัสผ่านไม่สำเร็จ');
+
+          showToast('รีเซ็ตรหัสผ่าน Admin สำเร็จ! กรุณาเข้าสู่ระบบด้วยรหัสผ่านใหม่');
+          switchAuthTab('adminLogin');
+          document.getElementById('inpAdminLoginPass').value = password;
+        } catch (err) {
+          showToast(err.message, true);
+        }
+      }
+    }
+
+    // Spotlight & Particles
+    window.addEventListener('DOMContentLoaded', () => {
+      const card = document.querySelector('.card-spotlight');
+      if (card) {
+        card.addEventListener('mousemove', e => {
+          const rect = card.getBoundingClientRect();
+          card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+          card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+        });
+      }
+
+      // React Bits Particles
+      const canvas = document.getElementById('particlesCanvas');
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let w = canvas.width = window.innerWidth;
+        let h = canvas.height = window.innerHeight;
+        window.addEventListener('resize', () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; });
+
+        const parts = [];
+        for (let i = 0; i < 40; i++) {
+          parts.push({ x: Math.random() * w, y: Math.random() * h, vx: (Math.random() - 0.5) * 0.4, vy: (Math.random() - 0.5) * 0.4, r: Math.random() * 2 + 1 });
+        }
+
+        let m = { x: -1000, y: -1000 };
+        window.addEventListener('mousemove', e => { m.x = e.clientX; m.y = e.clientY; });
+
+        function anim() {
+          ctx.clearRect(0, 0, w, h);
+          parts.forEach(p => {
+            p.x += p.vx; p.y += p.vy;
+            if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
+            if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
+
+            const dm = Math.hypot(m.x - p.x, m.y - p.y);
+            if (dm < 120) {
+              ctx.strokeStyle = `rgba(99, 102, 241, ${0.4 * (1 - dm / 120)})`;
+              ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(m.x, m.y); ctx.stroke();
+            }
+
+            ctx.fillStyle = 'rgba(129, 140, 248, 0.5)';
+            ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+          });
+          requestAnimationFrame(anim);
+        }
+        anim();
+      }
+
+      // Decrypted text animation for gateway
+      const lbl = document.getElementById('lblGateway');
+      if (lbl) {
+        const t = lbl.innerText;
+        const chars = '0123456789ABCDEF!@#$%';
+        let iter = 0;
+        const intv = setInterval(() => {
+          lbl.innerText = t.split('').map((c, i) => i < iter ? t[i] : chars[Math.floor(Math.random() * chars.length)]).join('');
+          if (iter >= t.length) clearInterval(intv);
+          iter += 0.5;
+        }, 30);
+      }
+    });
+  </script>
+</body>
+</html>

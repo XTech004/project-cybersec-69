@@ -137,8 +137,34 @@ def test_api():
     }, token=admin_token)
     print(f'[SUCCESS] 4.3 Add Comment: HTTP {s}, "{comment["content"]}"')
 
+    print('\n==================== 🛡️ 5. STRAPI ROLES & PERMISSIONS TESTS ====================')
+    # 5.1 List Roles
+    s, roles_res = get('/api/users-permissions/roles')
+    print(f'[SUCCESS] 5.1 List Roles: HTTP {s}, Roles={[r["id"] for r in roles_res["roles"]]}')
+
+    # 5.2 Get Public Role Details (Matching Image 2)
+    s, public_role = get('/api/users-permissions/roles/public')
+    cat_perm = public_role['role']['permissions']['category']
+    print(f'[SUCCESS] 5.2 Public Role Permissions (Image 2): HTTP {s}, Category={cat_perm}')
+
+    # 5.3 Update Role Permissions (Admin only)
+    req_put = urllib.request.Request(
+        f'{base}/api/users-permissions/roles/authenticated',
+        data=json.dumps({
+            'permissions': {
+                'category': {'create': False, 'delete': False, 'find': True, 'findOne': True, 'update': False}
+            }
+        }).encode('utf-8'),
+        headers={**headers, 'Authorization': f'Bearer {admin_token}'},
+        method='PUT'
+    )
+    with urllib.request.urlopen(req_put) as resp_put:
+        s_put = resp_put.status
+        res_put = json.loads(resp_put.read().decode('utf-8'))
+        print(f'[SUCCESS] 5.3 Update Authenticated Role: HTTP {s_put}, ok={res_put.get("ok")}')
+
     print('\n================================================================')
-    print('>>> ALL ADMIN, USER, CATEGORIES & TICKETS TESTS PASSED (100% OK!)')
+    print('>>> ALL ADMIN, USER, CATEGORIES, TICKETS & ROLES TESTS PASSED (100% OK!)')
     print('================================================================')
 
 if __name__ == '__main__':

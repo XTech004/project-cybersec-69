@@ -9,10 +9,13 @@ import { PrismaModule } from './prisma/prisma.module';
 import { TicketModule } from './ticket/ticket.module';
 import { UserModule } from './user/user.module';
 
+import { PermissionsModule } from './permissions/permissions.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     PrismaModule,
+    PermissionsModule,
     AuthModule,
     UserModule,
     CategoryModule,

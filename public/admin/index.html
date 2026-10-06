@@ -23,11 +23,7 @@
       position: relative;
     }
 
-    /* ========================================================
-       ✨ React Bits Components CSS (DavidHDev/react-bits)
-       ======================================================== */
-
-    /* 1. React Bits: Particles Canvas Background */
+    /* ✨ React Bits: Particles Canvas */
     #particlesCanvas {
       position: fixed;
       top: 0;
@@ -36,10 +32,10 @@
       height: 100%;
       pointer-events: none;
       z-index: 0;
-      opacity: 0.45;
+      opacity: 0.4;
     }
 
-    /* 2. React Bits: SpotlightCard */
+    /* ✨ React Bits: SpotlightCard */
     .card-spotlight {
       position: relative;
       overflow: hidden;
@@ -65,7 +61,7 @@
       opacity: 1;
     }
 
-    /* 3. React Bits: ShinyText */
+    /* ✨ React Bits: ShinyText */
     @keyframes shiny-sweep {
       0% { background-position: 200% center; }
       100% { background-position: -200% center; }
@@ -89,27 +85,7 @@
       display: inline-block;
     }
 
-    /* 4. React Bits: BorderGlow */
-    @keyframes border-glow-anim {
-      0% { border-color: rgba(99, 102, 241, 0.35); box-shadow: 0 0 15px rgba(99, 102, 241, 0.15); }
-      50% { border-color: rgba(6, 182, 212, 0.65); box-shadow: 0 0 25px rgba(6, 182, 212, 0.3); }
-      100% { border-color: rgba(99, 102, 241, 0.35); box-shadow: 0 0 15px rgba(99, 102, 241, 0.15); }
-    }
-    .border-glow-active {
-      animation: border-glow-anim 3.5s ease-in-out infinite;
-    }
-
-    /* 5. React Bits: DecryptedText Trigger */
-    .decrypted-text {
-      font-family: inherit;
-      cursor: default;
-      transition: color 0.2s ease;
-    }
-    .decrypted-text:hover {
-      color: #38bdf8;
-    }
-
-    /* 6. React Bits: TiltedCard (3D perspective) */
+    /* ✨ React Bits: TiltedCard */
     .tilted-card {
       transform-style: preserve-3d;
       will-change: transform;
@@ -277,19 +253,6 @@
       padding: 2px 8px;
       border-radius: 6px;
     }
-    .react-bits-badge {
-      font-size: 11px;
-      font-family: 'JetBrains Mono', monospace;
-      background: rgba(6, 182, 212, 0.15);
-      color: #22d3ee;
-      border: 1px solid rgba(6, 182, 212, 0.3);
-      padding: 2px 8px;
-      border-radius: 6px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
 
     .user-profile {
       display: flex;
@@ -305,9 +268,6 @@
       border-radius: 6px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-    }
-    .user-pill.guest {
-      background: #475569;
     }
     .user-email {
       font-size: 13px;
@@ -334,9 +294,9 @@
       border-color: #6366f1;
     }
     .btn-logout {
-      background: transparent;
-      border: 1px solid #475569;
-      color: #94a3b8;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid #ef4444;
+      color: #f87171;
       padding: 6px 14px;
       border-radius: 6px;
       font-size: 12px;
@@ -345,9 +305,8 @@
       transition: all 0.2s;
     }
     .btn-logout:hover {
-      color: #f87171;
-      border-color: #ef4444;
-      background: rgba(239, 68, 68, 0.1);
+      background: #ef4444;
+      color: white;
     }
 
     /* Content Area */
@@ -381,7 +340,7 @@
       gap: 10px;
     }
 
-    /* Metric Cards with React Bits Spotlight & Tilt */
+    /* Metric Cards */
     .metric-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -667,91 +626,115 @@
       margin-top: 8px;
     }
 
-    /* Auth Navigation Tabs inside Modal */
-    .auth-tabs {
+    /* ========================================================
+       🛡️ Strapi-Style Settings: Roles & Permissions Matrix
+       ======================================================== */
+    .rbac-layout {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 4px;
-      background: #0d0e15;
-      padding: 4px;
-      border-radius: 10px;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+    }
+    .role-header-banner {
+      background: #151624;
       border: 1px solid #282a42;
-    }
-    .auth-tab-btn {
-      padding: 8px 6px;
-      border-radius: 6px;
-      border: none;
-      background: transparent;
-      color: #94a3b8;
-      font-size: 11.5px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      text-align: center;
-    }
-    .auth-tab-btn:hover {
-      color: white;
-      background: #1c1d30;
-    }
-    .auth-tab-btn.active {
-      background: #4f46e5;
-      color: white;
-      box-shadow: 0 2px 8px rgba(79, 70, 229, 0.4);
-    }
-
-    /* Sub Tabs */
-    .sub-tabs {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 4px;
-    }
-    .sub-tab-btn {
-      padding: 6px 12px;
-      border-radius: 6px;
-      border: 1px solid #282a42;
-      background: #1c1d30;
-      color: #94a3b8;
-      font-size: 11.5px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .sub-tab-btn.active {
-      background: rgba(99, 102, 241, 0.2);
-      border-color: #6366f1;
-      color: #c7d2fe;
-    }
-
-    .quick-chips {
+      border-radius: 12px;
+      padding: 18px 24px;
       display: flex;
       align-items: center;
-      gap: 6px;
-      flex-wrap: wrap;
-      margin-top: 2px;
+      justify-content: space-between;
+      margin-bottom: 16px;
     }
-    .chip-btn {
-      background: #1c1d30;
-      border: 1px dashed #4338ca;
-      color: #a5b4fc;
-      font-size: 11px;
-      padding: 3px 8px;
+    .role-select-tabs {
+      display: flex;
+      gap: 8px;
+      background: #0d0e15;
+      padding: 4px;
+      border-radius: 8px;
+      border: 1px solid #282a42;
+    }
+    .role-tab-item {
+      padding: 6px 14px;
       border-radius: 6px;
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      font-size: 12px;
+      font-weight: 600;
       cursor: pointer;
-      transition: all 0.15s;
+      transition: all 0.2s;
     }
-    .chip-btn:hover {
-      background: #312e81;
+    .role-tab-item:hover {
+      color: white;
+      background: #1c1d30;
+    }
+    .role-tab-item.active {
+      background: #4f46e5;
       color: white;
     }
 
-    .info-callout {
-      background: rgba(99, 102, 241, 0.1);
-      border: 1px solid rgba(99, 102, 241, 0.25);
-      border-radius: 8px;
-      padding: 10px 12px;
-      font-size: 12px;
-      color: #c7d2fe;
-      line-height: 1.4;
+    .perm-card {
+      background: #151624;
+      border: 1px solid #282a42;
+      border-radius: 12px;
+      margin-bottom: 14px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .perm-card:hover {
+      border-color: #3f4266;
+    }
+    .perm-card-header {
+      padding: 14px 18px;
+      background: #18192c;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #282a42;
+    }
+    .perm-card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .perm-card-sub {
+      font-size: 11px;
+      color: #818cf8;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 400;
+    }
+    .perm-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      padding: 18px;
+      background: #131422;
+    }
+    .perm-chk-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #cbd5e1;
+      cursor: pointer;
+      padding: 6px 10px;
+      background: #18192c;
+      border: 1px solid #282a42;
+      border-radius: 6px;
+      transition: all 0.15s;
+    }
+    .perm-chk-label:hover {
+      background: #202238;
+      border-color: #6366f1;
+      color: white;
+    }
+    .perm-chk-label input {
+      accent-color: #6366f1;
+      width: 15px;
+      height: 15px;
+      cursor: pointer;
     }
 
     .toast {
@@ -790,33 +773,44 @@
 
     <div class="nav-section">COLLECTIONS</div>
     <ul class="nav-list">
-      <li class="nav-item active" onclick="switchTab('tickets', event)">
+      <li class="nav-item active" id="navTickets" onclick="switchMainTab('tickets')">
         <div class="nav-item-left">
           <span>🎫</span>
-          <span class="decrypted-text" onmouseover="decryptElement(this)">Tickets (ตั๋วแจ้งซ่อม)</span>
+          <span>Tickets (ตั๋วแจ้งซ่อม)</span>
         </div>
         <span class="badge-count" id="badgeTickets">0</span>
       </li>
-      <li class="nav-item" onclick="switchTab('categories', event)">
+      <li class="nav-item" id="navCategories" onclick="switchMainTab('categories')">
         <div class="nav-item-left">
           <span>📁</span>
-          <span class="decrypted-text" onmouseover="decryptElement(this)">Categories (หมวดหมู่)</span>
+          <span>Categories (หมวดหมู่)</span>
         </div>
         <span class="badge-count" id="badgeCategories">0</span>
       </li>
-      <li class="nav-item" onclick="switchTab('users', event)">
+      <li class="nav-item" id="navUsers" onclick="switchMainTab('users')">
         <div class="nav-item-left">
           <span>👥</span>
-          <span class="decrypted-text" onmouseover="decryptElement(this)">Users (ผู้ใช้งานระบบ)</span>
+          <span>Users (ผู้ใช้งานระบบ)</span>
         </div>
         <span class="badge-count" id="badgeUsers">4</span>
       </li>
     </ul>
 
+    <div class="nav-section" style="margin-top: 10px;">SETTINGS</div>
+    <ul class="nav-list">
+      <li class="nav-item" id="navRoles" onclick="switchMainTab('roles')">
+        <div class="nav-item-left">
+          <span>🛡️</span>
+          <span style="color: #38bdf8; font-weight: 600;">Roles & Permissions</span>
+        </div>
+        <span class="badge-count" style="background: rgba(56, 189, 248, 0.2); color: #38bdf8;">Strapi</span>
+      </li>
+    </ul>
+
     <div class="sidebar-footer">
-      <a href="https://reactbits.dev" target="_blank" class="ext-btn" title="React Bits Library by DavidHDev">
-        <span style="color: #22d3ee; font-weight: 600;">✨ React Bits UI</span>
-        <span style="font-size:11px; color: #67e8f9;">reactbits.dev ↗</span>
+      <a href="/admin/login.html" class="ext-btn" title="Go to login page">
+        <span>🔐 หน้าต่างเข้าสู่ระบบ</span>
+        <span style="font-size:11px;">login.html ↗</span>
       </a>
       <a href="/api" target="_blank" class="ext-btn">
         <span>📑 Swagger OpenAPI</span>
@@ -826,10 +820,6 @@
         <span>🗄️ Prisma Studio</span>
         <span style="font-size:11px;">:5555 ↗</span>
       </a>
-      <a href="http://localhost:5050" target="_blank" class="ext-btn">
-        <span>🐘 pgAdmin 4</span>
-        <span style="font-size:11px;">:5050 ↗</span>
-      </a>
     </div>
   </aside>
 
@@ -837,23 +827,21 @@
   <div class="main-wrapper">
     <!-- Top Header Bar -->
     <header class="topbar">
-      <!-- Title & Status with React Bits Decrypted & Shiny Text -->
+      <!-- Title & Status -->
       <div class="topbar-brand-info">
         <div class="topbar-title">
           <span>🛡️</span>
-          <span class="decrypted-text shiny-text" id="hdrMainTitle" onmouseover="decryptElement(this)">IT SERVICE DESK MANAGEMENT</span>
-          <span class="topbar-tag">Strapi-Compatible API</span>
-          <span class="react-bits-badge" onclick="triggerReactBitsDemo()">✨ React Bits Enabled</span>
+          <span class="shiny-text">IT SERVICE DESK DASHBOARD</span>
+          <span class="topbar-tag">Strapi RBAC Protected</span>
         </div>
       </div>
 
       <!-- Current Profile & Actions -->
       <div class="user-profile">
-        <span class="user-pill" id="lblUserRole">GUEST</span>
-        <span class="user-email" id="lblUserEmail">ยังไม่ได้เข้าสู่ระบบ</span>
-        <button class="btn-topbar" id="btnOpenAuth" onclick="openAuthModal()">🔐 เข้าสู่ระบบ / สมัคร</button>
-        <button class="btn-topbar" id="btnSync" onclick="refreshData()">🔄 รีเฟรช</button>
-        <button class="btn-logout" id="btnLogout" style="display: none;" onclick="handleLogout()">🚪 ออกจากระบบ</button>
+        <span class="user-pill" id="lblUserRole">ADMIN</span>
+        <span class="user-email" id="lblUserEmail">admin@example.com</span>
+        <button class="btn-topbar" onclick="refreshData()">🔄 รีเฟรช</button>
+        <button class="btn-logout" onclick="handleLogout()">🚪 ออกจากระบบ</button>
       </div>
     </header>
 
@@ -864,7 +852,7 @@
       <section id="viewTickets">
         <div class="view-header">
           <div class="view-title-group">
-            <h2 class="decrypted-text" onmouseover="decryptElement(this)">IT Incident & Service Tickets</h2>
+            <h2>IT Incident & Service Tickets</h2>
             <p>รายการแจ้งซ่อมและคำขอความช่วยเหลือด้านไอทีทั้งหมด</p>
           </div>
           <div class="action-group">
@@ -873,7 +861,7 @@
           </div>
         </div>
 
-        <!-- Metric Cards with React Bits: SpotlightCard & TiltedCard -->
+        <!-- Metric Cards -->
         <div class="metric-grid" style="margin-top: 18px;">
           <div class="metric-card card-spotlight tilted-card">
             <div class="metric-icon" style="background: rgba(99, 102, 241, 0.15); color: #818cf8;">📋</div>
@@ -905,7 +893,7 @@
           </div>
         </div>
 
-        <!-- Filter Bar with React Bits Spotlight -->
+        <!-- Filter Bar -->
         <div class="filter-bar card-spotlight" style="margin-top: 18px;">
           <div class="filter-group">
             <span class="filter-label">ตัวกรองสถานะ:</span>
@@ -955,7 +943,7 @@
       <section id="viewCategories" style="display: none;">
         <div class="view-header">
           <div class="view-title-group">
-            <h2 class="decrypted-text" onmouseover="decryptElement(this)">Incident Categories</h2>
+            <h2>Incident Categories</h2>
             <p>หมวดหมู่การแจ้งซ่อมและปัญหาไอที</p>
           </div>
           <div class="action-group">
@@ -986,8 +974,8 @@
       <section id="viewUsers" style="display: none;">
         <div class="view-header">
           <div class="view-title-group">
-            <h2 class="decrypted-text" onmouseover="decryptElement(this)">System Users & RBAC Roles</h2>
-            <p>รายชื่อผู้ใช้งานและบทบาทในระบบ IT Service Desk</p>
+            <h2>System Users & Assigned Roles</h2>
+            <p>รายชื่อผู้ใช้งานและสิทธิ์บทบาทในระบบ</p>
           </div>
         </div>
 
@@ -1036,188 +1024,140 @@
         </div>
       </section>
 
+      <!-- View 4: ROLES & PERMISSIONS VIEW (Matches Strapi Image 2) -->
+      <section id="viewRoles" style="display: none;">
+        <!-- Top Banner with Role Selector & Save Button -->
+        <div class="role-header-banner">
+          <div>
+            <div style="font-size: 11px; color: #818cf8; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
+              SETTINGS — USERS & PERMISSIONS PLUGIN
+            </div>
+            <div style="display: flex; align-items: baseline; gap: 12px; margin-top: 4px;">
+              <h2 id="lblSelectedRoleName" style="font-size: 24px; font-weight: 700; color: white;">Public</h2>
+              <span id="lblSelectedRoleDesc" style="font-size: 13px; color: #94a3b8;">Default role given to unauthenticated user.</span>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 14px;">
+            <!-- Role Selector Tabs -->
+            <div class="role-select-tabs">
+              <button class="role-tab-item active" id="btnRolePublic" onclick="selectRoleToConfig('public')">Public</button>
+              <button class="role-tab-item" id="btnRoleAuth" onclick="selectRoleToConfig('authenticated')">Authenticated</button>
+              <button class="role-tab-item" id="btnRoleIT" onclick="selectRoleToConfig('it_support')">IT Support</button>
+              <button class="role-tab-item" id="btnRoleAdmin" onclick="selectRoleToConfig('admin')">Admin</button>
+            </div>
+            <button class="btn-primary" style="padding: 8px 20px;" onclick="saveRolePermissions()">
+              💾 Save
+            </button>
+          </div>
+        </div>
+
+        <div class="rbac-layout">
+          <!-- Left: Permissions Matrix Cards -->
+          <div>
+            <div style="font-size: 13px; font-weight: 600; color: #cbd5e1; margin-bottom: 12px;">
+              Permissions <span style="font-size: 12px; color: #64748b; font-weight: 400; margin-left: 6px;">Only actions bound by a route are listed below.</span>
+            </div>
+
+            <!-- Card 1: Category Plugin -->
+            <div class="perm-card">
+              <div class="perm-card-header">
+                <div class="perm-card-title">
+                  <span>Category</span>
+                  <span class="perm-card-sub">Define all allowed actions for the api::category plugin.</span>
+                </div>
+                <button class="btn-act" onclick="toggleSelectAll('category')">Select all</button>
+              </div>
+              <div class="perm-grid">
+                <label class="perm-chk-label"><input type="checkbox" id="chk_category_create" onchange="markDirty()"> create</label>
+                <label class="perm-chk-label"><input type="checkbox" id="chk_category_delete" onchange="markDirty()"> delete</label>
+                <label class="perm-chk-label"><input type="checkbox" id="chk_category_find" onchange="markDirty()"> find</label>
+                <label class="perm-chk-label"><input type="checkbox" id="chk_category_findOne" onchange="markDirty()"> findOne</label>
+                <label class="perm-chk-label"><input type="checkbox" id="chk_category_update" onchange="markDirty()"> update</label>
+              </div>
+            </div>
+
+            <!-- Card 2: Department Plugin -->
+            <div class="perm-card">
+              <div class="perm-card-header">
+                <div class="perm-card-title">
+                  <span>Department</span>
+                  <span class="perm-card-sub">Define all allowed actions for the api::department plugin.</span>
+                </div>
+                <button class="btn-act" onclick="toggleSelectAll('department')">Select all</button>
+              </div>
+              <div class="perm-grid">
+                <label class="perm-chk-label"><input type="checkbox" id="chk_department_create" onchange="markDirty()"> create</label>
+                <label class="perm-chk-label"><input type="checkbox" id="chk_department_delete" onchange="markDirty()"> delete</label>
+                <label class="perm-chk-label"><input type="checkbox" id="chk_department_find" onchange="markDirty()"> find</label>
+                <label class="perm-chk-label"><input type="checkbox" id="chk_department_findOne" onchange="markDirty()"> findOne</label>
+                <label class="perm-chk-label"><input type="checkbox" id="chk_department_update" onchange="markDirty()"> update</label>
+              </div>
+            </div>
+
+            <!-- Card 3: Ticket Plugin -->
+            <div class="perm-card">
+              <div class="perm-card-header">
+                <div class="perm-card-title">
+                  <span>Ticket</span>
+                  <span class="perm-card-sub">Define all allowed actions for the api::ticket plugin.</span>
+                </div>
+                <button class="btn-act" onclick="toggleSelectAll('ticket')">Select all</button>
+              </div>
+              <div class="perm-grid">
+                <label class="perm-chk-label"><input type="checkbox" id="chk_ticket_create" onchange="markDirty()"> create</label>
+                <label class="perm-chk-label"><input type="checkbox" id="chk_ticket_delete" onchange="markDirty()"> delete</label>
+                <label class="perm-chk-label"><input type="checkbox" id="chk_ticket_find" onchange="markDirty()"> find</label>
+                <label class="perm-chk-label"><input type="checkbox" id="chk_ticket_findOne" onchange="markDirty()"> findOne</label>
+                <label class="perm-chk-label"><input type="checkbox" id="chk_ticket_update" onchange="markDirty()"> update</label>
+              </div>
+            </div>
+
+            <!-- Card 4: Ticket-comment Plugin -->
+            <div class="perm-card">
+              <div class="perm-card-header">
+                <div class="perm-card-title">
+                  <span>Ticket-comment</span>
+                  <span class="perm-card-sub">Define all allowed actions for the api::ticket comment plugin.</span>
+                </div>
+                <button class="btn-act" onclick="toggleSelectAll('ticket-comment')">Select all</button>
+              </div>
+              <div class="perm-grid">
+                <label class="perm-chk-label"><input type="checkbox" id="chk_ticket-comment_create" onchange="markDirty()"> create</label>
+                <label class="perm-chk-label"><input type="checkbox" id="chk_ticket-comment_delete" onchange="markDirty()"> delete</label>
+                <label class="perm-chk-label"><input type="checkbox" id="chk_ticket-comment_find" onchange="markDirty()"> find</label>
+                <label class="perm-chk-label"><input type="checkbox" id="chk_ticket-comment_findOne" onchange="markDirty()"> findOne</label>
+                <label class="perm-chk-label"><input type="checkbox" id="chk_ticket-comment_update" onchange="markDirty()"> update</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Advanced Settings & Mappings -->
+          <div>
+            <div style="font-size: 13px; font-weight: 600; color: #cbd5e1; margin-bottom: 12px;">
+              Advanced settings
+            </div>
+            <div style="background: #151624; border: 1px solid #282a42; border-radius: 12px; padding: 18px; font-size: 12.5px; color: #94a3b8; line-height: 1.5;">
+              <p style="margin-bottom: 12px;">
+                Select the application's actions or the plugin's actions and configure granular Role-Based Access Control (RBAC).
+              </p>
+              <div style="border-top: 1px solid #282a42; padding-top: 12px; margin-top: 12px;">
+                <div style="color: #ffffff; font-weight: 600; margin-bottom: 6px;">🔗 Bound Route Mapping:</div>
+                <ul style="list-style: none; display: flex; flex-direction: column; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px;">
+                  <li style="color: #60a5fa;">POST /api/categories ➔ create</li>
+                  <li style="color: #4ade80;">GET /api/categories ➔ find</li>
+                  <li style="color: #4ade80;">GET /api/categories/:id ➔ findOne</li>
+                  <li style="color: #facc15;">PUT /api/categories/:id ➔ update</li>
+                  <li style="color: #f87171;">DELETE /api/categories/:id ➔ delete</li>
+                  <li style="color: #60a5fa;">POST /api/tickets ➔ create</li>
+                  <li style="color: #4ade80;">GET /api/tickets ➔ find</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
     </main>
-  </div>
-
-  <!-- Modal: Authentication (Login / Register / Forgot Password) with React Bits BorderGlow -->
-  <div class="modal-backdrop" id="modalAuth">
-    <div class="modal-box card-spotlight border-glow-active">
-      <div class="modal-header">
-        <div class="modal-title">
-          <span>🔐</span>
-          <span class="shiny-brand">เข้าสู่ระบบ & จัดการบัญชี</span>
-        </div>
-        <button class="modal-close-btn" onclick="closeModal('modalAuth')">✕</button>
-      </div>
-
-      <!-- Auth Main Tabs -->
-      <div class="auth-tabs">
-        <button class="auth-tab-btn active" id="tabBtnAdminLogin" onclick="switchAuthTab('adminLogin')">👑 1.1 Admin</button>
-        <button class="auth-tab-btn" id="tabBtnUserLogin" onclick="switchAuthTab('userLogin')">👤 2.1 User</button>
-        <button class="auth-tab-btn" id="tabBtnRegister" onclick="switchAuthTab('register')">📝 สมัครบัญชี</button>
-        <button class="auth-tab-btn" id="tabBtnForgot" onclick="switchAuthTab('forgot')">🔑 รีเซ็ตรหัส</button>
-      </div>
-
-      <!-- Form 1: Admin Login (1.1) -->
-      <div id="authSecAdminLogin">
-        <div class="info-callout">
-          <strong>1.1 Admin Login:</strong> POST /admin/login<br>
-          ส่ง <code>email</code>, <code>password</code>, <code>rememberMe</code> เพื่อรับ token ใน <code>data.token</code>
-        </div>
-        <div class="form-group" style="margin-top: 10px;">
-          <label>อีเมลผู้ดูแล (Admin Email) *</label>
-          <input type="email" class="form-input" id="inpAdminLoginEmail" value="admin@example.com" placeholder="admin@example.com">
-        </div>
-        <div class="form-group">
-          <label>รหัสผ่าน (Password) *</label>
-          <input type="password" class="form-input" id="inpAdminLoginPass" value="password123" placeholder="password">
-        </div>
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 4px;">
-          <label style="font-size: 12px; color: #94a3b8; display: flex; align-items: center; gap: 6px; cursor: pointer;">
-            <input type="checkbox" id="chkAdminRemember"> จดจำฉันไว้ (rememberMe)
-          </label>
-          <div class="quick-chips">
-            <span style="font-size: 11px; color: #64748b;">ตัวอย่าง:</span>
-            <button class="chip-btn" onclick="fillAdminLogin('admin@example.com', 'password123')">admin@example.com</button>
-            <button class="chip-btn" onclick="fillAdminLogin('admin@servicedesk.local', 'Password123!')">servicedesk.local</button>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="submitAdminLogin()">เข้าสู่ระบบฝั่ง ADMIN 👑</button>
-        </div>
-      </div>
-
-      <!-- Form 2: User Login (2.1) -->
-      <div id="authSecUserLogin" style="display: none;">
-        <div class="info-callout">
-          <strong>2.1 User Login:</strong> POST /api/auth/local<br>
-          ส่ง <code>identifier</code> (อีเมลหรือ Username) และ <code>password</code> เพื่อรับ <code>jwt</code>
-        </div>
-        <div class="form-group" style="margin-top: 10px;">
-          <label>อีเมลหรือชื่อผู้ใช้ (Identifier) *</label>
-          <input type="text" class="form-input" id="inpUserLoginIdent" value="employee@example.com" placeholder="employee@example.com หรือ somchai">
-        </div>
-        <div class="form-group">
-          <label>รหัสผ่าน (Password) *</label>
-          <input type="password" class="form-input" id="inpUserLoginPass" value="password123" placeholder="password">
-        </div>
-        <div class="quick-chips" style="margin-top: 6px;">
-          <span style="font-size: 11px; color: #64748b;">เลือกบัญชีทดสอบ:</span>
-          <button class="chip-btn" onclick="fillUserLogin('employee@example.com', 'password123')">employee@example.com</button>
-          <button class="chip-btn" onclick="fillUserLogin('it@example.com', 'password123')">it@example.com</button>
-          <button class="chip-btn" onclick="fillUserLogin('employee1@servicedesk.local', 'Password123!')">employee1</button>
-        </div>
-        <div class="modal-footer">
-          <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="submitUserLogin()">เข้าสู่ระบบฝั่ง USER 👤</button>
-        </div>
-      </div>
-
-      <!-- Form 3: Register (1.2 Admin Signup & 2.2 User Signup) -->
-      <div id="authSecRegister" style="display: none;">
-        <div class="sub-tabs">
-          <button class="sub-tab-btn active" id="subTabRegUser" onclick="switchRegType('user')">👤 2.2 User Signup</button>
-          <button class="sub-tab-btn" id="subTabRegAdmin" onclick="switchRegType('admin')">👑 1.2 Admin Signup</button>
-        </div>
-
-        <!-- 3A: User Register -->
-        <div id="regUserBox">
-          <div class="info-callout">
-            <strong>2.2 User Signup:</strong> POST /api/auth/local/register<br>
-            สร้างผู้ใช้งานทั่วไป พร้อมรับ <code>jwt</code> ทันที
-          </div>
-          <div class="form-group" style="margin-top: 10px;">
-            <label>ชื่อผู้ใช้งาน (Username) *</label>
-            <input type="text" class="form-input" id="inpRegUsername" placeholder="เช่น somchai_d">
-          </div>
-          <div class="form-group">
-            <label>อีเมล (Email) *</label>
-            <input type="email" class="form-input" id="inpRegUserEmail" placeholder="เช่น somchai@company.com">
-          </div>
-          <div class="form-group">
-            <label>รหัสผ่าน (Password) *</label>
-            <input type="password" class="form-input" id="inpRegUserPass" placeholder="อย่างน้อย 6 ตัวอักษร">
-          </div>
-          <div class="modal-footer">
-            <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="submitUserRegister()">สมัครสมาชิก User 👤</button>
-          </div>
-        </div>
-
-        <!-- 3B: Admin Register -->
-        <div id="regAdminBox" style="display: none;">
-          <div class="info-callout">
-            <strong>1.2 Admin Signup:</strong> POST /admin/register-admin<br>
-            สร้างผู้ดูแลระบบ (Super Admin) ส่ง <code>firstname</code>, <code>lastname</code>, <code>email</code>, <code>password</code>
-          </div>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
-            <div class="form-group">
-              <label>ชื่อ (Firstname) *</label>
-              <input type="text" class="form-input" id="inpAdminRegFirst" placeholder="ชื่อ">
-            </div>
-            <div class="form-group">
-              <label>นามสกุล (Lastname) *</label>
-              <input type="text" class="form-input" id="inpAdminRegLast" placeholder="นามสกุล">
-            </div>
-          </div>
-          <div class="form-group">
-            <label>อีเมลผู้ดูแล (Email) *</label>
-            <input type="email" class="form-input" id="inpAdminRegEmail" placeholder="superadmin@company.com">
-          </div>
-          <div class="form-group">
-            <label>รหัสผ่าน (Password) *</label>
-            <input type="password" class="form-input" id="inpAdminRegPass" placeholder="อย่างน้อย 6 ตัวอักษร">
-          </div>
-          <div class="modal-footer">
-            <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="submitAdminRegister()">สมัครผู้ดูแล Super Admin 👑</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Form 4: Forgot & Reset Password (1.3 / 2.3) -->
-      <div id="authSecForgot" style="display: none;">
-        <div class="sub-tabs">
-          <button class="sub-tab-btn active" id="subTabForgotUser" onclick="switchForgotRole('user')">👤 ฝั่ง User (2.3 / 2.3.1)</button>
-          <button class="sub-tab-btn" id="subTabForgotAdmin" onclick="switchForgotRole('admin')">👑 ฝั่ง Admin (1.3 / 1.3.1)</button>
-        </div>
-
-        <div class="info-callout" id="forgotInfoText">
-          <strong>2.3 User Forgot Password:</strong> POST /api/auth/forgot-password<br>
-          รับ <code>code</code> เพื่อนำไปใช้รีเซ็ตรหัสผ่านใน 2.3.1
-        </div>
-
-        <!-- Step 1: Request Token / Code -->
-        <div style="background: #0d0e15; border: 1px solid #282a42; border-radius: 8px; padding: 12px; margin-top: 10px;">
-          <div style="font-weight: 600; font-size: 12.5px; color: #ffffff; margin-bottom: 8px;">ขั้นตอนที่ 1: ขอรหัสรีเซ็ต (Forgot Password)</div>
-          <div class="form-group">
-            <label>ระบุอีเมลบัญชีของคุณ *</label>
-            <input type="email" class="form-input" id="inpForgotEmail" placeholder="email@example.com">
-          </div>
-          <button class="btn-secondary" style="width: 100%; justify-content: center; margin-top: 8px;" onclick="submitForgotPassword()">
-            📩 ส่งคำขอและรับรหัส Code / Token
-          </button>
-        </div>
-
-        <!-- Step 2: Reset Password with Code -->
-        <div style="background: #0d0e15; border: 1px solid #282a42; border-radius: 8px; padding: 12px; margin-top: 10px;">
-          <div style="font-weight: 600; font-size: 12.5px; color: #ffffff; margin-bottom: 8px;">ขั้นตอนที่ 2: ตั้งรหัสผ่านใหม่ (Reset Password)</div>
-          <div class="form-group">
-            <label>รหัส Token หรือ Code ที่ได้รับ *</label>
-            <input type="text" class="form-input" id="inpResetCode" placeholder="ใส่ code หรือ resetPasswordToken ที่ได้จากข้อ 1">
-          </div>
-          <div class="form-group">
-            <label>รหัสผ่านใหม่ (New Password) *</label>
-            <input type="password" class="form-input" id="inpResetNewPass" placeholder="รหัสผ่านใหม่">
-          </div>
-          <div class="form-group" id="groupPasswordConfirm">
-            <label>ยืนยันรหัสผ่านใหม่ (Password Confirmation) *</label>
-            <input type="password" class="form-input" id="inpResetConfirmPass" placeholder="ยืนยันรหัสผ่านใหม่">
-          </div>
-          <button class="btn-primary" style="width: 100%; justify-content: center; margin-top: 8px;" onclick="submitResetPassword()">
-            🔐 ยืนยันเปลี่ยนรหัสผ่านใหม่
-          </button>
-        </div>
-      </div>
-
-    </div>
   </div>
 
   <!-- Modal: Create Ticket -->
@@ -1301,7 +1241,8 @@
   <script>
     const API_BASE = window.location.origin;
 
-    let currentToken = localStorage.getItem('auth_token') || '';
+    // Security Check: If unauthenticated, redirect immediately to login.html
+    const currentToken = localStorage.getItem('auth_token');
     let currentUser = null;
     try {
       currentUser = JSON.parse(localStorage.getItem('auth_user') || 'null');
@@ -1309,171 +1250,15 @@
       currentUser = null;
     }
 
+    if (!currentToken || !currentUser) {
+      window.location.replace('/admin/login.html');
+    }
+
     let allTickets = [];
     let allCategories = [];
     let activeTicketId = null;
-    let forgotTargetRole = 'user'; // 'user' or 'admin'
-    let regTargetRole = 'user';    // 'user' or 'admin'
-
-    // ========================================================
-    // ✨ React Bits Components Logic (DavidHDev/react-bits)
-    // ========================================================
-
-    // 1. React Bits: DecryptedText Scramble Animation
-    function decryptElement(el, targetText = null, speed = 25) {
-      const text = targetText || el.getAttribute('data-original-text') || el.innerText;
-      if (!el.getAttribute('data-original-text')) {
-        el.setAttribute('data-original-text', text);
-      }
-      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+~{}[]';
-      let iteration = 0;
-      clearInterval(el._decryptedInterval);
-      el._decryptedInterval = setInterval(() => {
-        el.innerText = text
-          .split('')
-          .map((char, index) => {
-            if (char === ' ') return ' ';
-            if (index < iteration) return text[index];
-            return chars[Math.floor(Math.random() * chars.length)];
-          })
-          .join('');
-
-        if (iteration >= text.length) {
-          clearInterval(el._decryptedInterval);
-        }
-        iteration += 1 / 2;
-      }, speed);
-    }
-
-    // 2. React Bits: SpotlightCard Mouse Tracking
-    function initSpotlightCards() {
-      document.querySelectorAll('.card-spotlight').forEach(card => {
-        card.addEventListener('mousemove', e => {
-          const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-          card.style.setProperty('--mouse-x', `${x}px`);
-          card.style.setProperty('--mouse-y', `${y}px`);
-        });
-      });
-    }
-
-    // 3. React Bits: TiltedCard 3D Physics
-    function initTiltedCards() {
-      document.querySelectorAll('.tilted-card').forEach(card => {
-        card.addEventListener('mousemove', e => {
-          const rect = card.getBoundingClientRect();
-          const x = (e.clientX - rect.left) / rect.width - 0.5;
-          const y = (e.clientY - rect.top) / rect.height - 0.5;
-          card.style.transform = `perspective(600px) rotateX(${-y * 12}deg) rotateY(${x * 12}deg) translateY(-3px)`;
-        });
-        card.addEventListener('mouseleave', () => {
-          card.style.transform = 'perspective(600px) rotateX(0deg) rotateY(0deg) translateY(0px)';
-        });
-      });
-    }
-
-    // 4. React Bits: Interactive Particles Canvas
-    function initParticlesCanvas() {
-      const canvas = document.getElementById('particlesCanvas');
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
-      let width = canvas.width = window.innerWidth;
-      let height = canvas.height = window.innerHeight;
-
-      window.addEventListener('resize', () => {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
-      });
-
-      const particles = [];
-      const particleCount = 45;
-      for (let i = 0; i < particleCount; i++) {
-        particles.push({
-          x: Math.random() * width,
-          y: Math.random() * height,
-          vx: (Math.random() - 0.5) * 0.45,
-          vy: (Math.random() - 0.5) * 0.45,
-          size: Math.random() * 2 + 1,
-        });
-      }
-
-      let mouse = { x: -1000, y: -1000 };
-      window.addEventListener('mousemove', e => {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
-      });
-
-      function render() {
-        ctx.clearRect(0, 0, width, height);
-
-        for (let i = 0; i < particles.length; i++) {
-          const p = particles[i];
-          p.x += p.vx;
-          p.y += p.vy;
-
-          if (p.x < 0) p.x = width;
-          if (p.x > width) p.x = 0;
-          if (p.y < 0) p.y = height;
-          if (p.y > height) p.y = 0;
-
-          // Connect to cursor
-          const dxm = mouse.x - p.x;
-          const dym = mouse.y - p.y;
-          const distM = Math.sqrt(dxm * dxm + dym * dym);
-          if (distM < 130) {
-            ctx.strokeStyle = `rgba(99, 102, 241, ${0.4 * (1 - distM / 130)})`;
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(mouse.x, mouse.y);
-            ctx.stroke();
-          }
-
-          // Connect to nearby particles
-          for (let j = i + 1; j < particles.length; j++) {
-            const p2 = particles[j];
-            const dx = p.x - p2.x;
-            const dy = p.y - p2.y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < 110) {
-              ctx.strokeStyle = `rgba(99, 102, 241, ${0.2 * (1 - dist / 110)})`;
-              ctx.lineWidth = 0.8;
-              ctx.beginPath();
-              ctx.moveTo(p.x, p.y);
-              ctx.lineTo(p2.x, p2.y);
-              ctx.stroke();
-            }
-          }
-
-          ctx.fillStyle = 'rgba(129, 140, 248, 0.5)';
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-          ctx.fill();
-        }
-        requestAnimationFrame(render);
-      }
-      render();
-    }
-
-    function triggerReactBitsDemo() {
-      const titles = document.querySelectorAll('.decrypted-text');
-      titles.forEach(t => decryptElement(t));
-      showToast('✨ React Bits: DecryptedText & Spotlight FX Triggered!');
-    }
-
-    // --- Modal Helpers ---
-    function openModal(id) {
-      document.getElementById(id).classList.add('active');
-    }
-
-    function closeModal(id) {
-      document.getElementById(id).classList.remove('active');
-    }
-
-    function openAuthModal() {
-      openModal('modalAuth');
-    }
+    let selectedConfigRoleId = 'public';
+    let currentRolePermissionsData = null;
 
     function showToast(msg, isError = false) {
       const t = document.getElementById('toastMsg');
@@ -1483,311 +1268,146 @@
       setTimeout(() => { t.style.display = 'none'; }, 2800);
     }
 
-    // --- Tab Switching ---
-    function switchTab(tab, event) {
-      document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-      if (event && event.currentTarget) {
-        event.currentTarget.classList.add('active');
-      }
-
-      document.getElementById('viewTickets').style.display = tab === 'tickets' ? 'block' : 'none';
-      document.getElementById('viewCategories').style.display = tab === 'categories' ? 'block' : 'none';
-      document.getElementById('viewUsers').style.display = tab === 'users' ? 'block' : 'none';
+    function openModal(id) {
+      document.getElementById(id).classList.add('active');
     }
 
-    function switchAuthTab(tab) {
-      const tabs = ['adminLogin', 'userLogin', 'register', 'forgot'];
-      tabs.forEach(t => {
-        const btn = document.getElementById(`tabBtn${t.charAt(0).toUpperCase() + t.slice(1)}`);
-        const sec = document.getElementById(`authSec${t.charAt(0).toUpperCase() + t.slice(1)}`);
-        if (btn) btn.classList.remove('active');
-        if (sec) sec.style.display = 'none';
-      });
-
-      const activeBtn = document.getElementById(`tabBtn${tab.charAt(0).toUpperCase() + tab.slice(1)}`);
-      const activeSec = document.getElementById(`authSec${tab.charAt(0).toUpperCase() + tab.slice(1)}`);
-      if (activeBtn) activeBtn.classList.add('active');
-      if (activeSec) activeSec.style.display = 'block';
-    }
-
-    function switchRegType(type) {
-      regTargetRole = type;
-      document.getElementById('subTabRegUser').classList.toggle('active', type === 'user');
-      document.getElementById('subTabRegAdmin').classList.toggle('active', type === 'admin');
-      document.getElementById('regUserBox').style.display = type === 'user' ? 'block' : 'none';
-      document.getElementById('regAdminBox').style.display = type === 'admin' ? 'block' : 'none';
-    }
-
-    function switchForgotRole(role) {
-      forgotTargetRole = role;
-      document.getElementById('subTabForgotUser').classList.toggle('active', role === 'user');
-      document.getElementById('subTabForgotAdmin').classList.toggle('active', role === 'admin');
-      
-      const infoText = document.getElementById('forgotInfoText');
-      const confirmGroup = document.getElementById('groupPasswordConfirm');
-      if (role === 'user') {
-        infoText.innerHTML = '<strong>2.3 User Forgot Password:</strong> POST /api/auth/forgot-password<br>รับ <code>code</code> เพื่อนำไปใช้รีเซ็ตรหัสผ่านใน 2.3.1';
-        confirmGroup.style.display = 'flex';
-      } else {
-        infoText.innerHTML = '<strong>1.3 Admin Forgot Password:</strong> POST /admin/forgot-password<br>รับ <code>resetPasswordToken</code> เพื่อนำไปใช้รีเซ็ตรหัสผ่านใน 1.3.1';
-        confirmGroup.style.display = 'none';
-      }
-    }
-
-    // --- Fill Helpers ---
-    function fillAdminLogin(email, pass) {
-      document.getElementById('inpAdminLoginEmail').value = email;
-      document.getElementById('inpAdminLoginPass').value = pass;
-    }
-
-    function fillUserLogin(ident, pass) {
-      document.getElementById('inpUserLoginIdent').value = ident;
-      document.getElementById('inpUserLoginPass').value = pass;
-    }
-
-    // --- Auth API Actions ---
-    function updateAuthState(token, user) {
-      currentToken = token;
-      currentUser = user;
-      localStorage.setItem('auth_token', token);
-      localStorage.setItem('auth_user', JSON.stringify(user));
-
-      if (token && user) {
-        document.getElementById('lblUserRole').textContent = user.role || 'USER';
-        document.getElementById('lblUserRole').classList.remove('guest');
-        document.getElementById('lblUserEmail').textContent = user.email || user.username || 'User';
-        document.getElementById('btnOpenAuth').style.display = 'none';
-        document.getElementById('btnLogout').style.display = 'inline-block';
-      } else {
-        document.getElementById('lblUserRole').textContent = 'GUEST';
-        document.getElementById('lblUserRole').classList.add('guest');
-        document.getElementById('lblUserEmail').textContent = 'ยังไม่ได้เข้าสู่ระบบ';
-        document.getElementById('btnOpenAuth').style.display = 'inline-block';
-        document.getElementById('btnLogout').style.display = 'none';
-      }
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
     }
 
     function handleLogout() {
       localStorage.removeItem('auth_token');
       localStorage.removeItem('auth_user');
-      currentToken = '';
-      currentUser = null;
-      updateAuthState('', null);
-      showToast('ออกจากระบบเรียบร้อยแล้ว');
-      openAuthModal();
+      window.location.replace('/admin/login.html');
     }
 
-    // 1.1 Admin Login
-    async function submitAdminLogin() {
-      const email = document.getElementById('inpAdminLoginEmail').value.trim();
-      const password = document.getElementById('inpAdminLoginPass').value;
-      const rememberMe = document.getElementById('chkAdminRemember').checked;
+    function switchMainTab(tab) {
+      ['tickets', 'categories', 'users', 'roles'].forEach(t => {
+        const nav = document.getElementById(`nav${t.charAt(0).toUpperCase() + t.slice(1)}`);
+        const view = document.getElementById(`view${t.charAt(0).toUpperCase() + t.slice(1)}`);
+        if (nav) nav.classList.remove('active');
+        if (view) view.style.display = 'none';
+      });
 
-      if (!email || !password) return showToast('กรุณากรอกอีเมลและรหัสผ่าน', true);
+      const activeNav = document.getElementById(`nav${tab.charAt(0).toUpperCase() + tab.slice(1)}`);
+      const activeView = document.getElementById(`view${tab.charAt(0).toUpperCase() + tab.slice(1)}`);
+      if (activeNav) activeNav.classList.add('active');
+      if (activeView) activeView.style.display = 'block';
 
-      try {
-        const res = await fetch(`${API_BASE}/admin/login`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password, rememberMe })
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.message || 'Login failed');
-
-        const token = data.data?.token || data.access_token || data.jwt;
-        const user = data.data?.user || data.user;
-        updateAuthState(token, user);
-        closeModal('modalAuth');
-        showToast('เข้าสู่ระบบ ADMIN สำเร็จ!');
-        refreshData();
-      } catch (err) {
-        showToast(err.message, true);
+      if (tab === 'roles') {
+        selectRoleToConfig('public');
       }
     }
 
-    // 2.1 User Login
-    async function submitUserLogin() {
-      const identifier = document.getElementById('inpUserLoginIdent').value.trim();
-      const password = document.getElementById('inpUserLoginPass').value;
+    // --- Strapi Roles & Permissions Configuration ---
+    async function selectRoleToConfig(roleId) {
+      selectedConfigRoleId = roleId;
+      ['Public', 'Auth', 'IT', 'Admin'].forEach(r => {
+        const btn = document.getElementById(`btnRole${r}`);
+        if (btn) btn.classList.remove('active');
+      });
 
-      if (!identifier || !password) return showToast('กรุณากรอกอีเมล/Username และรหัสผ่าน', true);
-
-      try {
-        const res = await fetch(`${API_BASE}/api/auth/local`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ identifier, password })
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.message || 'Login failed');
-
-        const token = data.jwt || data.access_token;
-        const user = data.user;
-        updateAuthState(token, user);
-        closeModal('modalAuth');
-        showToast(`เข้าสู่ระบบสำเร็จในฐานะ ${user.role}!`);
-        refreshData();
-      } catch (err) {
-        showToast(err.message, true);
-      }
-    }
-
-    // 2.2 User Register
-    async function submitUserRegister() {
-      const username = document.getElementById('inpRegUsername').value.trim();
-      const email = document.getElementById('inpRegUserEmail').value.trim();
-      const password = document.getElementById('inpRegUserPass').value;
-
-      if (!username || !email || !password) return showToast('กรุณากรอกข้อมูลให้ครบถ้วน', true);
+      if (roleId === 'public') document.getElementById('btnRolePublic').classList.add('active');
+      if (roleId === 'authenticated') document.getElementById('btnRoleAuth').classList.add('active');
+      if (roleId === 'it_support') document.getElementById('btnRoleIT').classList.add('active');
+      if (roleId === 'admin') document.getElementById('btnRoleAdmin').classList.add('active');
 
       try {
-        const res = await fetch(`${API_BASE}/api/auth/local/register`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username, email, password })
-        });
+        const res = await fetch(`${API_BASE}/api/users-permissions/roles/${roleId}`);
         const data = await res.json();
-        if (!res.ok) throw new Error(data.message || 'Signup failed');
+        currentRolePermissionsData = data.role;
 
-        const token = data.jwt || data.access_token;
-        const user = data.user;
-        updateAuthState(token, user);
-        closeModal('modalAuth');
-        showToast('สมัครสมาชิกสำเร็จและเข้าสู่ระบบเรียบร้อย!');
-        refreshData();
-      } catch (err) {
-        showToast(err.message, true);
-      }
-    }
+        document.getElementById('lblSelectedRoleName').textContent = data.role.name;
+        document.getElementById('lblSelectedRoleDesc').textContent = data.role.description;
 
-    // 1.2 Admin Register
-    async function submitAdminRegister() {
-      const firstname = document.getElementById('inpAdminRegFirst').value.trim();
-      const lastname = document.getElementById('inpAdminRegLast').value.trim();
-      const email = document.getElementById('inpAdminRegEmail').value.trim();
-      const password = document.getElementById('inpAdminRegPass').value;
-
-      if (!firstname || !lastname || !email || !password) return showToast('กรุณากรอกข้อมูลให้ครบถ้วน', true);
-
-      try {
-        const res = await fetch(`${API_BASE}/admin/register-admin`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ firstname, lastname, email, password })
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.message || 'Signup failed');
-
-        const token = data.data?.token || data.access_token;
-        const user = data.data?.user || data.user;
-        updateAuthState(token, user);
-        closeModal('modalAuth');
-        showToast('สร้าง Super Admin สำเร็จและเข้าสู่ระบบแล้ว!');
-        refreshData();
-      } catch (err) {
-        showToast(err.message, true);
-      }
-    }
-
-    // 1.3 / 2.3 Forgot Password
-    async function submitForgotPassword() {
-      const email = document.getElementById('inpForgotEmail').value.trim();
-      if (!email) return showToast('กรุณากรอกอีเมล', true);
-
-      const endpoint = forgotTargetRole === 'admin' ? `${API_BASE}/admin/forgot-password` : `${API_BASE}/api/auth/forgot-password`;
-      try {
-        const res = await fetch(endpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email })
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.message || 'Forgot password failed');
-
-        const receivedCode = data.code || data.resetPasswordToken;
-        document.getElementById('inpResetCode').value = receivedCode || '';
-        showToast(`สร้างรหัสรีเซ็ตสำเร็จ: ${receivedCode}`);
-      } catch (err) {
-        showToast(err.message, true);
-      }
-    }
-
-    // 1.3.1 / 2.3.1 Reset Password
-    async function submitResetPassword() {
-      const codeOrToken = document.getElementById('inpResetCode').value.trim();
-      const password = document.getElementById('inpResetNewPass').value;
-      const passwordConfirmation = document.getElementById('inpResetConfirmPass').value;
-
-      if (!codeOrToken || !password) return showToast('กรุณากรอก Code และรหัสผ่านใหม่', true);
-
-      if (forgotTargetRole === 'user') {
-        if (password !== passwordConfirmation) return showToast('รหัสผ่านและการยืนยันไม่ตรงกัน', true);
-        try {
-          const res = await fetch(`${API_BASE}/api/auth/reset-password`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ code: codeOrToken, password, passwordConfirmation })
+        // Populate checkboxes
+        const perms = data.role.permissions;
+        ['category', 'department', 'ticket', 'ticket-comment'].forEach(plugin => {
+          ['create', 'delete', 'find', 'findOne', 'update'].forEach(act => {
+            const chk = document.getElementById(`chk_${plugin}_${act}`);
+            if (chk) {
+              chk.checked = !!perms[plugin]?.[act];
+            }
           });
-          const data = await res.json();
-          if (!res.ok) throw new Error(data.message || 'Reset failed');
+        });
+      } catch (err) {
+        console.error(err);
+      }
+    }
 
-          const token = data.jwt || data.access_token;
-          const user = data.user;
-          updateAuthState(token, user);
-          closeModal('modalAuth');
-          showToast('รีเซ็ตรหัสผ่านสำเร็จและเข้าสู่ระบบเรียบร้อย!');
-          refreshData();
-        } catch (err) {
-          showToast(err.message, true);
-        }
-      } else {
-        try {
-          const res = await fetch(`${API_BASE}/admin/reset-password`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ resetPasswordToken: codeOrToken, password })
-          });
-          const data = await res.json();
-          if (!res.ok) throw new Error(data.message || 'Reset failed');
+    function toggleSelectAll(plugin) {
+      const acts = ['create', 'delete', 'find', 'findOne', 'update'];
+      const allChecked = acts.every(act => {
+        const el = document.getElementById(`chk_${plugin}_${act}`);
+        return el ? el.checked : false;
+      });
 
-          showToast('รีเซ็ตรหัสผ่าน Admin สำเร็จ! กรุณา Login ด้วยรหัสผ่านใหม่');
-          switchAuthTab('adminLogin');
-          document.getElementById('inpAdminLoginPass').value = password;
-        } catch (err) {
-          showToast(err.message, true);
-        }
+      acts.forEach(act => {
+        const el = document.getElementById(`chk_${plugin}_${act}`);
+        if (el) el.checked = !allChecked;
+      });
+      markDirty();
+    }
+
+    function markDirty() {
+      // User changed checkbox
+    }
+
+    async function saveRolePermissions() {
+      const updatedPermissions = {
+        category: {},
+        department: {},
+        ticket: {},
+        'ticket-comment': {},
+      };
+
+      ['category', 'department', 'ticket', 'ticket-comment'].forEach(plugin => {
+        ['create', 'delete', 'find', 'findOne', 'update'].forEach(act => {
+          const chk = document.getElementById(`chk_${plugin}_${act}`);
+          updatedPermissions[plugin][act] = chk ? chk.checked : false;
+        });
+      });
+
+      try {
+        const res = await fetch(`${API_BASE}/api/users-permissions/roles/${selectedConfigRoleId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${currentToken}`
+          },
+          body: JSON.stringify({
+            permissions: updatedPermissions
+          })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'บันทึกไม่สำเร็จ (ต้องเป็น ADMIN)');
+
+        showToast(`บันทึกสิทธิ์ Role: ${data.role.name} สำเร็จ!`);
+      } catch (err) {
+        showToast(err.message, true);
       }
     }
 
     // --- Data Loaders ---
     async function refreshData() {
-      if (!currentToken) {
-        openAuthModal();
-        return;
-      }
       await loadCategories();
       await loadTickets();
     }
 
     async function loadCategories() {
-      if (!currentToken) return;
       try {
         const res = await fetch(`${API_BASE}/api/categories`, {
           headers: { 'Authorization': `Bearer ${currentToken}` }
         });
-        if (res.status === 401) {
-          handleLogout();
-          return;
-        }
+        if (res.status === 401) return handleLogout();
         allCategories = await res.json();
         document.getElementById('badgeCategories').textContent = Array.isArray(allCategories) ? allCategories.length : 0;
         
-        // Populate Select
         const catSelect = document.getElementById('inpTicketCategory');
         if (Array.isArray(allCategories)) {
           catSelect.innerHTML = allCategories.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
 
-          // Populate Table
           const tbody = document.getElementById('tblCategoriesBody');
           tbody.innerHTML = allCategories.map(c => `
             <tr>
@@ -1803,15 +1423,11 @@
     }
 
     async function loadTickets() {
-      if (!currentToken) return;
       try {
         const res = await fetch(`${API_BASE}/api/tickets`, {
           headers: { 'Authorization': `Bearer ${currentToken}` }
         });
-        if (res.status === 401) {
-          handleLogout();
-          return;
-        }
+        if (res.status === 401) return handleLogout();
         allTickets = await res.json();
         if (Array.isArray(allTickets)) {
           document.getElementById('badgeTickets').textContent = allTickets.length;
@@ -1892,7 +1508,6 @@
     }
 
     async function changeTicketStatus(id, newStatus) {
-      if (!currentToken) return openAuthModal();
       try {
         const res = await fetch(`${API_BASE}/api/tickets/${id}`, {
           method: 'PUT',
@@ -1911,7 +1526,6 @@
     }
 
     function openCreateTicketModal() {
-      if (!currentToken) return openAuthModal();
       document.getElementById('inpTicketTitle').value = '';
       document.getElementById('inpTicketDesc').value = '';
       openModal('modalCreateTicket');
@@ -1944,7 +1558,6 @@
     }
 
     function openCreateCategoryModal() {
-      if (!currentToken) return openAuthModal();
       document.getElementById('inpCatName').value = '';
       document.getElementById('inpCatDesc').value = '';
       openModal('modalCreateCategory');
@@ -1974,7 +1587,6 @@
     }
 
     function openCommentsModal(ticketId) {
-      if (!currentToken) return openAuthModal();
       activeTicketId = ticketId;
       const t = allTickets.find(x => x.id === ticketId);
       document.getElementById('lblCommentTicketTitle').textContent = `💬 ความคิดเห็น: ${t?.title || ''}`;
@@ -2022,25 +1634,61 @@
       }
     }
 
-    // --- Verify Existing Session or Open Modal on Boot ---
-    window.addEventListener('DOMContentLoaded', async () => {
-      // 1. Initialize React Bits components
-      initSpotlightCards();
-      initTiltedCards();
-      initParticlesCanvas();
-
-      // Trigger initial DecryptedText animation
-      const mainTitle = document.getElementById('hdrMainTitle');
-      if (mainTitle) decryptElement(mainTitle);
-
-      // 2. Auth Session Check
-      if (currentToken && currentUser) {
-        updateAuthState(currentToken, currentUser);
-        refreshData();
-      } else {
-        updateAuthState('', null);
-        openAuthModal();
+    // Startup Initialization
+    window.addEventListener('DOMContentLoaded', () => {
+      // Set User Profile Bar
+      if (currentUser) {
+        document.getElementById('lblUserRole').textContent = currentUser.role || 'USER';
+        document.getElementById('lblUserEmail').textContent = currentUser.email || currentUser.username || 'User';
       }
+
+      // Spotlight Cards
+      document.querySelectorAll('.card-spotlight').forEach(card => {
+        card.addEventListener('mousemove', e => {
+          const rect = card.getBoundingClientRect();
+          card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+          card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+        });
+      });
+
+      // Particles Canvas
+      const canvas = document.getElementById('particlesCanvas');
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let w = canvas.width = window.innerWidth;
+        let h = canvas.height = window.innerHeight;
+        window.addEventListener('resize', () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; });
+
+        const parts = [];
+        for (let i = 0; i < 40; i++) {
+          parts.push({ x: Math.random() * w, y: Math.random() * h, vx: (Math.random() - 0.5) * 0.4, vy: (Math.random() - 0.5) * 0.4, r: Math.random() * 2 + 1 });
+        }
+
+        let m = { x: -1000, y: -1000 };
+        window.addEventListener('mousemove', e => { m.x = e.clientX; m.y = e.clientY; });
+
+        function anim() {
+          ctx.clearRect(0, 0, w, h);
+          parts.forEach(p => {
+            p.x += p.vx; p.y += p.vy;
+            if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
+            if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
+
+            const dm = Math.hypot(m.x - p.x, m.y - p.y);
+            if (dm < 120) {
+              ctx.strokeStyle = `rgba(99, 102, 241, ${0.4 * (1 - dm / 120)})`;
+              ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(m.x, m.y); ctx.stroke();
+            }
+
+            ctx.fillStyle = 'rgba(129, 140, 248, 0.45)';
+            ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+          });
+          requestAnimationFrame(anim);
+        }
+        anim();
+      }
+
+      refreshData();
     });
   </script>
 </body>

@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Redirect } from '@nestjs/common';
 import { ApiExcludeEndpoint } from '@nestjs/swagger';
 import { AppService } from './app.service';
 
@@ -10,5 +10,12 @@ export class AppController {
   @ApiExcludeEndpoint()
   getInfo() {
     return this.appService.getInfo();
+  }
+
+  @Get('login')
+  @ApiExcludeEndpoint()
+  @Redirect('/admin/login.html', 302)
+  login() {
+    return { url: '/admin/login.html' };
   }
 }
