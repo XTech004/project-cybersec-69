@@ -3,171 +3,142 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IT Service Desk - Content & Incident Manager (project-cybersec-69)</title>
+  <title>IT Service Desk - Management Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Prompt:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Prompt:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --bg-body: #0b0f19;
+      --bg-surface: #111827;
+      --bg-surface-elevated: #161f33;
+      --bg-sidebar: #0e1524;
+      --border-subtle: #1e293b;
+      --border-focus: #3b82f6;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-subtle: #64748b;
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --accent: #0ea5e9;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
+
     body {
-      font-family: 'Inter', 'Prompt', sans-serif;
-      background-color: #0d0e15;
-      color: #e2e8f0;
+      font-family: 'Inter', 'Prompt', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-body);
+      color: var(--text-main);
       display: flex;
       height: 100vh;
       overflow: hidden;
-      position: relative;
+      font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* ✨ React Bits: Particles Canvas */
-    #particlesCanvas {
+    /* Subtle ambient background glow (soft, static, soothing) */
+    .ambient-glow {
       position: fixed;
       top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      right: 15%;
+      width: 500px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(79, 70, 229, 0.05) 0%, transparent 70%);
       pointer-events: none;
       z-index: 0;
-      opacity: 0.4;
     }
 
-    /* ✨ React Bits: SpotlightCard */
-    .card-spotlight {
-      position: relative;
-      overflow: hidden;
-      --mouse-x: 50%;
-      --mouse-y: 50%;
-      --spotlight-color: rgba(99, 102, 241, 0.18);
-      transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
-    }
-    .card-spotlight::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: radial-gradient(circle 200px at var(--mouse-x) var(--mouse-y), var(--spotlight-color), transparent 80%);
-      opacity: 0;
-      transition: opacity 0.4s ease;
-      pointer-events: none;
-      z-index: 1;
-    }
-    .card-spotlight:hover::before {
-      opacity: 1;
-    }
-
-    /* ✨ React Bits: ShinyText */
-    @keyframes shiny-sweep {
-      0% { background-position: 200% center; }
-      100% { background-position: -200% center; }
-    }
-    .shiny-text {
-      background: linear-gradient(120deg, #94a3b8 0%, #cbd5e1 30%, #ffffff 50%, #cbd5e1 70%, #94a3b8 100%);
-      background-size: 200% auto;
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: shiny-sweep 4s linear infinite;
-      display: inline-block;
-    }
-    .shiny-brand {
-      background: linear-gradient(120deg, #818cf8 0%, #c7d2fe 30%, #ffffff 50%, #38bdf8 70%, #818cf8 100%);
-      background-size: 200% auto;
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: shiny-sweep 3.5s linear infinite;
-      display: inline-block;
-    }
-
-    /* ✨ React Bits: TiltedCard */
-    .tilted-card {
-      transform-style: preserve-3d;
-      will-change: transform;
-      transition: transform 0.15s ease-out;
-    }
-
-    /* Sidebar */
+    /* ========================================================
+       Sidebar (Clean, Minimalist, Comfortable)
+       ======================================================== */
     .sidebar {
-      width: 260px;
-      background: #141422;
-      border-right: 1px solid #282a42;
+      width: 250px;
+      background: var(--bg-sidebar);
+      border-right: 1px solid var(--border-subtle);
       display: flex;
       flex-direction: column;
       flex-shrink: 0;
       z-index: 10;
-      position: relative;
+      user-select: none;
     }
+
     .sidebar-header {
-      padding: 20px;
+      padding: 22px 20px;
       display: flex;
       align-items: center;
       gap: 12px;
-      border-bottom: 1px solid #282a42;
+      border-bottom: 1px solid var(--border-subtle);
     }
     .brand-icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
-      box-shadow: 0 4px 16px rgba(79, 70, 229, 0.5);
+      font-size: 18px;
+      box-shadow: 0 2px 8px rgba(79, 70, 229, 0.25);
+    }
+    .brand-info {
+      display: flex;
+      flex-direction: column;
     }
     .brand-title {
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 700;
       color: #ffffff;
-      line-height: 1.2;
+      letter-spacing: -0.2px;
     }
     .brand-sub {
       font-size: 11px;
-      color: #06b6d4;
+      color: var(--text-subtle);
       font-family: 'JetBrains Mono', monospace;
     }
 
     .nav-section {
-      padding: 16px 14px 6px;
+      padding: 20px 18px 8px;
       font-size: 11px;
-      font-weight: 700;
+      font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: #64748b;
+      letter-spacing: 0.6px;
+      color: var(--text-subtle);
     }
     .nav-list {
       list-style: none;
       padding: 0 10px;
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 3px;
     }
     .nav-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 10px 14px;
-      border-radius: 8px;
+      padding: 9px 12px;
+      border-radius: var(--radius-sm);
       cursor: pointer;
-      color: #94a3b8;
-      font-size: 13.5px;
+      color: var(--text-muted);
+      font-size: 13px;
       font-weight: 500;
-      transition: all 0.2s;
+      transition: all 0.15s ease;
     }
     .nav-item:hover {
-      background: #1c1d30;
-      color: #f1f5f9;
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-main);
     }
     .nav-item.active {
-      background: #25263d;
+      background: var(--bg-surface-elevated);
       color: #ffffff;
-      border-left: 3px solid #6366f1;
+      font-weight: 600;
+      border: 1px solid var(--border-subtle);
     }
     .nav-item-left {
       display: flex;
@@ -175,145 +146,144 @@
       gap: 10px;
     }
     .badge-count {
-      background: #282a42;
-      color: #94a3b8;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-muted);
       font-size: 11px;
-      padding: 2px 7px;
-      border-radius: 12px;
+      padding: 1px 7px;
+      border-radius: 10px;
+      font-weight: 500;
+    }
+    .badge-count.strapi-tag {
+      background: rgba(14, 165, 233, 0.12);
+      color: #38bdf8;
       font-weight: 600;
     }
 
     .sidebar-footer {
       margin-top: auto;
-      padding: 14px;
-      border-top: 1px solid #282a42;
+      padding: 16px;
+      border-top: 1px solid var(--border-subtle);
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
     }
-    .ext-btn {
+    .footer-links {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 9px 12px;
-      background: #1c1d30;
-      border: 1px solid #282a42;
-      border-radius: 8px;
-      color: #cbd5e1;
+      padding: 6px 8px;
+      border-radius: var(--radius-sm);
+      color: var(--text-subtle);
       font-size: 12px;
       text-decoration: none;
-      transition: all 0.2s;
+      transition: all 0.15s ease;
     }
-    .ext-btn:hover {
-      background: #25263d;
-      color: #ffffff;
-      border-color: #6366f1;
+    .footer-links:hover {
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-muted);
     }
 
-    /* Main Container */
+    /* ========================================================
+       Main Content Layout
+       ======================================================== */
     .main-wrapper {
       flex: 1;
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      z-index: 10;
       position: relative;
+      z-index: 5;
     }
 
-    /* Header Bar */
+    /* Topbar */
     .topbar {
-      height: 64px;
-      background: #141422;
-      border-bottom: 1px solid #282a42;
+      height: 58px;
+      background: var(--bg-sidebar);
+      border-bottom: 1px solid var(--border-subtle);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 24px;
+      padding: 0 28px;
       flex-shrink: 0;
     }
-    .topbar-brand-info {
+    .topbar-left {
       display: flex;
       align-items: center;
       gap: 12px;
     }
-    .topbar-title {
-      font-size: 15px;
-      font-weight: 700;
-      color: #ffffff;
+    .topbar-breadcrumb {
+      font-size: 13px;
+      color: var(--text-muted);
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
-    .topbar-tag {
-      font-size: 11px;
-      font-family: 'JetBrains Mono', monospace;
-      background: rgba(99, 102, 241, 0.15);
-      color: #818cf8;
-      border: 1px solid rgba(99, 102, 241, 0.3);
-      padding: 2px 8px;
-      border-radius: 6px;
+    .topbar-breadcrumb span.active {
+      color: var(--text-main);
+      font-weight: 600;
     }
 
-    .user-profile {
+    .topbar-right {
       display: flex;
       align-items: center;
       gap: 12px;
     }
     .user-pill {
-      background: #4f46e5;
-      color: #ffffff;
+      background: rgba(79, 70, 229, 0.15);
+      border: 1px solid rgba(79, 70, 229, 0.35);
+      color: #a5b4fc;
       font-size: 11px;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 6px;
-      text-transform: uppercase;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
       letter-spacing: 0.5px;
     }
     .user-email {
-      font-size: 13px;
-      color: #cbd5e1;
+      font-size: 12.5px;
+      color: var(--text-muted);
       font-weight: 500;
     }
+
     .btn-topbar {
-      background: #1c1d30;
-      border: 1px solid #282a42;
-      color: #cbd5e1;
-      padding: 6px 14px;
-      border-radius: 6px;
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 500;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.15s ease;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
     }
     .btn-topbar:hover {
-      background: #25263d;
-      color: #ffffff;
-      border-color: #6366f1;
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-main);
+      border-color: #334155;
     }
     .btn-logout {
-      background: rgba(239, 68, 68, 0.1);
-      border: 1px solid #ef4444;
+      background: transparent;
+      border: 1px solid rgba(239, 68, 68, 0.25);
       color: #f87171;
-      padding: 6px 14px;
-      border-radius: 6px;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 500;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.15s ease;
     }
     .btn-logout:hover {
-      background: #ef4444;
-      color: white;
+      background: rgba(239, 68, 68, 0.1);
+      border-color: #ef4444;
     }
 
     /* Content Area */
     .content-area {
       flex: 1;
       overflow-y: auto;
-      padding: 24px;
+      padding: 28px;
       display: flex;
       flex-direction: column;
       gap: 20px;
@@ -326,64 +296,66 @@
       justify-content: space-between;
     }
     .view-title-group h2 {
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 700;
       color: #ffffff;
-      margin-bottom: 4px;
+      letter-spacing: -0.3px;
     }
     .view-title-group p {
       font-size: 13px;
-      color: #94a3b8;
+      color: var(--text-subtle);
+      margin-top: 3px;
     }
     .action-group {
       display: flex;
-      gap: 10px;
+      align-items: center;
+      gap: 8px;
     }
 
-    /* Metric Cards */
+    /* Metric Cards (Sleek, Clean, Modern) */
     .metric-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 16px;
     }
     .metric-card {
-      background: #151624;
-      border: 1px solid #282a42;
-      border-radius: 12px;
-      padding: 18px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
       display: flex;
-      align-items: center;
-      gap: 16px;
-      position: relative;
+      flex-direction: column;
+      gap: 8px;
+      transition: border-color 0.2s ease, background-color 0.2s ease;
     }
     .metric-card:hover {
-      border-color: #6366f1;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      border-color: #334155;
+      background: var(--bg-surface-elevated);
     }
-    .metric-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 10px;
+    .metric-header {
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      z-index: 2;
-    }
-    .metric-val {
-      font-size: 24px;
-      font-weight: 700;
-      color: #ffffff;
-      line-height: 1;
-      z-index: 2;
-      position: relative;
+      justify-content: space-between;
     }
     .metric-lbl {
-      font-size: 12px;
-      color: #94a3b8;
-      margin-top: 4px;
-      z-index: 2;
-      position: relative;
+      font-size: 12.5px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .metric-icon-small {
+      font-size: 16px;
+      opacity: 0.8;
+    }
+    .metric-val {
+      font-size: 28px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.1;
+      letter-spacing: -0.5px;
+    }
+    .metric-sub {
+      font-size: 11px;
+      color: var(--text-subtle);
     }
 
     /* Filter Bar */
@@ -391,40 +363,42 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      background: #151624;
-      border: 1px solid #282a42;
-      border-radius: 10px;
-      padding: 12px 16px;
+      gap: 16px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 10px 18px;
     }
     .filter-group {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
     .filter-label {
       font-size: 12.5px;
-      color: #94a3b8;
+      color: var(--text-muted);
       font-weight: 500;
     }
     .filter-select {
-      background: #0d0e15;
-      border: 1px solid #282a42;
-      color: #e2e8f0;
-      padding: 6px 12px;
-      border-radius: 6px;
+      background: var(--bg-body);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      padding: 5px 10px;
+      border-radius: var(--radius-sm);
       font-size: 12.5px;
       outline: none;
       cursor: pointer;
+      transition: border-color 0.15s;
     }
     .filter-select:focus {
-      border-color: #6366f1;
+      border-color: var(--border-focus);
     }
 
+    /* Tables */
     .table-container {
-      background: #151624;
-      border: 1px solid #282a42;
-      border-radius: 12px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
       overflow: hidden;
     }
     table {
@@ -434,110 +408,110 @@
       font-size: 13px;
     }
     thead {
-      background: #1b1c2e;
-      border-bottom: 1px solid #282a42;
+      background: rgba(255, 255, 255, 0.02);
+      border-bottom: 1px solid var(--border-subtle);
     }
     th {
       padding: 12px 18px;
-      color: #94a3b8;
+      color: var(--text-subtle);
       font-weight: 600;
-      font-size: 12px;
+      font-size: 11.5px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
     tbody tr {
-      border-bottom: 1px solid #1f2033;
-      transition: background 0.15s;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+      transition: background-color 0.15s ease;
     }
     tbody tr:last-child {
       border-bottom: none;
     }
     tbody tr:hover {
-      background: #1c1d30;
+      background: rgba(255, 255, 255, 0.025);
     }
     td {
-      padding: 14px 18px;
-      color: #cbd5e1;
+      padding: 13px 18px;
+      color: var(--text-main);
       vertical-align: middle;
     }
 
-    /* Buttons & Badges */
+    /* Buttons & Badges (Clean, Minimalist) */
     .btn-primary {
-      background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+      background: var(--primary);
       color: white;
       border: none;
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-size: 13px;
+      padding: 7px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 12.5px;
       font-weight: 600;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 6px;
-      transition: all 0.2s;
-      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+      transition: background 0.15s ease;
     }
     .btn-primary:hover {
-      background: #4338ca;
-      box-shadow: 0 6px 16px rgba(79, 70, 229, 0.5);
-      transform: translateY(-1px);
+      background: var(--primary-hover);
     }
     .btn-secondary {
-      background: #1c1d30;
-      color: #cbd5e1;
-      border: 1px solid #282a42;
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 600;
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid var(--border-subtle);
+      padding: 7px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 12.5px;
+      font-weight: 500;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 6px;
-      transition: all 0.2s;
+      transition: all 0.15s ease;
     }
     .btn-secondary:hover {
-      background: #25263d;
-      color: white;
-      border-color: #6366f1;
+      background: rgba(255, 255, 255, 0.04);
+      color: #ffffff;
+      border-color: #334155;
     }
 
+    /* Soft, readable pill badges */
     .badge {
       display: inline-block;
-      padding: 4px 8px;
-      border-radius: 6px;
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
       font-size: 11px;
       font-weight: 600;
+      letter-spacing: 0.2px;
     }
-    .badge-open { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
-    .badge-progress { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
-    .badge-resolved { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
-    .badge-closed { background: rgba(100, 116, 139, 0.15); color: #94a3b8; border: 1px solid rgba(100, 116, 139, 0.3); }
+    .badge-open { background: rgba(59, 130, 246, 0.12); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.25); }
+    .badge-progress { background: rgba(168, 85, 247, 0.12); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.25); }
+    .badge-resolved { background: rgba(34, 197, 94, 0.12); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.25); }
+    .badge-closed { background: rgba(100, 116, 139, 0.15); color: #94a3b8; border: 1px solid rgba(100, 116, 139, 0.25); }
 
-    .badge-critical { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
-    .badge-high { background: rgba(249, 115, 22, 0.15); color: #fb923c; border: 1px solid rgba(249, 115, 22, 0.3); }
-    .badge-med { background: rgba(234, 179, 8, 0.15); color: #facc15; border: 1px solid rgba(234, 179, 8, 0.3); }
-    .badge-low { background: rgba(148, 163, 184, 0.15); color: #cbd5e1; border: 1px solid rgba(148, 163, 184, 0.3); }
+    .badge-critical { background: rgba(239, 68, 68, 0.12); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.25); }
+    .badge-high { background: rgba(249, 115, 22, 0.12); color: #fb923c; border: 1px solid rgba(249, 115, 22, 0.25); }
+    .badge-med { background: rgba(234, 179, 8, 0.12); color: #facc15; border: 1px solid rgba(234, 179, 8, 0.25); }
+    .badge-low { background: rgba(148, 163, 184, 0.12); color: #cbd5e1; border: 1px solid rgba(148, 163, 184, 0.25); }
 
     .badge-cat {
-      background: #1e1f36;
+      background: rgba(59, 130, 246, 0.08);
       color: #93c5fd;
-      border: 1px solid #3b82f6;
+      border: 1px solid rgba(59, 130, 246, 0.2);
     }
 
     .btn-act {
-      background: #1e1f36;
-      border: 1px solid #282a42;
-      color: #94a3b8;
-      padding: 5px 10px;
-      border-radius: 6px;
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      padding: 4px 8px;
+      border-radius: var(--radius-sm);
       font-size: 11.5px;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.15s ease;
     }
     .btn-act:hover {
-      color: white;
-      border-color: #6366f1;
+      color: #ffffff;
+      border-color: #334155;
+      background: rgba(255, 255, 255, 0.04);
     }
 
     /* Modal Backdrop & Box */
@@ -545,8 +519,8 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.75);
-      backdrop-filter: blur(6px);
+      background: rgba(3, 7, 18, 0.7);
+      backdrop-filter: blur(5px);
       z-index: 999;
       align-items: center;
       justify-content: center;
@@ -555,19 +529,18 @@
       display: flex;
     }
     .modal-box {
-      width: 520px;
+      width: 500px;
       max-width: 92vw;
       max-height: 90vh;
       overflow-y: auto;
-      background: #141422;
-      border: 1px solid #282a42;
-      border-radius: 16px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
       padding: 24px;
-      box-shadow: 0 24px 48px rgba(0,0,0,0.7);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
       display: flex;
       flex-direction: column;
       gap: 16px;
-      position: relative;
     }
     .modal-header {
       display: flex;
@@ -575,9 +548,9 @@
       justify-content: space-between;
     }
     .modal-title {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 700;
-      color: white;
+      color: #ffffff;
       display: flex;
       align-items: center;
       gap: 8px;
@@ -585,45 +558,45 @@
     .modal-close-btn {
       background: transparent;
       border: none;
-      color: #94a3b8;
-      font-size: 20px;
+      color: var(--text-subtle);
+      font-size: 18px;
       cursor: pointer;
       padding: 4px;
-      border-radius: 6px;
+      border-radius: var(--radius-sm);
       line-height: 1;
     }
     .modal-close-btn:hover {
-      color: white;
-      background: #1c1d30;
+      color: #ffffff;
     }
     .form-group {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 5px;
     }
     .form-group label {
       font-size: 12px;
       font-weight: 600;
-      color: #94a3b8;
+      color: var(--text-muted);
     }
     .form-input {
-      background: #0d0e15;
-      border: 1px solid #282a42;
-      color: white;
-      padding: 10px 12px;
-      border-radius: 8px;
+      background: var(--bg-body);
+      border: 1px solid var(--border-subtle);
+      color: #ffffff;
+      padding: 9px 12px;
+      border-radius: var(--radius-sm);
       font-size: 13px;
       outline: none;
       font-family: inherit;
+      transition: border-color 0.15s;
     }
     .form-input:focus {
-      border-color: #6366f1;
+      border-color: var(--border-focus);
     }
     .modal-footer {
       display: flex;
       justify-content: flex-end;
-      gap: 10px;
-      margin-top: 8px;
+      gap: 8px;
+      margin-top: 6px;
     }
 
     /* ========================================================
@@ -635,10 +608,10 @@
       gap: 20px;
     }
     .role-header-banner {
-      background: #151624;
-      border: 1px solid #282a42;
-      border-radius: 12px;
-      padding: 18px 24px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -646,54 +619,54 @@
     }
     .role-select-tabs {
       display: flex;
-      gap: 8px;
-      background: #0d0e15;
+      gap: 6px;
+      background: var(--bg-body);
       padding: 4px;
-      border-radius: 8px;
-      border: 1px solid #282a42;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
     }
     .role-tab-item {
-      padding: 6px 14px;
-      border-radius: 6px;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
       background: transparent;
       border: none;
-      color: #94a3b8;
+      color: var(--text-muted);
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 500;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.15s ease;
     }
     .role-tab-item:hover {
-      color: white;
-      background: #1c1d30;
+      color: #ffffff;
     }
     .role-tab-item.active {
-      background: #4f46e5;
-      color: white;
+      background: var(--primary);
+      color: #ffffff;
+      font-weight: 600;
     }
 
     .perm-card {
-      background: #151624;
-      border: 1px solid #282a42;
-      border-radius: 12px;
-      margin-bottom: 14px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      margin-bottom: 12px;
       overflow: hidden;
-      transition: border-color 0.2s;
+      transition: border-color 0.15s;
     }
     .perm-card:hover {
-      border-color: #3f4266;
+      border-color: #334155;
     }
     .perm-card-header {
-      padding: 14px 18px;
-      background: #18192c;
+      padding: 12px 18px;
+      background: rgba(255, 255, 255, 0.02);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid #282a42;
+      border-bottom: 1px solid var(--border-subtle);
     }
     .perm-card-title {
-      font-size: 14px;
-      font-weight: 700;
+      font-size: 13.5px;
+      font-weight: 600;
       color: #ffffff;
       display: flex;
       flex-direction: column;
@@ -701,39 +674,39 @@
     }
     .perm-card-sub {
       font-size: 11px;
-      color: #818cf8;
+      color: var(--text-subtle);
       font-family: 'JetBrains Mono', monospace;
       font-weight: 400;
     }
     .perm-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      padding: 18px;
-      background: #131422;
+      gap: 10px;
+      padding: 16px;
+      background: var(--bg-surface);
     }
     .perm-chk-label {
       display: flex;
       align-items: center;
       gap: 8px;
-      font-size: 13px;
-      color: #cbd5e1;
+      font-size: 12.5px;
+      color: var(--text-muted);
       cursor: pointer;
       padding: 6px 10px;
-      background: #18192c;
-      border: 1px solid #282a42;
-      border-radius: 6px;
-      transition: all 0.15s;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      transition: all 0.15s ease;
     }
     .perm-chk-label:hover {
-      background: #202238;
-      border-color: #6366f1;
-      color: white;
+      background: rgba(255, 255, 255, 0.04);
+      color: #ffffff;
+      border-color: #334155;
     }
     .perm-chk-label input {
-      accent-color: #6366f1;
-      width: 15px;
-      height: 15px;
+      accent-color: var(--primary);
+      width: 14px;
+      height: 14px;
       cursor: pointer;
     }
 
@@ -741,15 +714,15 @@
       position: fixed;
       bottom: 24px;
       right: 24px;
-      padding: 12px 20px;
+      padding: 10px 18px;
       background: #10b981;
       color: white;
-      font-weight: 600;
-      border-radius: 8px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+      font-weight: 500;
+      font-size: 13px;
+      border-radius: var(--radius-sm);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
       z-index: 9999;
       display: none;
-      font-size: 13px;
     }
     .toast.error {
       background: #ef4444;
@@ -758,15 +731,14 @@
 </head>
 <body>
 
-  <!-- ✨ React Bits: Interactive Particles Canvas -->
-  <canvas id="particlesCanvas"></canvas>
+  <div class="ambient-glow"></div>
 
   <!-- Left Sidebar -->
   <aside class="sidebar">
     <div class="sidebar-header">
       <div class="brand-icon">🛠️</div>
-      <div>
-        <div class="brand-title shiny-brand">IT Service Desk</div>
+      <div class="brand-info">
+        <div class="brand-title">IT Service Desk</div>
         <div class="brand-sub">project-cybersec-69</div>
       </div>
     </div>
@@ -776,49 +748,45 @@
       <li class="nav-item active" id="navTickets" onclick="switchMainTab('tickets')">
         <div class="nav-item-left">
           <span>🎫</span>
-          <span>Tickets (ตั๋วแจ้งซ่อม)</span>
+          <span>Tickets</span>
         </div>
         <span class="badge-count" id="badgeTickets">0</span>
       </li>
       <li class="nav-item" id="navCategories" onclick="switchMainTab('categories')">
         <div class="nav-item-left">
           <span>📁</span>
-          <span>Categories (หมวดหมู่)</span>
+          <span>Categories</span>
         </div>
         <span class="badge-count" id="badgeCategories">0</span>
       </li>
       <li class="nav-item" id="navUsers" onclick="switchMainTab('users')">
         <div class="nav-item-left">
           <span>👥</span>
-          <span>Users (ผู้ใช้งานระบบ)</span>
+          <span>Users</span>
         </div>
         <span class="badge-count" id="badgeUsers">4</span>
       </li>
     </ul>
 
-    <div class="nav-section" style="margin-top: 10px;">SETTINGS</div>
+    <div class="nav-section">SETTINGS</div>
     <ul class="nav-list">
       <li class="nav-item" id="navRoles" onclick="switchMainTab('roles')">
         <div class="nav-item-left">
           <span>🛡️</span>
-          <span style="color: #38bdf8; font-weight: 600;">Roles & Permissions</span>
+          <span>Roles & Permissions</span>
         </div>
-        <span class="badge-count" style="background: rgba(56, 189, 248, 0.2); color: #38bdf8;">Strapi</span>
+        <span class="badge-count strapi-tag">Strapi</span>
       </li>
     </ul>
 
     <div class="sidebar-footer">
-      <a href="/admin/login.html" class="ext-btn" title="Go to login page">
-        <span>🔐 หน้าต่างเข้าสู่ระบบ</span>
-        <span style="font-size:11px;">login.html ↗</span>
+      <a href="/api" target="_blank" class="footer-links">
+        <span>Swagger API Docs</span>
+        <span style="font-family: monospace;">↗</span>
       </a>
-      <a href="/api" target="_blank" class="ext-btn">
-        <span>📑 Swagger OpenAPI</span>
-        <span style="font-size:11px;">/api ↗</span>
-      </a>
-      <a href="http://localhost:5555" target="_blank" class="ext-btn">
-        <span>🗄️ Prisma Studio</span>
-        <span style="font-size:11px;">:5555 ↗</span>
+      <a href="http://localhost:5555" target="_blank" class="footer-links">
+        <span>Prisma Studio</span>
+        <span style="font-family: monospace;">↗</span>
       </a>
     </div>
   </aside>
@@ -827,21 +795,19 @@
   <div class="main-wrapper">
     <!-- Top Header Bar -->
     <header class="topbar">
-      <!-- Title & Status -->
-      <div class="topbar-brand-info">
-        <div class="topbar-title">
-          <span>🛡️</span>
-          <span class="shiny-text">IT SERVICE DESK DASHBOARD</span>
-          <span class="topbar-tag">Strapi RBAC Protected</span>
+      <div class="topbar-left">
+        <div class="topbar-breadcrumb">
+          <span>Dashboard</span>
+          <span>/</span>
+          <span class="active" id="lblCurrentTabName">Tickets</span>
         </div>
       </div>
 
-      <!-- Current Profile & Actions -->
-      <div class="user-profile">
+      <div class="topbar-right">
         <span class="user-pill" id="lblUserRole">ADMIN</span>
         <span class="user-email" id="lblUserEmail">admin@example.com</span>
         <button class="btn-topbar" onclick="refreshData()">🔄 รีเฟรช</button>
-        <button class="btn-logout" onclick="handleLogout()">🚪 ออกจากระบบ</button>
+        <button class="btn-logout" onclick="handleLogout()">ออกจากระบบ</button>
       </div>
     </header>
 
@@ -853,7 +819,7 @@
         <div class="view-header">
           <div class="view-title-group">
             <h2>IT Incident & Service Tickets</h2>
-            <p>รายการแจ้งซ่อมและคำขอความช่วยเหลือด้านไอทีทั้งหมด</p>
+            <p>รายการแจ้งซ่อมและคำขอรับบริการด้านเทคโนโลยีสารสนเทศ</p>
           </div>
           <div class="action-group">
             <button class="btn-primary" onclick="openCreateTicketModal()">➕ แจ้งซ่อม / สร้างตั๋วใหม่</button>
@@ -861,42 +827,46 @@
           </div>
         </div>
 
-        <!-- Metric Cards -->
-        <div class="metric-grid" style="margin-top: 18px;">
-          <div class="metric-card card-spotlight tilted-card">
-            <div class="metric-icon" style="background: rgba(99, 102, 241, 0.15); color: #818cf8;">📋</div>
-            <div>
-              <div class="metric-val" id="metricTotal">0</div>
-              <div class="metric-lbl">ตั๋วทั้งหมด</div>
+        <!-- Clean Metric Cards -->
+        <div class="metric-grid" style="margin-top: 16px;">
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-lbl">ตั๋วทั้งหมด</span>
+              <span class="metric-icon-small">📋</span>
             </div>
+            <div class="metric-val" id="metricTotal">0</div>
+            <div class="metric-sub">รายการที่บันทึกในระบบ</div>
           </div>
-          <div class="metric-card card-spotlight tilted-card">
-            <div class="metric-icon" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa;">⏳</div>
-            <div>
-              <div class="metric-val" id="metricOpen">0</div>
-              <div class="metric-lbl">รอดำเนินการ (OPEN)</div>
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-lbl">รอดำเนินการ (OPEN)</span>
+              <span class="metric-icon-small">⏳</span>
             </div>
+            <div class="metric-val" id="metricOpen" style="color: #60a5fa;">0</div>
+            <div class="metric-sub">รอเจ้าหน้าที่รับเรื่อง</div>
           </div>
-          <div class="metric-card card-spotlight tilted-card">
-            <div class="metric-icon" style="background: rgba(168, 85, 247, 0.15); color: #c084fc;">🔧</div>
-            <div>
-              <div class="metric-val" id="metricProgress">0</div>
-              <div class="metric-lbl">กำลังดำเนินการ (IN_PROGRESS)</div>
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-lbl">กำลังดำเนินการ</span>
+              <span class="metric-icon-small">🔧</span>
             </div>
+            <div class="metric-val" id="metricProgress" style="color: #c084fc;">0</div>
+            <div class="metric-sub">อยู่ระหว่างแก้ไขปัญหา</div>
           </div>
-          <div class="metric-card card-spotlight tilted-card">
-            <div class="metric-icon" style="background: rgba(34, 197, 94, 0.15); color: #4ade80;">✅</div>
-            <div>
-              <div class="metric-val" id="metricResolved">0</div>
-              <div class="metric-lbl">แก้ไขแล้ว (RESOLVED)</div>
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-lbl">แก้ไขแล้ว (RESOLVED)</span>
+              <span class="metric-icon-small">✅</span>
             </div>
+            <div class="metric-val" id="metricResolved" style="color: #4ade80;">0</div>
+            <div class="metric-sub">เสร็จสิ้นเรียบร้อยแล้ว</div>
           </div>
         </div>
 
         <!-- Filter Bar -->
-        <div class="filter-bar card-spotlight" style="margin-top: 18px;">
+        <div class="filter-bar" style="margin-top: 16px;">
           <div class="filter-group">
-            <span class="filter-label">ตัวกรองสถานะ:</span>
+            <span class="filter-label">สถานะ:</span>
             <select class="filter-select" id="filterStatus" onchange="renderTicketTable()">
               <option value="ALL">ทั้งหมด (All Status)</option>
               <option value="OPEN">รอดำเนินการ (OPEN)</option>
@@ -922,17 +892,17 @@
           <table>
             <thead>
               <tr>
-                <th style="width: 32%;">หัวข้อปัญหา</th>
+                <th style="width: 34%;">หัวข้อปัญหา</th>
                 <th style="width: 14%;">หมวดหมู่</th>
                 <th style="width: 12%;">ความเร่งด่วน</th>
                 <th style="width: 14%;">สถานะ</th>
-                <th style="width: 16%;">ผู้แจ้ง (Creator)</th>
+                <th style="width: 14%;">ผู้แจ้ง (Creator)</th>
                 <th style="width: 12%; text-align: right;">การจัดการ</th>
               </tr>
             </thead>
             <tbody id="tblTicketsBody">
               <tr>
-                <td colspan="6" style="text-align: center; padding: 40px; color: #64748b;">กำลังโหลดข้อมูล...</td>
+                <td colspan="6" style="text-align: center; padding: 36px; color: var(--text-subtle);">กำลังโหลดข้อมูล...</td>
               </tr>
             </tbody>
           </table>
@@ -952,7 +922,7 @@
           </div>
         </div>
 
-        <div class="table-container" style="margin-top: 18px;">
+        <div class="table-container" style="margin-top: 16px;">
           <table>
             <thead>
               <tr>
@@ -963,7 +933,7 @@
             </thead>
             <tbody id="tblCategoriesBody">
               <tr>
-                <td colspan="3" style="text-align: center; padding: 40px; color: #64748b;">กำลังโหลดหมวดหมู่...</td>
+                <td colspan="3" style="text-align: center; padding: 36px; color: var(--text-subtle);">กำลังโหลดหมวดหมู่...</td>
               </tr>
             </tbody>
           </table>
@@ -979,7 +949,7 @@
           </div>
         </div>
 
-        <div class="table-container" style="margin-top: 18px;">
+        <div class="table-container" style="margin-top: 16px;">
           <table>
             <thead>
               <tr>
@@ -993,31 +963,31 @@
             <tbody id="tblUsersBody">
               <tr>
                 <td style="font-weight:600; color:white;">Admin User</td>
-                <td>admin@example.com</td>
-                <td><span class="badge" style="background:#4f46e5; color:white;">ADMIN</span></td>
-                <td>Management</td>
-                <td style="text-align:right; color:#4ade80;">Full SuperAdmin Permissions</td>
+                <td style="color:var(--text-muted);">admin@example.com</td>
+                <td><span class="badge" style="background:rgba(79, 70, 229, 0.2); color:#a5b4fc; border: 1px solid rgba(79, 70, 229, 0.4);">ADMIN</span></td>
+                <td style="color:var(--text-muted);">Management</td>
+                <td style="text-align:right; color:#4ade80; font-size:12px;">Full SuperAdmin Permissions</td>
               </tr>
               <tr>
                 <td style="font-weight:600; color:white;">Somchai TechSupport</td>
-                <td>support@servicedesk.local</td>
-                <td><span class="badge" style="background:#0284c7; color:white;">IT_SUPPORT</span></td>
-                <td>IT Operations</td>
-                <td style="text-align:right; color:#38bdf8;">Manage & Resolve Tickets</td>
+                <td style="color:var(--text-muted);">support@servicedesk.local</td>
+                <td><span class="badge" style="background:rgba(2, 132, 199, 0.2); color:#38bdf8; border: 1px solid rgba(2, 132, 199, 0.4);">IT_SUPPORT</span></td>
+                <td style="color:var(--text-muted);">IT Operations</td>
+                <td style="text-align:right; color:#38bdf8; font-size:12px;">Manage & Resolve Tickets</td>
               </tr>
               <tr>
                 <td style="font-weight:600; color:white;">Employee User</td>
-                <td>employee@example.com</td>
-                <td><span class="badge" style="background:#334155; color:#cbd5e1;">EMPLOYEE</span></td>
-                <td>General</td>
-                <td style="text-align:right; color:#94a3b8;">Create & View Own Tickets</td>
+                <td style="color:var(--text-muted);">employee@example.com</td>
+                <td><span class="badge" style="background:rgba(100, 116, 139, 0.2); color:#cbd5e1; border: 1px solid rgba(100, 116, 139, 0.4);">EMPLOYEE</span></td>
+                <td style="color:var(--text-muted);">General</td>
+                <td style="text-align:right; color:var(--text-subtle); font-size:12px;">Create & View Own Tickets</td>
               </tr>
               <tr>
                 <td style="font-weight:600; color:white;">Wichai Accountant</td>
-                <td>employee1@servicedesk.local</td>
-                <td><span class="badge" style="background:#334155; color:#cbd5e1;">EMPLOYEE</span></td>
-                <td>Finance</td>
-                <td style="text-align:right; color:#94a3b8;">Create & View Own Tickets</td>
+                <td style="color:var(--text-muted);">employee1@servicedesk.local</td>
+                <td><span class="badge" style="background:rgba(100, 116, 139, 0.2); color:#cbd5e1; border: 1px solid rgba(100, 116, 139, 0.4);">EMPLOYEE</span></td>
+                <td style="color:var(--text-muted);">Finance</td>
+                <td style="text-align:right; color:var(--text-subtle); font-size:12px;">Create & View Own Tickets</td>
               </tr>
             </tbody>
           </table>
@@ -1029,15 +999,15 @@
         <!-- Top Banner with Role Selector & Save Button -->
         <div class="role-header-banner">
           <div>
-            <div style="font-size: 11px; color: #818cf8; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
+            <div style="font-size: 11px; color: #818cf8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
               SETTINGS — USERS & PERMISSIONS PLUGIN
             </div>
-            <div style="display: flex; align-items: baseline; gap: 12px; margin-top: 4px;">
-              <h2 id="lblSelectedRoleName" style="font-size: 24px; font-weight: 700; color: white;">Public</h2>
-              <span id="lblSelectedRoleDesc" style="font-size: 13px; color: #94a3b8;">Default role given to unauthenticated user.</span>
+            <div style="display: flex; align-items: baseline; gap: 10px; margin-top: 3px;">
+              <h2 id="lblSelectedRoleName" style="font-size: 20px; font-weight: 700; color: white;">Public</h2>
+              <span id="lblSelectedRoleDesc" style="font-size: 12.5px; color: var(--text-muted);">Default role given to unauthenticated user.</span>
             </div>
           </div>
-          <div style="display: flex; align-items: center; gap: 14px;">
+          <div style="display: flex; align-items: center; gap: 12px;">
             <!-- Role Selector Tabs -->
             <div class="role-select-tabs">
               <button class="role-tab-item active" id="btnRolePublic" onclick="selectRoleToConfig('public')">Public</button>
@@ -1045,7 +1015,7 @@
               <button class="role-tab-item" id="btnRoleIT" onclick="selectRoleToConfig('it_support')">IT Support</button>
               <button class="role-tab-item" id="btnRoleAdmin" onclick="selectRoleToConfig('admin')">Admin</button>
             </div>
-            <button class="btn-primary" style="padding: 8px 20px;" onclick="saveRolePermissions()">
+            <button class="btn-primary" style="padding: 7px 18px;" onclick="saveRolePermissions()">
               💾 Save
             </button>
           </div>
@@ -1054,8 +1024,8 @@
         <div class="rbac-layout">
           <!-- Left: Permissions Matrix Cards -->
           <div>
-            <div style="font-size: 13px; font-weight: 600; color: #cbd5e1; margin-bottom: 12px;">
-              Permissions <span style="font-size: 12px; color: #64748b; font-weight: 400; margin-left: 6px;">Only actions bound by a route are listed below.</span>
+            <div style="font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 10px;">
+              Permissions <span style="font-size: 12px; color: var(--text-subtle); font-weight: 400; margin-left: 6px;">Only actions bound by a route are listed below.</span>
             </div>
 
             <!-- Card 1: Category Plugin -->
@@ -1133,15 +1103,15 @@
 
           <!-- Right: Advanced Settings & Mappings -->
           <div>
-            <div style="font-size: 13px; font-weight: 600; color: #cbd5e1; margin-bottom: 12px;">
+            <div style="font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 10px;">
               Advanced settings
             </div>
-            <div style="background: #151624; border: 1px solid #282a42; border-radius: 12px; padding: 18px; font-size: 12.5px; color: #94a3b8; line-height: 1.5;">
+            <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 18px; font-size: 12.5px; color: var(--text-muted); line-height: 1.6;">
               <p style="margin-bottom: 12px;">
                 Select the application's actions or the plugin's actions and configure granular Role-Based Access Control (RBAC).
               </p>
-              <div style="border-top: 1px solid #282a42; padding-top: 12px; margin-top: 12px;">
-                <div style="color: #ffffff; font-weight: 600; margin-bottom: 6px;">🔗 Bound Route Mapping:</div>
+              <div style="border-top: 1px solid var(--border-subtle); padding-top: 12px; margin-top: 12px;">
+                <div style="color: #ffffff; font-weight: 600; margin-bottom: 8px;">🔗 Bound Route Mapping:</div>
                 <ul style="list-style: none; display: flex; flex-direction: column; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px;">
                   <li style="color: #60a5fa;">POST /api/categories ➔ create</li>
                   <li style="color: #4ade80;">GET /api/categories ➔ find</li>
@@ -1162,14 +1132,14 @@
 
   <!-- Modal: Create Ticket -->
   <div class="modal-backdrop" id="modalCreateTicket">
-    <div class="modal-box card-spotlight">
+    <div class="modal-box">
       <div class="modal-header">
         <div class="modal-title">➕ แจ้งซ่อม / สร้างตั๋วใหม่</div>
         <button class="modal-close-btn" onclick="closeModal('modalCreateTicket')">✕</button>
       </div>
       <div class="form-group">
         <label>หัวข้อปัญหา *</label>
-        <input type="text" class="form-input" id="inpTicketTitle" placeholder="เช่น ปริ้นเตอร์ไม่ดูดกระดาษ, เข้าเน็ตไม่ได้">
+        <input type="text" class="form-input" id="inpTicketTitle" placeholder="เช่น จอ Monitor ดับ, ปริ้นเตอร์ไม่ดูดกระดาษ">
       </div>
       <div class="form-group">
         <label>รายละเอียดปัญหา *</label>
@@ -1197,14 +1167,14 @@
 
   <!-- Modal: Create Category -->
   <div class="modal-backdrop" id="modalCreateCategory">
-    <div class="modal-box card-spotlight">
+    <div class="modal-box">
       <div class="modal-header">
         <div class="modal-title">➕ สร้างหมวดหมู่ปัญหาใหม่</div>
         <button class="modal-close-btn" onclick="closeModal('modalCreateCategory')">✕</button>
       </div>
       <div class="form-group">
         <label>ชื่อหมวดหมู่ *</label>
-        <input type="text" class="form-input" id="inpCatName" placeholder="เช่น Hardware, Software, Security">
+        <input type="text" class="form-input" id="inpCatName" placeholder="เช่น Hardware, Software, Network">
       </div>
       <div class="form-group">
         <label>คำอธิบาย</label>
@@ -1219,7 +1189,7 @@
 
   <!-- Modal: Comments & Discussion -->
   <div class="modal-backdrop" id="modalComments">
-    <div class="modal-box card-spotlight" style="width: 580px;">
+    <div class="modal-box" style="width: 540px;">
       <div class="modal-header">
         <div class="modal-title" id="lblCommentTicketTitle">💬 ความคิดเห็นในตั๋ว</div>
         <button class="modal-close-btn" onclick="closeModal('modalComments')">✕</button>
@@ -1295,6 +1265,14 @@
       if (activeNav) activeNav.classList.add('active');
       if (activeView) activeView.style.display = 'block';
 
+      const tabTitleMap = {
+        tickets: 'Tickets',
+        categories: 'Categories',
+        users: 'Users',
+        roles: 'Roles & Permissions'
+      };
+      document.getElementById('lblCurrentTabName').textContent = tabTitleMap[tab] || 'Dashboard';
+
       if (tab === 'roles') {
         selectRoleToConfig('public');
       }
@@ -1351,7 +1329,7 @@
     }
 
     function markDirty() {
-      // User changed checkbox
+      // User modified permissions
     }
 
     async function saveRolePermissions() {
@@ -1412,8 +1390,8 @@
           tbody.innerHTML = allCategories.map(c => `
             <tr>
               <td style="font-weight:600; color:white;">📁 ${c.name}</td>
-              <td style="color:#94a3b8;">${c.description || '-'}</td>
-              <td style="text-align:right; font-family:'JetBrains Mono', monospace; font-size:11px; color:#64748b;">${c.id.substring(0,10)}...</td>
+              <td style="color:var(--text-muted);">${c.description || '-'}</td>
+              <td style="text-align:right; font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--text-subtle);">${c.id.substring(0,10)}...</td>
             </tr>
           `).join('');
         }
@@ -1458,7 +1436,7 @@
 
       const tbody = document.getElementById('tblTicketsBody');
       if (filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:40px; color:#64748b;">ไม่มีรายการตั๋วที่ตรงกับเงื่อนไข</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:36px; color:var(--text-subtle);">ไม่มีรายการตั๋วที่ตรงกับเงื่อนไข</td></tr>`;
         return;
       }
 
@@ -1481,19 +1459,19 @@
           <tr>
             <td>
               <div style="font-weight:600; color:white; margin-bottom:2px;">${t.title}</div>
-              <div style="font-size:12px; color:#94a3b8; display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; overflow:hidden;">${t.description}</div>
+              <div style="font-size:12px; color:var(--text-muted); display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; overflow:hidden;">${t.description}</div>
             </td>
             <td><span class="badge badge-cat">${catName}</span></td>
             <td>${priBadge}</td>
             <td>${statusBadge}</td>
             <td>
-              <div style="font-weight:500; color:#f1f5f9;">${authorName || 'User'}</div>
-              <div style="font-size:11px; color:#64748b;">แผนก ${dept}</div>
+              <div style="font-weight:500; color:var(--text-main); font-size:12.5px;">${authorName || 'User'}</div>
+              <div style="font-size:11px; color:var(--text-subtle);">แผนก ${dept}</div>
             </td>
             <td style="text-align:right;">
               <div style="display:flex; justify-content:flex-end; gap:6px;">
                 <button class="btn-act" onclick="openCommentsModal('${t.id}')">💬 ${t.comments?.length || 0}</button>
-                <select class="filter-select" style="padding:3px 6px; font-size:11px;" onchange="changeTicketStatus('${t.id}', this.value)">
+                <select class="filter-select" style="padding:2px 6px; font-size:11px;" onchange="changeTicketStatus('${t.id}', this.value)">
                   <option value="" disabled selected>สถานะ</option>
                   <option value="OPEN">OPEN</option>
                   <option value="IN_PROGRESS">IN_PROGRESS</option>
@@ -1598,16 +1576,16 @@
     function renderCommentsList(comments) {
       const box = document.getElementById('commentsList');
       if (comments.length === 0) {
-        box.innerHTML = `<div style="text-align:center; color:#64748b; padding:16px;">ยังไม่มีความคิดเห็นในตั๋วนี้</div>`;
+        box.innerHTML = `<div style="text-align:center; color:var(--text-subtle); padding:16px;">ยังไม่มีความคิดเห็นในตั๋วนี้</div>`;
         return;
       }
       box.innerHTML = comments.map(c => `
-        <div style="background:#1e1f36; border:1px solid #282a42; border-radius:8px; padding:10px 12px;">
+        <div style="background:var(--bg-body); border:1px solid var(--border-subtle); border-radius:var(--radius-sm); padding:9px 12px;">
           <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
             <span style="font-weight:600; color:#38bdf8; font-size:12px;">${c.author?.firstName || 'ผู้ตอบ'} (${c.author?.role || 'USER'})</span>
-            <span style="font-size:10px; color:#64748b;">${new Date(c.createdAt).toLocaleTimeString()}</span>
+            <span style="font-size:10px; color:var(--text-subtle);">${new Date(c.createdAt).toLocaleTimeString()}</span>
           </div>
-          <div style="font-size:13px; color:#f1f5f9;">${c.content}</div>
+          <div style="font-size:12.5px; color:var(--text-main);">${c.content}</div>
         </div>
       `).join('');
     }
@@ -1640,52 +1618,6 @@
       if (currentUser) {
         document.getElementById('lblUserRole').textContent = currentUser.role || 'USER';
         document.getElementById('lblUserEmail').textContent = currentUser.email || currentUser.username || 'User';
-      }
-
-      // Spotlight Cards
-      document.querySelectorAll('.card-spotlight').forEach(card => {
-        card.addEventListener('mousemove', e => {
-          const rect = card.getBoundingClientRect();
-          card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
-          card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
-        });
-      });
-
-      // Particles Canvas
-      const canvas = document.getElementById('particlesCanvas');
-      if (canvas) {
-        const ctx = canvas.getContext('2d');
-        let w = canvas.width = window.innerWidth;
-        let h = canvas.height = window.innerHeight;
-        window.addEventListener('resize', () => { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; });
-
-        const parts = [];
-        for (let i = 0; i < 40; i++) {
-          parts.push({ x: Math.random() * w, y: Math.random() * h, vx: (Math.random() - 0.5) * 0.4, vy: (Math.random() - 0.5) * 0.4, r: Math.random() * 2 + 1 });
-        }
-
-        let m = { x: -1000, y: -1000 };
-        window.addEventListener('mousemove', e => { m.x = e.clientX; m.y = e.clientY; });
-
-        function anim() {
-          ctx.clearRect(0, 0, w, h);
-          parts.forEach(p => {
-            p.x += p.vx; p.y += p.vy;
-            if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
-            if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
-
-            const dm = Math.hypot(m.x - p.x, m.y - p.y);
-            if (dm < 120) {
-              ctx.strokeStyle = `rgba(99, 102, 241, ${0.4 * (1 - dm / 120)})`;
-              ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(m.x, m.y); ctx.stroke();
-            }
-
-            ctx.fillStyle = 'rgba(129, 140, 248, 0.45)';
-            ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
-          });
-          requestAnimationFrame(anim);
-        }
-        anim();
       }
 
       refreshData();
