@@ -3,6 +3,8 @@ import { NestFactory } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import * as express from 'express';
+import * as path from 'path';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -16,6 +18,10 @@ async function bootstrap() {
       transform: true,
     }),
   );
+
+  // Serve Web Admin Dashboard
+  const publicAdminDir = path.join(process.cwd(), 'public', 'admin');
+  app.use('/admin', express.static(publicAdminDir));
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('IT Service Desk & Incident Ticket API')
@@ -39,6 +45,7 @@ async function bootstrap() {
   await app.listen(port);
 
   new Logger('Bootstrap').log(`IT Service Desk API listening on http://localhost:${port}`);
+  new Logger('Bootstrap').log(`Web Admin Dashboard: http://localhost:${port}/admin`);
   new Logger('Bootstrap').log(`Swagger OpenAPI docs: http://localhost:${port}/api`);
 }
 

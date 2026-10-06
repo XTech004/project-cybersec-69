@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IT Service Desk - Content & Incident Manager (project-cybersec-69)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Prompt:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Inter', 'Prompt', sans-serif;
+      background-color: #12131c;
+      color: #e2e8f0;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 260px;
+      background: #181826;
+      border-right: 1px solid #2d2f48;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+    .sidebar-header {
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid #2d2f48;
+    }
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+    }
+    .brand-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.2;
+    }
+    .brand-sub {
+      font-size: 11px;
+      color: #06b6d4;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .nav-section {
+      padding: 16px 14px 6px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: #64748b;
+    }
+    .nav-list {
+      list-style: none;
+      padding: 0 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      color: #94a3b8;
+      font-size: 13.5px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .nav-item:hover {
+      background: #212134;
+      color: #f1f5f9;
+    }
+    .nav-item.active {
+      background: #27273d;
+      color: #ffffff;
+      border-left: 3px solid #6366f1;
+    }
+    .nav-item-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .badge-count {
+      background: #2d2f48;
+      color: #94a3b8;
+      font-size: 11px;
+      padding: 2px 7px;
+      border-radius: 12px;
+      font-weight: 600;
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding: 14px;
+      border-top: 1px solid #2d2f48;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .ext-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 12px;
+      background: #212134;
+      border: 1px solid #2d2f48;
+      border-radius: 8px;
+      color: #cbd5e1;
+      font-size: 12px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .ext-btn:hover {
+      background: #27273d;
+      color: #ffffff;
+      border-color: #6366f1;
+    }
+
+    /* Main Container */
+    .main-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Header Bar */
+    .topbar {
+      height: 64px;
+      background: #181826;
+      border-bottom: 1px solid #2d2f48;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      flex-shrink: 0;
+    }
+    .role-switcher {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #12131c;
+      padding: 4px 6px;
+      border-radius: 10px;
+      border: 1px solid #2d2f48;
+    }
+    .role-label {
+      font-size: 12px;
+      color: #94a3b8;
+      padding: 0 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .role-btn {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s;
+    }
+    .role-btn:hover {
+      color: #ffffff;
+      background: #212134;
+    }
+    .role-btn.active {
+      background: #4f46e5;
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(79, 70, 229, 0.4);
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .user-pill {
+      background: #4f46e5;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .user-email {
+      font-size: 13px;
+      color: #cbd5e1;
+      font-weight: 500;
+    }
+    .btn-logout {
+      background: transparent;
+      border: 1px solid #334155;
+      color: #94a3b8;
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-logout:hover {
+      color: #ef4444;
+      border-color: #ef4444;
+    }
+
+    /* Content Area */
+    .content-area {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* View Header */
+    .view-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .view-title-group h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 4px;
+    }
+    .view-title-group p {
+      font-size: 13px;
+      color: #94a3b8;
+    }
+    .action-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+      color: white;
+      border: none;
+      padding: 9px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+      transition: all 0.2s;
+    }
+    .btn-primary:hover {
+      opacity: 0.92;
+      transform: translateY(-1px);
+    }
+    .btn-secondary {
+      background: #212134;
+      color: #cbd5e1;
+      border: 1px solid #2d2f48;
+      padding: 9px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover {
+      background: #27273d;
+      color: white;
+    }
+
+    /* Metric Cards */
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .metric-card {
+      background: #181826;
+      border: 1px solid #2d2f48;
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .metric-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+    .metric-val {
+      font-size: 22px;
+      font-weight: 700;
+      color: white;
+      line-height: 1.1;
+    }
+    .metric-lbl {
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    /* Table Container */
+    .table-card {
+      background: #181826;
+      border: 1px solid #2d2f48;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .table-filters {
+      padding: 14px 18px;
+      border-bottom: 1px solid #2d2f48;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #1c1d2e;
+    }
+    .filter-select {
+      background: #12131c;
+      color: #e2e8f0;
+      border: 1px solid #2d2f48;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12.5px;
+      outline: none;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    th {
+      padding: 12px 18px;
+      font-size: 11.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: #64748b;
+      font-weight: 600;
+      background: #181826;
+      border-bottom: 1px solid #2d2f48;
+    }
+    td {
+      padding: 14px 18px;
+      font-size: 13px;
+      border-bottom: 1px solid #232438;
+      color: #cbd5e1;
+      vertical-align: middle;
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+    tr:hover td {
+      background: #1f2033;
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .badge-open { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
+    .badge-progress { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
+    .badge-resolved { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
+    .badge-closed { background: rgba(100, 116, 139, 0.15); color: #94a3b8; border: 1px solid rgba(100, 116, 139, 0.3); }
+
+    .badge-critical { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+    .badge-high { background: rgba(249, 115, 22, 0.15); color: #fb923c; border: 1px solid rgba(249, 115, 22, 0.3); }
+    .badge-med { background: rgba(234, 179, 8, 0.15); color: #facc15; border: 1px solid rgba(234, 179, 8, 0.3); }
+    .badge-low { background: rgba(148, 163, 184, 0.15); color: #cbd5e1; border: 1px solid rgba(148, 163, 184, 0.3); }
+
+    .badge-cat {
+      background: #27273d;
+      color: #93c5fd;
+      border: 1px solid #3b82f6;
+    }
+
+    .btn-act {
+      background: #27273d;
+      border: 1px solid #334155;
+      color: #94a3b8;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-act:hover {
+      color: white;
+      border-color: #6366f1;
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.65);
+      backdrop-filter: blur(4px);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-backdrop.active {
+      display: flex;
+    }
+    .modal-box {
+      width: 500px;
+      max-width: 90vw;
+      background: #181826;
+      border: 1px solid #2d2f48;
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .modal-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: white;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-group label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #94a3b8;
+    }
+    .form-input {
+      background: #12131c;
+      border: 1px solid #2d2f48;
+      color: white;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      outline: none;
+    }
+    .form-input:focus {
+      border-color: #6366f1;
+    }
+    .modal-footer {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      padding: 12px 20px;
+      background: #10b981;
+      color: white;
+      font-weight: 600;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+      z-index: 9999;
+      display: none;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Left Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="brand-icon">🛠️</div>
+      <div>
+        <div class="brand-title">IT Service Desk</div>
+        <div class="brand-sub">project-cybersec-69</div>
+      </div>
+    </div>
+
+    <div class="nav-section">COLLECTIONS</div>
+    <ul class="nav-list">
+      <li class="nav-item active" onclick="switchTab('tickets')">
+        <div class="nav-item-left">
+          <span>🎫</span>
+          <span>Tickets (ตั๋วแจ้งซ่อม)</span>
+        </div>
+        <span class="badge-count" id="badgeTickets">0</span>
+      </li>
+      <li class="nav-item" onclick="switchTab('categories')">
+        <div class="nav-item-left">
+          <span>📁</span>
+          <span>Categories (หมวดหมู่)</span>
+        </div>
+        <span class="badge-count" id="badgeCategories">0</span>
+      </li>
+      <li class="nav-item" onclick="switchTab('users')">
+        <div class="nav-item-left">
+          <span>👥</span>
+          <span>Users (ผู้ใช้งานระบบ)</span>
+        </div>
+        <span class="badge-count" id="badgeUsers">4</span>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <a href="/api" target="_blank" class="ext-btn">
+        <span>📑 Swagger OpenAPI</span>
+        <span style="font-size:11px;">/api ↗</span>
+      </a>
+      <a href="http://localhost:5555" target="_blank" class="ext-btn">
+        <span>🗄️ Prisma Studio</span>
+        <span style="font-size:11px;">:5555 ↗</span>
+      </a>
+      <a href="http://localhost:5050" target="_blank" class="ext-btn">
+        <span>🐘 pgAdmin 4</span>
+        <span style="font-size:11px;">:5050 ↗</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main Area -->
+  <div class="main-wrapper">
+    <!-- Top Header Bar -->
+    <header class="topbar">
+      <!-- Role Switcher -->
+      <div class="role-switcher">
+        <div class="role-label"><span>🎭</span> ทดลองสิทธิ์ Role:</div>
+        <button class="role-btn active" id="btnRoleAdmin" onclick="switchRole('admin')">👑 Admin</button>
+        <button class="role-btn" id="btnRoleIT" onclick="switchRole('it')">🛠️ IT Support</button>
+        <button class="role-btn" id="btnRoleEmp1" onclick="switchRole('emp1')">👔 Employee 1</button>
+        <button class="role-btn" id="btnRoleEmp2" onclick="switchRole('emp2')">👔 Employee 2</button>
+      </div>
+
+      <!-- Current Profile -->
+      <div class="user-profile">
+        <span class="user-pill" id="lblUserRole">ADMIN</span>
+        <span class="user-email" id="lblUserEmail">admin@servicedesk.local</span>
+        <button class="btn-logout" onclick="refreshData()">🔄 Sync</button>
+      </div>
+    </header>
+
+    <!-- Content Body -->
+    <main class="content-area">
+
+      <!-- View 1: TICKETS VIEW -->
+      <section id="viewTickets">
+        <div class="view-header">
+          <div class="view-title-group">
+            <h2>IT Incident & Service Tickets</h2>
+            <p>รายการแจ้งซ่อมและคำขอความช่วยเหลือด้านไอทีทั้งหมด</p>
+          </div>
+          <div class="action-group">
+            <button class="btn-primary" onclick="openCreateTicketModal()">➕ แจ้งซ่อม / สร้างตั๋วใหม่</button>
+            <button class="btn-secondary" onclick="loadTickets()">🔄 รีเฟรช</button>
+          </div>
+        </div>
+
+        <!-- Metric Cards -->
+        <div class="metric-grid" style="margin-top: 18px;">
+          <div class="metric-card">
+            <div class="metric-icon" style="background: rgba(99, 102, 241, 0.15); color: #818cf8;">📋</div>
+            <div>
+              <div class="metric-val" id="metricTotal">0</div>
+              <div class="metric-lbl">ตั๋วทั้งหมด</div>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa;">⏳</div>
+            <div>
+              <div class="metric-val" id="metricOpen">0</div>
+              <div class="metric-lbl">รอดำเนินการ (OPEN)</div>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon" style="background: rgba(168, 85, 247, 0.15); color: #c084fc;">🔧</div>
+            <div>
+              <div class="metric-val" id="metricProgress">0</div>
+              <div class="metric-lbl">กำลังดำเนินการ</div>
+            </div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon" style="background: rgba(34, 197, 94, 0.15); color: #4ade80;">✅</div>
+            <div>
+              <div class="metric-val" id="metricResolved">0</div>
+              <div class="metric-lbl">แก้ไขเสร็จสิ้น</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tickets Table -->
+        <div class="table-card" style="margin-top: 20px;">
+          <div class="table-filters">
+            <span style="font-size:12px; color:#94a3b8; font-weight:600;">ฟิลเตอร์:</span>
+            <select class="filter-select" id="filterStatus" onchange="renderTicketTable()">
+              <option value="ALL">สถานะทั้งหมด</option>
+              <option value="OPEN">OPEN (เปิดคำขอ)</option>
+              <option value="IN_PROGRESS">IN_PROGRESS (กำลังซ่อม)</option>
+              <option value="RESOLVED">RESOLVED (เสร็จสิ้น)</option>
+              <option value="CLOSED">CLOSED (ปิดเคส)</option>
+            </select>
+            <select class="filter-select" id="filterPriority" onchange="renderTicketTable()">
+              <option value="ALL">ความเร่งด่วนทั้งหมด</option>
+              <option value="CRITICAL">CRITICAL (วิกฤต)</option>
+              <option value="HIGH">HIGH (สูง)</option>
+              <option value="MEDIUM">MEDIUM (ปานกลาง)</option>
+              <option value="LOW">LOW (ต่ำ)</option>
+            </select>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 28%;">หัวข้อปัญหา / รายละเอียด</th>
+                <th style="width: 14%;">หมวดหมู่</th>
+                <th style="width: 12%;">ความเร่งด่วน</th>
+                <th style="width: 14%;">สถานะ</th>
+                <th style="width: 16%;">ผู้แจ้ง / แผนก</th>
+                <th style="width: 16%; text-align:right;">การดำเนินการ</th>
+              </tr>
+            </thead>
+            <tbody id="tblTicketsBody">
+              <tr><td colspan="6" style="text-align:center; padding: 30px; color:#64748b;">กำลังโหลดข้อมูลตั๋ว...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- View 2: CATEGORIES VIEW -->
+      <section id="viewCategories" style="display:none;">
+        <div class="view-header">
+          <div class="view-title-group">
+            <h2>Problem Categories</h2>
+            <p>หมวดหมู่ปัญหาไอทีและประเภทคำขอบริการ</p>
+          </div>
+          <div class="action-group">
+            <button class="btn-primary" onclick="openCreateCategoryModal()">➕ เพิ่มหมวดหมู่ใหม่</button>
+            <button class="btn-secondary" onclick="loadCategories()">🔄 รีเฟรช</button>
+          </div>
+        </div>
+
+        <div class="table-card" style="margin-top: 20px;">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 25%;">ชื่อหมวดหมู่</th>
+                <th style="width: 55%;">คำอธิบาย</th>
+                <th style="width: 20%; text-align:right;">รหัส ID</th>
+              </tr>
+            </thead>
+            <tbody id="tblCategoriesBody">
+              <tr><td colspan="3" style="text-align:center; padding: 30px; color:#64748b;">กำลังโหลดหมวดหมู่...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- View 3: USERS VIEW -->
+      <section id="viewUsers" style="display:none;">
+        <div class="view-header">
+          <div class="view-title-group">
+            <h2>System Accounts & RBAC</h2>
+            <p>บัญชีผู้ใช้งานในระบบและบทบาทสิทธิ์ (Role-Based Access Control)</p>
+          </div>
+          <div class="action-group">
+            <button class="btn-secondary" onclick="refreshData()">🔄 รีเฟรช</button>
+          </div>
+        </div>
+
+        <div class="table-card" style="margin-top: 20px;">
+          <table>
+            <thead>
+              <tr>
+                <th>ชื่อ - นามสกุล</th>
+                <th>อีเมล</th>
+                <th>บทบาท (Role)</th>
+                <th>แผนก</th>
+                <th style="text-align:right;">สิทธิ์ในการใช้งาน</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-weight:600; color:white;">Sorasak Administrator</td>
+                <td>admin@servicedesk.local</td>
+                <td><span class="badge" style="background:#4f46e5; color:white;">ADMIN</span></td>
+                <td>IT Security</td>
+                <td style="text-align:right; color:#4ade80;">Full SuperAdmin Permissions</td>
+              </tr>
+              <tr>
+                <td style="font-weight:600; color:white;">Somchai TechSupport</td>
+                <td>support@servicedesk.local</td>
+                <td><span class="badge" style="background:#0284c7; color:white;">IT_SUPPORT</span></td>
+                <td>IT Operations</td>
+                <td style="text-align:right; color:#38bdf8;">Manage & Resolve Tickets</td>
+              </tr>
+              <tr>
+                <td style="font-weight:600; color:white;">Wichai Accountant</td>
+                <td>employee1@servicedesk.local</td>
+                <td><span class="badge" style="background:#334155; color:#cbd5e1;">EMPLOYEE</span></td>
+                <td>Finance</td>
+                <td style="text-align:right; color:#94a3b8;">Create & View Own Tickets</td>
+              </tr>
+              <tr>
+                <td style="font-weight:600; color:white;">Suda HRStaff</td>
+                <td>employee2@servicedesk.local</td>
+                <td><span class="badge" style="background:#334155; color:#cbd5e1;">EMPLOYEE</span></td>
+                <td>Human Resources</td>
+                <td style="text-align:right; color:#94a3b8;">Create & View Own Tickets</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Modal: Create Ticket -->
+  <div class="modal-backdrop" id="modalCreateTicket">
+    <div class="modal-box">
+      <div class="modal-title">➕ แจ้งซ่อม / สร้างตั๋วใหม่</div>
+      <div class="form-group">
+        <label>หัวข้อปัญหา *</label>
+        <input type="text" class="form-input" id="inpTicketTitle" placeholder="เช่น ปริ้นเตอร์ไม่ดูดกระดาษ, เข้าเน็ตไม่ได้">
+      </div>
+      <div class="form-group">
+        <label>รายละเอียดปัญหา *</label>
+        <textarea class="form-input" id="inpTicketDesc" rows="3" placeholder="ระบุอาการ ตำแหน่งโต๊ะ หรือข้อมูลเพิ่มเติม..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>หมวดหมู่ปัญหา *</label>
+        <select class="form-input" id="inpTicketCategory"></select>
+      </div>
+      <div class="form-group">
+        <label>ระดับความเร่งด่วน *</label>
+        <select class="form-input" id="inpTicketPriority">
+          <option value="LOW">LOW (ไม่ด่วน)</option>
+          <option value="MEDIUM" selected>MEDIUM (ปานกลาง)</option>
+          <option value="HIGH">HIGH (ด่วน)</option>
+          <option value="CRITICAL">CRITICAL (ฉุกเฉิน / วิกฤต)</option>
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeModal('modalCreateTicket')">ยกเลิก</button>
+        <button class="btn-primary" onclick="submitCreateTicket()">บันทึกส่งคำขอ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Create Category -->
+  <div class="modal-backdrop" id="modalCreateCategory">
+    <div class="modal-box">
+      <div class="modal-title">➕ สร้างหมวดหมู่ปัญหาใหม่</div>
+      <div class="form-group">
+        <label>ชื่อหมวดหมู่ *</label>
+        <input type="text" class="form-input" id="inpCatName" placeholder="เช่น Database, Security Incident">
+      </div>
+      <div class="form-group">
+        <label>คำอธิบาย</label>
+        <textarea class="form-input" id="inpCatDesc" rows="3" placeholder="รายละเอียดของหมวดหมู่นี้..."></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeModal('modalCreateCategory')">ยกเลิก</button>
+        <button class="btn-primary" onclick="submitCreateCategory()">สร้างหมวดหมู่</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Comments & Discussion Drawer -->
+  <div class="modal-backdrop" id="modalComments">
+    <div class="modal-box" style="width: 580px;">
+      <div class="modal-title" id="lblCommentTicketTitle">💬 ความคิดเห็นในตั๋ว</div>
+      <div id="commentsList" style="max-height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 4px;"></div>
+      <div class="form-group" style="margin-top: 10px;">
+        <label>ตอบกลับ / บันทึกการแก้ไขงาน</label>
+        <input type="text" class="form-input" id="inpNewComment" placeholder="พิมพ์ข้อความตอบกลับ...">
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeModal('modalComments')">ปิด</button>
+        <button class="btn-primary" onclick="submitAddComment()">ส่งความคิดเห็น</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toastMsg">บันทึกข้อมูลสำเร็จ!</div>
+
+  <script>
+    const API_BASE = window.location.origin;
+
+    // Test accounts
+    const ROLES = {
+      admin: { email: 'admin@servicedesk.local', pass: 'Password123!', role: 'ADMIN' },
+      it: { email: 'support@servicedesk.local', pass: 'Password123!', role: 'IT_SUPPORT' },
+      emp1: { email: 'employee1@servicedesk.local', pass: 'Password123!', role: 'EMPLOYEE' },
+      emp2: { email: 'employee2@servicedesk.local', pass: 'Password123!', role: 'EMPLOYEE' }
+    };
+
+    let currentRoleKey = 'admin';
+    let currentToken = '';
+    let currentUserId = '';
+    let allTickets = [];
+    let allCategories = [];
+    let activeTicketId = null;
+
+    async function loginAsRole(roleKey) {
+      const user = ROLES[roleKey];
+      try {
+        const res = await fetch(`${API_BASE}/api/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: user.email, password: user.pass })
+        });
+        if (!res.ok) throw new Error('Login failed');
+        const data = await res.json();
+        currentToken = data.access_token;
+        currentUserId = data.user.id;
+        
+        document.getElementById('lblUserRole').textContent = data.user.role;
+        document.getElementById('lblUserEmail').textContent = data.user.email;
+        showToast(`สลับบทบาทเป็น ${data.user.role} สำเร็จ!`);
+        refreshData();
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    function switchRole(roleKey) {
+      currentRoleKey = roleKey;
+      document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
+      if (roleKey === 'admin') document.getElementById('btnRoleAdmin').classList.add('active');
+      if (roleKey === 'it') document.getElementById('btnRoleIT').classList.add('active');
+      if (roleKey === 'emp1') document.getElementById('btnRoleEmp1').classList.add('active');
+      if (roleKey === 'emp2') document.getElementById('btnRoleEmp2').classList.add('active');
+      loginAsRole(roleKey);
+    }
+
+    function switchTab(tab) {
+      document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+
+      document.getElementById('viewTickets').style.display = tab === 'tickets' ? 'block' : 'none';
+      document.getElementById('viewCategories').style.display = tab === 'categories' ? 'block' : 'none';
+      document.getElementById('viewUsers').style.display = tab === 'users' ? 'block' : 'none';
+    }
+
+    async function refreshData() {
+      await loadCategories();
+      await loadTickets();
+    }
+
+    async function loadCategories() {
+      try {
+        const res = await fetch(`${API_BASE}/api/categories`, {
+          headers: { 'Authorization': `Bearer ${currentToken}` }
+        });
+        allCategories = await res.json();
+        document.getElementById('badgeCategories').textContent = allCategories.length;
+        
+        // Populate Select
+        const catSelect = document.getElementById('inpTicketCategory');
+        catSelect.innerHTML = allCategories.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+
+        // Populate Table
+        const tbody = document.getElementById('tblCategoriesBody');
+        tbody.innerHTML = allCategories.map(c => `
+          <tr>
+            <td style="font-weight:600; color:white;">📁 ${c.name}</td>
+            <td style="color:#94a3b8;">${c.description || '-'}</td>
+            <td style="text-align:right; font-family:'JetBrains Mono', monospace; font-size:11px; color:#64748b;">${c.id.substring(0,10)}...</td>
+          </tr>
+        `).join('');
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    async function loadTickets() {
+      try {
+        const res = await fetch(`${API_BASE}/api/tickets`, {
+          headers: { 'Authorization': `Bearer ${currentToken}` }
+        });
+        allTickets = await res.json();
+        document.getElementById('badgeTickets').textContent = allTickets.length;
+        updateMetrics();
+        renderTicketTable();
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    function updateMetrics() {
+      document.getElementById('metricTotal').textContent = allTickets.length;
+      document.getElementById('metricOpen').textContent = allTickets.filter(t => t.status === 'OPEN').length;
+      document.getElementById('metricProgress').textContent = allTickets.filter(t => t.status === 'IN_PROGRESS').length;
+      document.getElementById('metricResolved').textContent = allTickets.filter(t => t.status === 'RESOLVED').length;
+    }
+
+    function renderTicketTable() {
+      const fStatus = document.getElementById('filterStatus').value;
+      const fPriority = document.getElementById('filterPriority').value;
+
+      let filtered = allTickets;
+      if (fStatus !== 'ALL') filtered = filtered.filter(t => t.status === fStatus);
+      if (fPriority !== 'ALL') filtered = filtered.filter(t => t.priority === fPriority);
+
+      const tbody = document.getElementById('tblTicketsBody');
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:40px; color:#64748b;">ไม่มีรายการตั๋วที่ตรงกับเงื่อนไข</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(t => {
+        let statusBadge = `<span class="badge badge-open">OPEN</span>`;
+        if (t.status === 'IN_PROGRESS') statusBadge = `<span class="badge badge-progress">IN_PROGRESS</span>`;
+        if (t.status === 'RESOLVED') statusBadge = `<span class="badge badge-resolved">RESOLVED</span>`;
+        if (t.status === 'CLOSED') statusBadge = `<span class="badge badge-closed">CLOSED</span>`;
+
+        let priBadge = `<span class="badge badge-med">MEDIUM</span>`;
+        if (t.priority === 'CRITICAL') priBadge = `<span class="badge badge-critical">CRITICAL</span>`;
+        if (t.priority === 'HIGH') priBadge = `<span class="badge badge-high">HIGH</span>`;
+        if (t.priority === 'LOW') priBadge = `<span class="badge badge-low">LOW</span>`;
+
+        const catName = t.category?.name || 'General';
+        const authorName = t.createdBy ? `${t.createdBy.firstName} ${t.createdBy.lastName}` : 'User';
+        const dept = t.createdBy?.department || '-';
+
+        return `
+          <tr>
+            <td>
+              <div style="font-weight:600; color:white; margin-bottom:2px;">${t.title}</div>
+              <div style="font-size:12px; color:#94a3b8; display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; overflow:hidden;">${t.description}</div>
+            </td>
+            <td><span class="badge badge-cat">${catName}</span></td>
+            <td>${priBadge}</td>
+            <td>${statusBadge}</td>
+            <td>
+              <div style="font-weight:500; color:#f1f5f9;">${authorName}</div>
+              <div style="font-size:11px; color:#64748b;">แผนก ${dept}</div>
+            </td>
+            <td style="text-align:right;">
+              <div style="display:flex; justify-content:flex-end; gap:6px;">
+                <button class="btn-act" onclick="openCommentsModal('${t.id}')">💬 ${t.comments?.length || 0}</button>
+                <select class="filter-select" style="padding:3px 6px; font-size:11px;" onchange="changeTicketStatus('${t.id}', this.value)">
+                  <option value="" disabled selected>สถานะ</option>
+                  <option value="OPEN">OPEN</option>
+                  <option value="IN_PROGRESS">IN_PROGRESS</option>
+                  <option value="RESOLVED">RESOLVED</option>
+                  <option value="CLOSED">CLOSED</option>
+                </select>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    async function changeTicketStatus(id, newStatus) {
+      try {
+        const res = await fetch(`${API_BASE}/api/tickets/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${currentToken}`
+          },
+          body: JSON.stringify({ status: newStatus })
+        });
+        if (!res.ok) throw new Error('Update failed');
+        showToast(`เปลี่ยนสถานะเป็น ${newStatus} สำเร็จ!`);
+        loadTickets();
+      } catch (err) {
+        alert('เกิดข้อผิดพลาดในการเปลี่ยนสถานะ (อาจไม่มีสิทธิ์)');
+      }
+    }
+
+    function openCreateTicketModal() {
+      document.getElementById('inpTicketTitle').value = '';
+      document.getElementById('inpTicketDesc').value = '';
+      document.getElementById('modalCreateTicket').classList.add('active');
+    }
+
+    async function submitCreateTicket() {
+      const title = document.getElementById('inpTicketTitle').value.trim();
+      const description = document.getElementById('inpTicketDesc').value.trim();
+      const categoryId = document.getElementById('inpTicketCategory').value;
+      const priority = document.getElementById('inpTicketPriority').value;
+
+      if (!title || !description) return alert('กรุณากรอกหัวข้อและรายละเอียด');
+
+      try {
+        const res = await fetch(`${API_BASE}/api/tickets`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${currentToken}`
+          },
+          body: JSON.stringify({ title, description, categoryId, priority })
+        });
+        if (!res.ok) throw new Error('Create failed');
+        closeModal('modalCreateTicket');
+        showToast('สร้างตั๋วแจ้งซ่อมสำเร็จ!');
+        loadTickets();
+      } catch (err) {
+        alert('เกิดข้อผิดพลาดในการสร้างตั๋ว');
+      }
+    }
+
+    function openCreateCategoryModal() {
+      document.getElementById('inpCatName').value = '';
+      document.getElementById('inpCatDesc').value = '';
+      document.getElementById('modalCreateCategory').classList.add('active');
+    }
+
+    async function submitCreateCategory() {
+      const name = document.getElementById('inpCatName').value.trim();
+      const description = document.getElementById('inpCatDesc').value.trim();
+      if (!name) return alert('กรุณาระบุชื่อหมวดหมู่');
+
+      try {
+        const res = await fetch(`${API_BASE}/api/categories`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${currentToken}`
+          },
+          body: JSON.stringify({ name, description })
+        });
+        if (!res.ok) throw new Error('Create category failed');
+        closeModal('modalCreateCategory');
+        showToast('สร้างหมวดหมู่สำเร็จ!');
+        refreshData();
+      } catch (err) {
+        alert('เกิดข้อผิดพลาด (เฉพาะ ADMIN / IT_SUPPORT)');
+      }
+    }
+
+    function openCommentsModal(ticketId) {
+      activeTicketId = ticketId;
+      const t = allTickets.find(x => x.id === ticketId);
+      document.getElementById('lblCommentTicketTitle').textContent = `💬 ความคิดเห็น: ${t?.title || ''}`;
+      renderCommentsList(t?.comments || []);
+      document.getElementById('inpNewComment').value = '';
+      document.getElementById('modalComments').classList.add('active');
+    }
+
+    function renderCommentsList(comments) {
+      const box = document.getElementById('commentsList');
+      if (comments.length === 0) {
+        box.innerHTML = `<div style="text-align:center; color:#64748b; padding:16px;">ยังไม่มีความคิดเห็นในตั๋วนี้</div>`;
+        return;
+      }
+      box.innerHTML = comments.map(c => `
+        <div style="background:#212134; border:1px solid #2d2f48; border-radius:8px; padding:10px 12px;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+            <span style="font-weight:600; color:#38bdf8; font-size:12px;">${c.author?.firstName || 'ผู้ตอบ'} (${c.author?.role || 'USER'})</span>
+            <span style="font-size:10px; color:#64748b;">${new Date(c.createdAt).toLocaleTimeString()}</span>
+          </div>
+          <div style="font-size:13px; color:#f1f5f9;">${c.content}</div>
+        </div>
+      `).join('');
+    }
+
+    async function submitAddComment() {
+      const content = document.getElementById('inpNewComment').value.trim();
+      if (!content || !activeTicketId) return;
+
+      try {
+        const res = await fetch(`${API_BASE}/api/tickets/${activeTicketId}/comments`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${currentToken}`
+          },
+          body: JSON.stringify({ content })
+        });
+        if (!res.ok) throw new Error('Add comment failed');
+        showToast('เพิ่มความคิดเห็นสำเร็จ!');
+        closeModal('modalComments');
+        loadTickets();
+      } catch (err) {
+        alert('เกิดข้อผิดพลาดในการส่งความคิดเห็น');
+      }
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toastMsg');
+      t.textContent = msg;
+      t.style.display = 'block';
+      setTimeout(() => { t.style.display = 'none'; }, 2500);
+    }
+
+    // Startup
+    window.addEventListener('DOMContentLoaded', () => {
+      loginAsRole('admin');
+    });
+  </script>
+</body>
+</html>
