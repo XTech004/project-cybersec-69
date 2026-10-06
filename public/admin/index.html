@@ -768,16 +768,18 @@
       </li>
     </ul>
 
-    <div class="nav-section">SETTINGS</div>
-    <ul class="nav-list">
-      <li class="nav-item" id="navRoles" onclick="switchMainTab('roles')">
-        <div class="nav-item-left">
-          <span>🛡️</span>
-          <span>Roles & Permissions</span>
-        </div>
-        <span class="badge-count strapi-tag">Strapi</span>
-      </li>
-    </ul>
+    <div id="sectionSettings">
+      <div class="nav-section">SETTINGS</div>
+      <ul class="nav-list">
+        <li class="nav-item" id="navRoles" onclick="switchMainTab('roles')">
+          <div class="nav-item-left">
+            <span>🛡️</span>
+            <span>Roles & Permissions</span>
+          </div>
+          <span class="badge-count strapi-tag">Strapi</span>
+        </li>
+      </ul>
+    </div>
 
     <div class="sidebar-footer">
       <a href="/api" target="_blank" class="footer-links">
@@ -1015,7 +1017,7 @@
               <button class="role-tab-item" id="btnRoleIT" onclick="selectRoleToConfig('it_support')">IT Support</button>
               <button class="role-tab-item" id="btnRoleAdmin" onclick="selectRoleToConfig('admin')">Admin</button>
             </div>
-            <button class="btn-primary" style="padding: 7px 18px;" onclick="saveRolePermissions()">
+            <button class="btn-primary" id="btnSaveRoles" style="padding: 7px 18px;" onclick="saveRolePermissions()">
               💾 Save
             </button>
           </div>
@@ -1046,25 +1048,7 @@
               </div>
             </div>
 
-            <!-- Card 2: Department Plugin -->
-            <div class="perm-card">
-              <div class="perm-card-header">
-                <div class="perm-card-title">
-                  <span>Department</span>
-                  <span class="perm-card-sub">Define all allowed actions for the api::department plugin.</span>
-                </div>
-                <button class="btn-act" onclick="toggleSelectAll('department')">Select all</button>
-              </div>
-              <div class="perm-grid">
-                <label class="perm-chk-label"><input type="checkbox" id="chk_department_create" onchange="markDirty()"> create</label>
-                <label class="perm-chk-label"><input type="checkbox" id="chk_department_delete" onchange="markDirty()"> delete</label>
-                <label class="perm-chk-label"><input type="checkbox" id="chk_department_find" onchange="markDirty()"> find</label>
-                <label class="perm-chk-label"><input type="checkbox" id="chk_department_findOne" onchange="markDirty()"> findOne</label>
-                <label class="perm-chk-label"><input type="checkbox" id="chk_department_update" onchange="markDirty()"> update</label>
-              </div>
-            </div>
-
-            <!-- Card 3: Ticket Plugin -->
+            <!-- Card 2: Ticket Plugin -->
             <div class="perm-card">
               <div class="perm-card-header">
                 <div class="perm-card-title">
@@ -1082,7 +1066,7 @@
               </div>
             </div>
 
-            <!-- Card 4: Ticket-comment Plugin -->
+            <!-- Card 3: Ticket-comment Plugin -->
             <div class="perm-card">
               <div class="perm-card-header">
                 <div class="perm-card-title">
@@ -1274,7 +1258,24 @@
       document.getElementById('lblCurrentTabName').textContent = tabTitleMap[tab] || 'Dashboard';
 
       if (tab === 'roles') {
+        if (!currentUser || currentUser.role !== 'ADMIN') {
+          showToast('คุณไม่มีสิทธิ์เข้าถึงส่วนนี้ (เฉพาะผู้ดูแลระบบ Admin เท่านั้น)', true);
+          switchMainTab('tickets');
+          return;
+        }
         selectRoleToConfig('public');
+      }
+    }
+
+    function applyRoleSecurityUi() {
+      const isAdmin = currentUser && currentUser.role === 'ADMIN';
+      const secSettings = document.getElementById('sectionSettings');
+      if (secSettings) {
+        secSettings.style.display = isAdmin ? 'block' : 'none';
+      }
+      const btnSaveRoles = document.getElementById('btnSaveRoles');
+      if (btnSaveRoles) {
+        btnSaveRoles.style.display = isAdmin ? 'inline-flex' : 'none';
       }
     }
 
@@ -1301,11 +1302,13 @@
 
         // Populate checkboxes
         const perms = data.role.permissions;
-        ['category', 'department', 'ticket', 'ticket-comment'].forEach(plugin => {
+        const isAdmin = currentUser && currentUser.role === 'ADMIN';
+        ['category', 'ticket', 'ticket-comment'].forEach(plugin => {
           ['create', 'delete', 'find', 'findOne', 'update'].forEach(act => {
             const chk = document.getElementById(`chk_${plugin}_${act}`);
             if (chk) {
               chk.checked = !!perms[plugin]?.[act];
+              chk.disabled = !isAdmin;
             }
           });
         });
@@ -1315,6 +1318,10 @@
     }
 
     function toggleSelectAll(plugin) {
+      if (!currentUser || currentUser.role !== 'ADMIN') {
+        showToast('เฉพาะผู้ดูแลระบบ (Admin) เท่านั้นที่สามารถแก้ไขสิทธิ์ได้', true);
+        return;
+      }
       const acts = ['create', 'delete', 'find', 'findOne', 'update'];
       const allChecked = acts.every(act => {
         const el = document.getElementById(`chk_${plugin}_${act}`);
@@ -1333,14 +1340,18 @@
     }
 
     async function saveRolePermissions() {
+      if (!currentUser || currentUser.role !== 'ADMIN') {
+        showToast('เฉพาะผู้ดูแลระบบ (Admin) เท่านั้นที่สามารถบันทึกสิทธิ์ได้', true);
+        return;
+      }
+
       const updatedPermissions = {
         category: {},
-        department: {},
         ticket: {},
         'ticket-comment': {},
       };
 
-      ['category', 'department', 'ticket', 'ticket-comment'].forEach(plugin => {
+      ['category', 'ticket', 'ticket-comment'].forEach(plugin => {
         ['create', 'delete', 'find', 'findOne', 'update'].forEach(act => {
           const chk = document.getElementById(`chk_${plugin}_${act}`);
           updatedPermissions[plugin][act] = chk ? chk.checked : false;
@@ -1620,6 +1631,7 @@
         document.getElementById('lblUserEmail').textContent = currentUser.email || currentUser.username || 'User';
       }
 
+      applyRoleSecurityUi();
       refreshData();
     });
   </script>

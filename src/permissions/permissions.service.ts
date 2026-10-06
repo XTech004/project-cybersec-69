@@ -10,7 +10,6 @@ export interface ActionPermissions {
 
 export interface ControllerPermissions {
   category: ActionPermissions;
-  department: ActionPermissions;
   ticket: ActionPermissions;
   'ticket-comment': ActionPermissions;
 }
@@ -42,7 +41,6 @@ export class PermissionsService {
       nb_users: 1,
       permissions: {
         category: { create: true, delete: true, find: true, findOne: true, update: true },
-        department: { create: true, delete: true, find: true, findOne: true, update: true },
         ticket: { create: true, delete: true, find: true, findOne: true, update: true },
         'ticket-comment': { create: true, delete: true, find: true, findOne: true, update: true },
       },
@@ -57,7 +55,6 @@ export class PermissionsService {
       nb_users: 1,
       permissions: {
         category: { create: true, delete: false, find: true, findOne: true, update: true },
-        department: { create: false, delete: false, find: true, findOne: true, update: false },
         ticket: { create: true, delete: false, find: true, findOne: true, update: true },
         'ticket-comment': { create: true, delete: true, find: true, findOne: true, update: true },
       },
@@ -72,7 +69,6 @@ export class PermissionsService {
       nb_users: 3,
       permissions: {
         category: { create: false, delete: false, find: true, findOne: true, update: false },
-        department: { create: false, delete: false, find: true, findOne: true, update: false },
         ticket: { create: true, delete: false, find: true, findOne: true, update: true },
         'ticket-comment': { create: true, delete: false, find: true, findOne: true, update: false },
       },
@@ -87,7 +83,6 @@ export class PermissionsService {
       nb_users: 0,
       permissions: {
         category: { create: false, delete: false, find: true, findOne: true, update: false },
-        department: { create: false, delete: false, find: false, findOne: false, update: false },
         ticket: { create: false, delete: false, find: false, findOne: false, update: false },
         'ticket-comment': { create: false, delete: false, find: false, findOne: false, update: false },
       },
