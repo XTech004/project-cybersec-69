@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, ParseUUIDPipe, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth, ApiOkResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiConflictResponse } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
@@ -35,7 +35,7 @@ export class CategoryController {
   @ApiOperation({ summary: 'ดูรายละเอียดหมวดหมู่' })
   @ApiOkResponse({ description: 'รายละเอียดหมวดหมู่' })
   @ApiNotFoundResponse({ description: 'ไม่พบหมวดหมู่' })
-  async findOne(@Param('id', ParseUUIDPipe) id: string) {
+  async findOne(@Param('id') id: string) {
     return this.categoryService.findOne(id);
   }
 
@@ -45,7 +45,7 @@ export class CategoryController {
   @ApiOkResponse({ description: 'แก้ไขหมวดหมู่สำเร็จ' })
   @ApiNotFoundResponse({ description: 'ไม่พบหมวดหมู่' })
   @ApiConflictResponse({ description: 'ชื่อหมวดหมู่นี้มีอยู่แล้ว' })
-  async update(@Param('id', ParseUUIDPipe) id: string, @Body() data: { name?: string; description?: string }) {
+  async update(@Param('id') id: string, @Body() data: { name?: string; description?: string }) {
     return this.categoryService.update(id, data);
   }
 
@@ -54,7 +54,7 @@ export class CategoryController {
   @ApiOperation({ summary: 'ลบหมวดหมู่' })
   @ApiOkResponse({ description: 'ลบหมวดหมู่สำเร็จ' })
   @ApiNotFoundResponse({ description: 'ไม่พบหมวดหมู่' })
-  async remove(@Param('id', ParseUUIDPipe) id: string) {
+  async remove(@Param('id') id: string) {
     return this.categoryService.remove(id);
   }
 }

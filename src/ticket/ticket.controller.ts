@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, ParseUUIDPipe, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, Query, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth, ApiOkResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiForbiddenResponse, ApiQuery } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
@@ -47,7 +47,7 @@ export class TicketController {
   @ApiNotFoundResponse({ description: 'ไม่พบตั๋ว' })
   @ApiForbiddenResponse({ description: 'ไม่มีสิทธิ์เข้าถึงตั๋วนี้' })
   async findOne(
-    @Param('id', ParseUUIDPipe) id: string,
+    @Param('id') id: string,
     @CurrentUser('id') userId: string,
     @CurrentUser('role') role: Role,
   ) {
@@ -61,7 +61,7 @@ export class TicketController {
   @ApiNotFoundResponse({ description: 'ไม่พบตั๋ว' })
   @ApiForbiddenResponse({ description: 'ไม่มีสิทธิ์แก้ไขตั๋วนี้' })
   async update(
-    @Param('id', ParseUUIDPipe) id: string,
+    @Param('id') id: string,
     @CurrentUser('id') userId: string,
     @CurrentUser('role') role: Role,
     @Body() data: { title?: string; description?: string; priority?: Priority; status?: TicketStatus; categoryId?: string; assignedToId?: string },
@@ -76,7 +76,7 @@ export class TicketController {
   @ApiNotFoundResponse({ description: 'ไม่พบตั๋ว' })
   @ApiForbiddenResponse({ description: 'ไม่มีสิทธิ์ลบตั๋วนี้' })
   async remove(
-    @Param('id', ParseUUIDPipe) id: string,
+    @Param('id') id: string,
     @CurrentUser('id') userId: string,
     @CurrentUser('role') role: Role,
   ) {
@@ -89,7 +89,7 @@ export class TicketController {
   @ApiCreatedResponse({ description: 'เพิ่มความคิดเห็นสำเร็จ' })
   @ApiNotFoundResponse({ description: 'ไม่พบตั๋ว' })
   async addComment(
-    @Param('id', ParseUUIDPipe) id: string,
+    @Param('id') id: string,
     @CurrentUser('id') userId: string,
     @Body() data: { content: string; isInternal?: boolean },
   ) {
