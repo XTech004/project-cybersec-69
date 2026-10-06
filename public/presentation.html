@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IT Service Desk - Project Presentation</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Prompt', sans-serif;
+      background-color: #0b0f19;
+      color: #f8fafc;
+      overflow-x: hidden;
+    }
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .slide-card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .glow-indigo {
+      box-shadow: 0 0 40px -10px rgba(99, 102, 241, 0.25);
+    }
+    .glow-green {
+      box-shadow: 0 0 35px -10px rgba(34, 197, 94, 0.25);
+    }
+    .glow-amber {
+      box-shadow: 0 0 35px -10px rgba(245, 158, 11, 0.25);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between p-4 md:p-8 antialiased select-none">
+
+  <!-- Top Navigation & Controls Bar -->
+  <header class="max-w-5xl w-full mx-auto flex items-center justify-between border-b border-slate-800 pb-4 mb-6">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-indigo-600/20 border border-indigo-500/40 flex items-center justify-center text-xl">
+        🛡️
+      </div>
+      <div>
+        <h1 class="font-bold text-base md:text-lg tracking-wide text-white flex items-center gap-2">
+          IT Service Desk System
+          <span class="text-xs px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">project-cybersec-69</span>
+        </h1>
+        <p class="text-xs text-slate-400">ระบบแจ้งซ่อมและจัดการสิทธิ์ความปลอดภัยขั้นสูง (OWASP BAC 100%)</p>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <span class="text-xs font-mono text-slate-400 bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-lg" id="slideIndicator">
+        Slide 1 / 8
+      </span>
+      <button onclick="toggleNotes()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1.5 rounded-lg border border-slate-700 transition flex items-center gap-1.5" id="btnNotes">
+        <span>🎙️</span>
+        <span class="hidden md:inline">บทพูดนำเสนอ</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Slide Display Container -->
+  <main class="max-w-5xl w-full mx-auto flex-1 flex flex-col justify-center">
+    
+    <!-- Slide 1: Cover Slide -->
+    <div class="slide-card bg-slate-900/90 border border-slate-800 rounded-2xl p-6 md:p-10 glow-indigo" id="slide-1">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-xs font-medium mb-6">
+        <span>🚀</span> Final Project Presentation
+      </div>
+      <h2 class="text-2xl md:text-4xl font-bold text-white mb-4 leading-tight">
+        การพัฒนาระบบ <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-sky-400">IT Service Desk</span> ที่ปลอดภัยตามมาตรฐาน OWASP
+      </h2>
+      <p class="text-slate-300 text-sm md:text-base leading-relaxed mb-8 max-w-3xl">
+        ระบบจัดการตั๋วแจ้งซ่อมและปัญหาไอทีองค์กร พร้อมโครงสร้าง Role-Based Access Control (RBAC) ระดับ Granular Permissions, สถาปัตยกรรม Single Admin Policy, และการป้องกันช่องโหว่ Broken Access Control 100%
+      </p>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 border-t border-slate-800/80">
+        <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800">
+          <div class="text-xs text-slate-400">Backend Framework</div>
+          <div class="font-semibold text-sm text-indigo-300 mt-1">NestJS (TypeScript)</div>
+        </div>
+        <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800">
+          <div class="text-xs text-slate-400">Database & ORM</div>
+          <div class="font-semibold text-sm text-sky-300 mt-1">PostgreSQL + Prisma</div>
+        </div>
+        <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800">
+          <div class="text-xs text-slate-400">Security Standard</div>
+          <div class="font-semibold text-sm text-emerald-300 mt-1">OWASP Top 10 (A01)</div>
+        </div>
+        <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800">
+          <div class="text-xs text-slate-400">Test Verification</div>
+          <div class="font-semibold text-sm text-green-400 font-mono mt-1">13/13 Passed (100%)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 2: Problem Statement & Objectives -->
+    <div class="slide-card bg-slate-900/90 border border-slate-800 rounded-2xl p-6 md:p-10 hidden" id="slide-2">
+      <div class="text-xs text-indigo-400 font-semibold tracking-wider uppercase mb-2">Problem Statement & Objectives</div>
+      <h2 class="text-xl md:text-3xl font-bold text-white mb-6">ที่มา ปัญหา และวัตถุประสงค์ของโครงการ</h2>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-red-950/20 border border-red-500/20 p-5 rounded-xl">
+          <h3 class="text-red-400 font-semibold text-base mb-3 flex items-center gap-2">
+            <span>⚠️</span> ปัญหาในระบบทั่วไป (Security Risks)
+          </h3>
+          <ul class="space-y-2.5 text-xs md:text-sm text-slate-300">
+            <li class="flex items-start gap-2">
+              <span class="text-red-400 font-bold">•</span>
+              <span><strong>IDOR / BOLA:</strong> พนักงานแอบดูหรือแก้ไขตั๋วแจ้งซ่อมของผู้อื่นได้โดยเปลี่ยน Ticket ID</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-red-400 font-bold">•</span>
+              <span><strong>Vertical Privilege Escalation:</strong> ผู้ใช้ทั่วไปแอบเรียก API สิทธิ์ Admin หรือเปลี่ยน Role ตนเอง</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-red-400 font-bold">•</span>
+              <span><strong>Admin Sprawl:</strong> การเปิดให้สมัคร Admin ได้ไม่จำกัด ทำให้ตกเป็นเป้าหมายถูกยึดระบบ</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-emerald-950/20 border border-emerald-500/20 p-5 rounded-xl">
+          <h3 class="text-emerald-400 font-semibold text-base mb-3 flex items-center gap-2">
+            <span>🎯</span> วัตถุประสงค์และการแก้ไข (Our Solutions)
+          </h3>
+          <ul class="space-y-2.5 text-xs md:text-sm text-slate-300">
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-400 font-bold">✓</span>
+              <span>พัฒนาระบบ Service Desk ที่ใช้งานได้จริง ครบวงจร (Tickets, Categories, Comments, Departments)</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-400 font-bold">✓</span>
+              <span>ออกแบบการป้องกัน Broken Access Control ครอบคลุมทั้งแนวตั้ง (Vertical) และแนวนอน (Horizontal)</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-400 font-bold">✓</span>
+              <span>บังคับใช้ Single Super Admin Policy ป้องกันการขยายสิทธิ์ และแยกเส้นทาง URL ชัดเจน</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3: System Architecture -->
+    <div class="slide-card bg-slate-900/90 border border-slate-800 rounded-2xl p-6 md:p-10 hidden" id="slide-3">
+      <div class="text-xs text-indigo-400 font-semibold tracking-wider uppercase mb-2">System Architecture</div>
+      <h2 class="text-xl md:text-3xl font-bold text-white mb-6">สถาปัตยกรรมระบบและการแยกส่วนความปลอดภัย</h2>
+
+      <div class="grid md:grid-cols-3 gap-5">
+        <div class="bg-slate-950 p-5 rounded-xl border border-slate-800">
+          <div class="text-indigo-400 text-lg font-bold mb-2 flex items-center gap-2">
+            <span>💻</span> Presentation Tier
+          </div>
+          <p class="text-xs text-slate-400 mb-3">Frontend Dashboards & Portals</p>
+          <ul class="text-xs text-slate-300 space-y-2">
+            <li>• <strong>Admin Portal:</strong> <span class="font-mono text-indigo-300">/admin/login</span>, <span class="font-mono text-indigo-300">/admin</span></li>
+            <li>• <strong>User Portal:</strong> <span class="font-mono text-sky-300">/login</span>, <span class="font-mono text-sky-300">/register</span></li>
+            <li>• <strong>RBAC Dynamic UI:</strong> ซ่อนเมนู Settings สำหรับผู้ใช้ที่ไม่ใช่ Admin</li>
+          </ul>
+        </div>
+
+        <div class="bg-slate-950 p-5 rounded-xl border border-slate-800">
+          <div class="text-sky-400 text-lg font-bold mb-2 flex items-center gap-2">
+            <span>⚙️</span> Application Tier
+          </div>
+          <p class="text-xs text-slate-400 mb-3">NestJS Modular Core & Guards</p>
+          <ul class="text-xs text-slate-300 space-y-2">
+            <li>• <strong>JWT Strategy & AuthGuard:</strong> ตรวจสอบ Token ทุก Request</li>
+            <li>• <strong>RolesGuard & Decorator:</strong> ตรวจสอบสิทธิ์ระดับ Controller และ Method</li>
+            <li>• <strong>Ownership Scoping:</strong> ตรวจสอบความเป็นเจ้าของตั๋วในระดับ Service Logic</li>
+          </ul>
+        </div>
+
+        <div class="bg-slate-950 p-5 rounded-xl border border-slate-800">
+          <div class="text-emerald-400 text-lg font-bold mb-2 flex items-center gap-2">
+            <span>🗄️</span> Data Tier
+          </div>
+          <p class="text-xs text-slate-400 mb-3">PostgreSQL 18 via Prisma ORM</p>
+          <ul class="text-xs text-slate-300 space-y-2">
+            <li>• <strong>Schema Models:</strong> User, Category, Ticket, Comment</li>
+            <li>• <strong>Password Hashing:</strong> Bcrypt (Salt Rounds 10)</li>
+            <li>• <strong>Data Integrity:</strong> Foreign Key RESTRICT ป้องกันการลบหมวดหมู่ที่มีตั๋วค้าง</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 4: Collections & Feature Tour -->
+    <div class="slide-card bg-slate-900/90 border border-slate-800 rounded-2xl p-6 md:p-10 hidden" id="slide-4">
+      <div class="text-xs text-indigo-400 font-semibold tracking-wider uppercase mb-2">Core Functional Modules</div>
+      <h2 class="text-xl md:text-3xl font-bold text-white mb-6">ฟังก์ชันการทำงานหลัก (Collections & Operations)</h2>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+          <div class="text-2xl mb-2">🎫</div>
+          <h4 class="font-semibold text-sm text-white">Tickets (ตั๋วแจ้งซ่อม)</h4>
+          <p class="text-xs text-slate-400 mt-1.5 leading-relaxed">
+            ติดตามสถานะ (OPEN, IN_PROGRESS, RESOLVED, CLOSED) คัดกรองตามสถานะ ความเร่งด่วน และหมวดหมู่ได้ทันที
+          </p>
+        </div>
+
+        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+          <div class="text-2xl mb-2">📁</div>
+          <h4 class="font-semibold text-sm text-white">Categories (หมวดหมู่)</h4>
+          <p class="text-xs text-slate-400 mt-1.5 leading-relaxed">
+            แสดงจำนวนตั๋วสะสม, คลิกเพื่อกรองดูตั๋วในหมวดนั้นได้, แก้ไข/ลบหมวดหมู่พร้อมระบบป้องกันตั๋วค้าง
+          </p>
+        </div>
+
+        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+          <div class="text-2xl mb-2">💬</div>
+          <h4 class="font-semibold text-sm text-white">Comments (บันทึกงาน)</h4>
+          <p class="text-xs text-slate-400 mt-1.5 leading-relaxed">
+            ระบบความคิดเห็นแยกประเภท (🔒 บันทึกภายใน / 🌐 สาธารณะ) ค้นหาข้อความได้ และเปิดดูตั๋วที่เกี่ยวข้องได้ทันที
+          </p>
+        </div>
+
+        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+          <div class="text-2xl mb-2">🏢</div>
+          <h4 class="font-semibold text-sm text-white">Departments (แผนก)</h4>
+          <p class="text-xs text-slate-400 mt-1.5 leading-relaxed">
+            จัดกลุ่มบุคลากรตามแผนก (Management, IT Operations, Finance, General) แสดงสถิติตั๋ว และกรองตั๋วตามแผนก
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 5: RBAC & Permissions Matrix -->
+    <div class="slide-card bg-slate-900/90 border border-slate-800 rounded-2xl p-6 md:p-10 hidden" id="slide-5">
+      <div class="text-xs text-indigo-400 font-semibold tracking-wider uppercase mb-2">Role-Based Access Control (RBAC)</div>
+      <h2 class="text-xl md:text-3xl font-bold text-white mb-6">ตารางกำหนดสิทธิ์การใช้งาน (Permissions Matrix)</h2>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs md:text-sm border-collapse">
+          <thead>
+            <tr class="border-b border-slate-800 text-slate-400 bg-slate-950/60 font-mono">
+              <th class="p-3">โมดูล / Resource</th>
+              <th class="p-3">Super Admin 👑</th>
+              <th class="p-3">IT Support 🛠️</th>
+              <th class="p-3">Employee 👤</th>
+              <th class="p-3">Public / Guest 🌐</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800/60 text-slate-300">
+            <tr>
+              <td class="p-3 font-semibold text-white">Category</td>
+              <td class="p-3 text-emerald-400 font-mono">Full (CRUD)</td>
+              <td class="p-3 text-emerald-400 font-mono">Create, Read, Update</td>
+              <td class="p-3 text-slate-400 font-mono">Read Only</td>
+              <td class="p-3 text-slate-500 font-mono">Read Only</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold text-white">Tickets</td>
+              <td class="p-3 text-emerald-400 font-mono">Full (ดู/แก้/ลบ ทุกใบ)</td>
+              <td class="p-3 text-emerald-400 font-mono">ดูทุกใบ / เปลี่ยนสถานะ</td>
+              <td class="p-3 text-sky-400 font-mono">เฉพาะตั๋วตนเอง (Own)</td>
+              <td class="p-3 text-red-400 font-mono">No Access</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold text-white">Ticket Status Transition</td>
+              <td class="p-3 text-emerald-400 font-mono">อนุญาต</td>
+              <td class="p-3 text-emerald-400 font-mono">อนุญาต</td>
+              <td class="p-3 text-red-400 font-mono">ห้ามเปลี่ยนสถานะ (403)</td>
+              <td class="p-3 text-red-400 font-mono">No Access</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold text-white">Settings & RBAC Config</td>
+              <td class="p-3 text-emerald-400 font-mono">เฉพาะ Admin เท่านั้น</td>
+              <td class="p-3 text-red-400 font-mono">ซ่อนเมนู / บล็อก 403</td>
+              <td class="p-3 text-red-400 font-mono">ซ่อนเมนู / บล็อก 403</td>
+              <td class="p-3 text-red-400 font-mono">No Access</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold text-white">Admin Registration</td>
+              <td class="p-3 text-amber-400 font-mono">Single Admin (มีได้ 1 คน)</td>
+              <td class="p-3 text-red-400 font-mono">ห้ามสมัครซ้ำ (400)</td>
+              <td class="p-3 text-red-400 font-mono">ห้ามสมัครซ้ำ (400)</td>
+              <td class="p-3 text-red-400 font-mono">ห้ามสมัครซ้ำ (400)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Slide 6: OWASP Top 10 Security Audit -->
+    <div class="slide-card bg-slate-900/90 border border-slate-800 rounded-2xl p-6 md:p-10 glow-green hidden" id="slide-6">
+      <div class="text-xs text-emerald-400 font-semibold tracking-wider uppercase mb-2">Security Verification</div>
+      <h2 class="text-xl md:text-3xl font-bold text-white mb-6 flex items-center justify-between">
+        <span>ผลการทดสอบ OWASP A01:2021 Broken Access Control</span>
+        <span class="text-xs font-mono px-3 py-1 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 rounded-full">
+          13 / 13 Passed (100%)
+        </span>
+      </h2>
+
+      <div class="grid md:grid-cols-3 gap-4">
+        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+          <div class="text-xs font-semibold text-indigo-400 uppercase tracking-wider mb-2">Section A</div>
+          <div class="font-bold text-sm text-white mb-2">Vertical Privilege Escalation</div>
+          <ul class="text-xs text-slate-400 space-y-1.5 font-mono">
+            <li>✅ A.1: Public view admin -> 401</li>
+            <li>✅ A.2: Employee view admin -> 403</li>
+            <li>✅ A.3: Modify Roles matrix -> 403</li>
+            <li>✅ A.4: Employee create cat -> 403</li>
+            <li>✅ A.5: Employee delete cat -> 403</li>
+            <li>✅ A.6: IT Support delete cat -> 403</li>
+            <li>✅ A.7: Duplicate Admin reg -> 400</li>
+          </ul>
+        </div>
+
+        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+          <div class="text-xs font-semibold text-sky-400 uppercase tracking-wider mb-2">Section B</div>
+          <div class="font-bold text-sm text-white mb-2">Horizontal Escalation / IDOR</div>
+          <ul class="text-xs text-slate-400 space-y-1.5 font-mono">
+            <li>✅ B.1: Read other ticket -> 403</li>
+            <li>✅ B.2: Edit other ticket -> 403</li>
+            <li>✅ B.3: Self-resolve ticket -> 403</li>
+            <li>✅ B.4: Delete other ticket -> 403</li>
+          </ul>
+        </div>
+
+        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+          <div class="text-xs font-semibold text-emerald-400 uppercase tracking-wider mb-2">Section C</div>
+          <div class="font-bold text-sm text-white mb-2">Data Scoping & Invariants</div>
+          <ul class="text-xs text-slate-400 space-y-1.5 font-mono">
+            <li>✅ C.1: Multi-tenant list filter (ไม่เห็นตั๋วผู้อื่น) -> PASS</li>
+            <li>✅ C.2: Super Admin audit list (ดูตั๋วตรวจสอบได้) -> 200</li>
+            <li>✅ Foreign Key RESTRICT delete protection -> 400</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 7: Configuration & Credentials -->
+    <div class="slide-card bg-slate-900/90 border border-slate-800 rounded-2xl p-6 md:p-10 hidden" id="slide-7">
+      <div class="text-xs text-indigo-400 font-semibold tracking-wider uppercase mb-2">Environment & Deployment</div>
+      <h2 class="text-xl md:text-3xl font-bold text-white mb-6">การตั้งค่าความปลอดภัยและข้อมูลระบบ</h2>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 font-mono text-xs">
+          <div class="text-slate-400 mb-2 font-sans font-semibold text-sm">👑 ข้อมูลผู้ดูแลระบบ (Single Super Admin)</div>
+          <div class="space-y-2 text-slate-300">
+            <div><span class="text-slate-500">Email:</span> <span class="text-indigo-400 font-bold">x_napaen@hotmail.com</span></div>
+            <div><span class="text-slate-500">Role:</span> <span class="text-emerald-400 font-bold">ADMIN (Single Instance)</span></div>
+            <div><span class="text-slate-500">Admin Login:</span> <span class="text-sky-300">http://localhost:3000/admin/login</span></div>
+            <div><span class="text-slate-500">Admin Portal:</span> <span class="text-sky-300">http://localhost:3000/admin</span></div>
+          </div>
+        </div>
+
+        <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 font-mono text-xs">
+          <div class="text-slate-400 mb-2 font-sans font-semibold text-sm">👤 ข้อมูลผู้ใช้ทั่วไป (User Portal)</div>
+          <div class="space-y-2 text-slate-300">
+            <div><span class="text-slate-500">User Login:</span> <span class="text-sky-300">http://localhost:3000/login</span></div>
+            <div><span class="text-slate-500">User Register:</span> <span class="text-sky-300">http://localhost:3000/register</span></div>
+            <div><span class="text-slate-500">Swagger Docs:</span> <span class="text-indigo-300">http://localhost:3000/api</span></div>
+            <div><span class="text-slate-500">Environment File:</span> <span class="text-emerald-400">.env & .env.example</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 p-4 rounded-xl bg-indigo-950/20 border border-indigo-500/20 text-xs text-slate-300">
+        💡 <strong>คำแนะนำในการเปิดโปรเจกต์:</strong> รันฐานข้อมูล PostgreSQL บนพอร์ต 5433, สั่ง <code class="text-indigo-300 font-mono">npm run build</code> และเปิดเซิร์ฟเวอร์ด้วย <code class="text-indigo-300 font-mono">node dist/main.js</code>
+      </div>
+    </div>
+
+    <!-- Slide 8: Summary & Conclusion -->
+    <div class="slide-card bg-slate-900/90 border border-slate-800 rounded-2xl p-6 md:p-10 glow-indigo hidden" id="slide-8">
+      <div class="text-xs text-indigo-400 font-semibold tracking-wider uppercase mb-2">Summary & Conclusion</div>
+      <h2 class="text-2xl md:text-3xl font-bold text-white mb-6">สรุปผลการดำเนินงานและจุดเด่นของระบบ</h2>
+
+      <div class="grid md:grid-cols-3 gap-5 mb-8">
+        <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 text-center">
+          <div class="text-3xl font-bold text-indigo-400 font-mono mb-1">100%</div>
+          <div class="font-semibold text-sm text-white">OWASP A01 Compliance</div>
+          <p class="text-xs text-slate-400 mt-2">ผ่านการทดสอบ BAC Test Suite 13/13 ข้อ ป้องกันทั้ง IDOR และ Privilege Escalation</p>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 text-center">
+          <div class="text-3xl font-bold text-sky-400 font-mono mb-1">4+</div>
+          <div class="font-semibold text-sm text-white">Active Collections</div>
+          <p class="text-xs text-slate-400 mt-2">ตั๋ว (Tickets), หมวดหมู่ (Categories), ความคิดเห็น (Comments), และแผนก (Departments)</p>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 text-center">
+          <div class="text-3xl font-bold text-emerald-400 font-mono mb-1">Single</div>
+          <div class="font-semibold text-sm text-white">Super Admin Policy</div>
+          <p class="text-xs text-slate-400 mt-2">มีผู้ดูแลระบบคนเดียว ลดความเสี่ยง Attack Surface และเก็บรักษาข้อมูลใน Environment อย่างปลอดภัย</p>
+        </div>
+      </div>
+
+      <div class="text-center pt-4 border-t border-slate-800/80">
+        <p class="text-sm text-slate-300">
+          🎉 ขอขอบคุณคณะกรรมการและอาจารย์ทุกท่าน — พร้อมสำหรับการสาธิตระบบจริง (Live Demo) ครับ
+        </p>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Speaker Notes Modal / Panel -->
+  <div id="notesPanel" class="max-w-5xl w-full mx-auto mt-4 p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-300 hidden">
+    <div class="flex items-center justify-between font-semibold text-indigo-300 mb-2">
+      <span>🎙️ บทพูดสำหรับสไลด์นี้ (Speaker Script)</span>
+      <button onclick="toggleNotes()" class="text-slate-500 hover:text-white">✕ ปิด</button>
+    </div>
+    <div id="notesContent" class="leading-relaxed">
+      <!-- Injected by JavaScript -->
+    </div>
+  </div>
+
+  <!-- Bottom Navigation Buttons -->
+  <footer class="max-w-5xl w-full mx-auto flex items-center justify-between border-t border-slate-800 pt-4 mt-6">
+    <button onclick="prevSlide()" id="btnPrev" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs md:text-sm font-medium border border-slate-700 transition flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed">
+      <span>←</span> สไลด์ก่อนหน้า
+    </button>
+
+    <div class="flex items-center gap-1.5" id="dotsContainer">
+      <!-- Dots injected by JS -->
+    </div>
+
+    <button onclick="nextSlide()" id="btnNext" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs md:text-sm font-medium transition flex items-center gap-1.5 shadow-lg shadow-indigo-600/30">
+      สไลด์ถัดไป <span>→</span>
+    </button>
+  </footer>
+
+  <script>
+    const totalSlides = 8;
+    let currentSlide = 1;
+
+    const speakerNotes = {
+      1: "สวัสดีครับอาจารย์และคณะกรรมการทุกท่าน วันนี้ผมขอเสนอโครงการ 'IT Service Desk System' ซึ่งเป็นระบบบริหารจัดการตั๋วแจ้งซ่อมและปัญหาไอทีระดับองค์กร โดยจุดเด่นสำคัญของโครงการนี้ไม่ได้มีเพียงแค่ฟังก์ชันการทำงานที่ครบถ้วนเท่านั้น แต่เราให้ความสำคัญสูงสุดกับการออกแบบความปลอดภัยของระบบตามมาตรฐาน OWASP Top 10 โดยเฉพาะเรื่อง Broken Access Control ครับ",
+      2: "ในระบบ Service Desk ทั่วไป ช่องโหว่ที่พบบ่อยและอันตรายที่สุดคือ Broken Access Control เช่น พนักงานแอบแก้รหัสตั๋วใน URL แล้วดูข้อมูลลับของคนอื่น (IDOR) หรือการที่ใครก็สามารถแอบสมัครเป็น Admin ได้ โครงการนี้จึงเกิดขึ้นเพื่อแก้ปัญหาเหล่านี้ โดยวางระบบ Role-Based Access Control แบบ Granular และบังคับใช้ Single Super Admin Policy ครับ",
+      3: "ด้านสถาปัตยกรรม เราแบ่งระบบออกเป็น 3 เลเยอร์ชัดเจน: Frontend แยกเส้นทางระหว่าง Admin Portal (/admin) และ User Portal (/login) ออกจากกัน, เลเยอร์แอปพลิเคชันใช้ NestJS ทำงานร่วมกับ Guards และ Scoping Logic ตรวจสอบสิทธิ์และกรรมสิทธิ์ในทุกคำสั่ง, และเลเยอร์ฐานข้อมูลใช้ PostgreSQL 18 ทำงานผ่าน Prisma ORM พร้อมระบบแฮชรหัสผ่านด้วย Bcrypt ครับ",
+      4: "ในแง่ของฟังก์ชันการทำงาน เราได้จัดทำโมดูลครบวงจร 4 Collections หลัก: ตั๋วแจ้งซ่อม (Tickets) พร้อมวงจรสถานะงาน, หมวดหมู่ปัญหา (Categories) ที่สามารถคลิกกรองงานและตรวจสอบตั๋วได้ทันที, ความคิดเห็น (Comments) ที่แยกบันทึกงานภายในและสาธารณะ, และการจัดกลุ่มตามแผนก (Departments) เพื่อวิเคราะห์ภาพรวมการทำงานขององค์กรครับ",
+      5: "นี่คือ Permissions Matrix หรือตารางกำหนดสิทธิ์ระดับฟังก์ชันการทำงาน เราแยกระดับสิทธิ์ระหว่าง Super Admin, IT Support, Employee, และ Guest ชัดเจน เช่น การเปลี่ยนสถานะตั๋วจำกัดเฉพาะเจ้าหน้าที่ไอทีเท่านั้น และส่วนการตั้งค่าระบบ (Settings) ถูกจำกัดและซ่อนจากผู้ใช้ทั่วไป 100% ครับ",
+      6: "จุดยืนยันความปลอดภัยที่สำคัญที่สุดคือผลการทดสอบด้วย Automated Test Suite ตามมาตรฐาน OWASP A01:2021 ผลการทดสอบผ่านครบ 13 จาก 13 ข้อ (100%) ทั้งการป้องกันการยกระดับสิทธิ์ข้ามระดับ (Vertical), การแอบเข้าถึงข้อมูลผู้อื่น (Horizontal IDOR), และการบังคับใช้นโยบายความปลอดภัยของระบบครับ",
+      7: "ด้านการติดตั้งและ Deploy เราจัดเก็บตัวแปรระบบและข้อมูลความปลอดภัยไว้ใน .env อย่างเป็นระเบียบ พร้อมไฟล์ตัวอย่าง .env.example โดยมีบัญชีผู้ดูแลระบบสูงสุดเพียงคนเดียว (Single Admin) ผ่านการเข้ารหัสที่ปลอดภัย และมีเอกสาร Swagger OpenAPI พร้อมสำหรับนักพัฒนาต่อยอดได้ทันทีครับ",
+      8: "สรุปผลโครงการ เราได้ระบบ IT Service Desk ที่ใช้งานได้จริง ปลอดภัยในระดับสูงสุดตามมาตรฐานสากล และผ่านการตรวจสอบด้าน Cyber Security อย่างเข้มงวด ขอขอบคุณทุกท่าน และพร้อมสำหรับการสาธิตระบบจริง (Live Demo) แล้วครับ"
+    };
+
+    function updateSlide() {
+      for (let i = 1; i <= totalSlides; i++) {
+        const el = document.getElementById(`slide-${i}`);
+        if (el) {
+          if (i === currentSlide) {
+            el.classList.remove('hidden');
+          } else {
+            el.classList.add('hidden');
+          }
+        }
+      }
+
+      document.getElementById('slideIndicator').textContent = `Slide ${currentSlide} / ${totalSlides}`;
+      document.getElementById('btnPrev').disabled = currentSlide === 1;
+      
+      const btnNext = document.getElementById('btnNext');
+      if (currentSlide === totalSlides) {
+        btnNext.innerHTML = '<span>จบการนำเสนอ</span> <span>🎉</span>';
+      } else {
+        btnNext.innerHTML = 'สไลด์ถัดไป <span>→</span>';
+      }
+
+      renderDots();
+      updateNotesContent();
+    }
+
+    function renderDots() {
+      const container = document.getElementById('dotsContainer');
+      container.innerHTML = '';
+      for (let i = 1; i <= totalSlides; i++) {
+        const dot = document.createElement('button');
+        dot.className = `w-2 h-2 rounded-full transition-all ${i === currentSlide ? 'bg-indigo-400 w-6' : 'bg-slate-700 hover:bg-slate-600'}`;
+        dot.onclick = () => { currentSlide = i; updateSlide(); };
+        container.appendChild(dot);
+      }
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) {
+        currentSlide++;
+        updateSlide();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) {
+        currentSlide--;
+        updateSlide();
+      }
+    }
+
+    function toggleNotes() {
+      const p = document.getElementById('notesPanel');
+      p.classList.toggle('hidden');
+    }
+
+    function updateNotesContent() {
+      document.getElementById('notesContent').textContent = speakerNotes[currentSlide] || '';
+    }
+
+    // Keyboard Navigation
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft') {
+        prevSlide();
+      }
+    });
+
+    // Init
+    updateSlide();
+  </script>
+</body>
+</html>
