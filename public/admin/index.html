@@ -1169,30 +1169,12 @@
               Permissions <span style="font-size: 12px; color: var(--text-subtle); font-weight: 400; margin-left: 6px;">Only actions bound by a route are listed below.</span>
             </div>
 
-            <!-- Card 1: Category Plugin -->
-            <div class="perm-card">
-              <div class="perm-card-header">
-                <div class="perm-card-title">
-                  <span>Category</span>
-                  <span class="perm-card-sub">Define all allowed actions for the api::category plugin.</span>
-                </div>
-                <button class="btn-act" onclick="toggleSelectAll('category')">Select all</button>
-              </div>
-              <div class="perm-grid">
-                <label class="perm-chk-label"><input type="checkbox" id="chk_category_create" onchange="markDirty()"> create</label>
-                <label class="perm-chk-label"><input type="checkbox" id="chk_category_delete" onchange="markDirty()"> delete</label>
-                <label class="perm-chk-label"><input type="checkbox" id="chk_category_find" onchange="markDirty()"> find</label>
-                <label class="perm-chk-label"><input type="checkbox" id="chk_category_findOne" onchange="markDirty()"> findOne</label>
-                <label class="perm-chk-label"><input type="checkbox" id="chk_category_update" onchange="markDirty()"> update</label>
-              </div>
-            </div>
-
-            <!-- Card 2: Ticket Plugin -->
+            <!-- Card 1: Ticket Plugin -->
             <div class="perm-card">
               <div class="perm-card-header">
                 <div class="perm-card-title">
                   <span>Ticket</span>
-                  <span class="perm-card-sub">Define all allowed actions for the api::ticket plugin.</span>
+                  <span class="perm-card-sub">Define all allowed actions for the api::ticket plugin (🎫 Tickets).</span>
                 </div>
                 <button class="btn-act" onclick="toggleSelectAll('ticket')">Select all</button>
               </div>
@@ -1205,12 +1187,30 @@
               </div>
             </div>
 
+            <!-- Card 2: Category Plugin -->
+            <div class="perm-card">
+              <div class="perm-card-header">
+                <div class="perm-card-title">
+                  <span>Category</span>
+                  <span class="perm-card-sub">Define all allowed actions for the api::category plugin (📁 Categories).</span>
+                </div>
+                <button class="btn-act" onclick="toggleSelectAll('category')">Select all</button>
+              </div>
+              <div class="perm-grid">
+                <label class="perm-chk-label"><input type="checkbox" id="chk_category_create" onchange="markDirty()"> create</label>
+                <label class="perm-chk-label"><input type="checkbox" id="chk_category_delete" onchange="markDirty()"> delete</label>
+                <label class="perm-chk-label"><input type="checkbox" id="chk_category_find" onchange="markDirty()"> find</label>
+                <label class="perm-chk-label"><input type="checkbox" id="chk_category_findOne" onchange="markDirty()"> findOne</label>
+                <label class="perm-chk-label"><input type="checkbox" id="chk_category_update" onchange="markDirty()"> update</label>
+              </div>
+            </div>
+
             <!-- Card 3: Ticket-comment Plugin -->
             <div class="perm-card">
               <div class="perm-card-header">
                 <div class="perm-card-title">
                   <span>Ticket-comment</span>
-                  <span class="perm-card-sub">Define all allowed actions for the api::ticket comment plugin.</span>
+                  <span class="perm-card-sub">Define all allowed actions for the api::ticket comment plugin (💬 Comments).</span>
                 </div>
                 <button class="btn-act" onclick="toggleSelectAll('ticket-comment')">Select all</button>
               </div>
@@ -1220,6 +1220,42 @@
                 <label class="perm-chk-label"><input type="checkbox" id="chk_ticket-comment_find" onchange="markDirty()"> find</label>
                 <label class="perm-chk-label"><input type="checkbox" id="chk_ticket-comment_findOne" onchange="markDirty()"> findOne</label>
                 <label class="perm-chk-label"><input type="checkbox" id="chk_ticket-comment_update" onchange="markDirty()"> update</label>
+              </div>
+            </div>
+
+            <!-- Card 4: Department Plugin -->
+            <div class="perm-card">
+              <div class="perm-card-header">
+                <div class="perm-card-title">
+                  <span>Department</span>
+                  <span class="perm-card-sub">Define all allowed actions for the api::department plugin (🏢 Departments).</span>
+                </div>
+                <button class="btn-act" onclick="toggleSelectAll('department')">Select all</button>
+              </div>
+              <div class="perm-grid">
+                <label class="perm-chk-label"><input type="checkbox" id="chk_department_create" onchange="markDirty()"> create</label>
+                <label class="perm-chk-label"><input type="checkbox" id="chk_department_delete" onchange="markDirty()"> delete</label>
+                <label class="perm-chk-label"><input type="checkbox" id="chk_department_find" onchange="markDirty()"> find</label>
+                <label class="perm-chk-label"><input type="checkbox" id="chk_department_findOne" onchange="markDirty()"> findOne</label>
+                <label class="perm-chk-label"><input type="checkbox" id="chk_department_update" onchange="markDirty()"> update</label>
+              </div>
+            </div>
+
+            <!-- Card 5: User Plugin -->
+            <div class="perm-card">
+              <div class="perm-card-header">
+                <div class="perm-card-title">
+                  <span>User</span>
+                  <span class="perm-card-sub">Define all allowed actions for the plugin::users-permissions.user plugin (👥 Users).</span>
+                </div>
+                <button class="btn-act" onclick="toggleSelectAll('user')">Select all</button>
+              </div>
+              <div class="perm-grid">
+                <label class="perm-chk-label"><input type="checkbox" id="chk_user_create" onchange="markDirty()"> create</label>
+                <label class="perm-chk-label"><input type="checkbox" id="chk_user_delete" onchange="markDirty()"> delete</label>
+                <label class="perm-chk-label"><input type="checkbox" id="chk_user_find" onchange="markDirty()"> find</label>
+                <label class="perm-chk-label"><input type="checkbox" id="chk_user_findOne" onchange="markDirty()"> findOne</label>
+                <label class="perm-chk-label"><input type="checkbox" id="chk_user_update" onchange="markDirty()"> update</label>
               </div>
             </div>
           </div>
@@ -1235,14 +1271,32 @@
               </p>
               <div style="border-top: 1px solid var(--border-subtle); padding-top: 12px; margin-top: 12px;">
                 <div style="color: #ffffff; font-weight: 600; margin-bottom: 8px;">🔗 Bound Route Mapping:</div>
-                <ul style="list-style: none; display: flex; flex-direction: column; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px;">
+                <ul style="list-style: none; display: flex; flex-direction: column; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+                  <li style="color: #60a5fa;">POST /api/tickets ➔ create</li>
+                  <li style="color: #4ade80;">GET /api/tickets ➔ find</li>
+                  <li style="color: #4ade80;">GET /api/tickets/:id ➔ findOne</li>
+                  <li style="color: #facc15;">PUT /api/tickets/:id ➔ update</li>
+                  <li style="color: #f87171;">DELETE /api/tickets/:id ➔ delete</li>
+                  <li style="border-top: 1px dashed var(--border-subtle); margin: 3px 0;"></li>
                   <li style="color: #60a5fa;">POST /api/categories ➔ create</li>
                   <li style="color: #4ade80;">GET /api/categories ➔ find</li>
                   <li style="color: #4ade80;">GET /api/categories/:id ➔ findOne</li>
                   <li style="color: #facc15;">PUT /api/categories/:id ➔ update</li>
                   <li style="color: #f87171;">DELETE /api/categories/:id ➔ delete</li>
-                  <li style="color: #60a5fa;">POST /api/tickets ➔ create</li>
-                  <li style="color: #4ade80;">GET /api/tickets ➔ find</li>
+                  <li style="border-top: 1px dashed var(--border-subtle); margin: 3px 0;"></li>
+                  <li style="color: #60a5fa;">POST /api/comments ➔ create</li>
+                  <li style="color: #4ade80;">GET /api/comments ➔ find</li>
+                  <li style="color: #4ade80;">GET /api/comments/:id ➔ findOne</li>
+                  <li style="border-top: 1px dashed var(--border-subtle); margin: 3px 0;"></li>
+                  <li style="color: #60a5fa;">POST /api/departments ➔ create</li>
+                  <li style="color: #4ade80;">GET /api/departments ➔ find</li>
+                  <li style="color: #4ade80;">GET /api/departments/:id ➔ findOne</li>
+                  <li style="border-top: 1px dashed var(--border-subtle); margin: 3px 0;"></li>
+                  <li style="color: #60a5fa;">POST /api/users ➔ create</li>
+                  <li style="color: #4ade80;">GET /api/users ➔ find</li>
+                  <li style="color: #4ade80;">GET /api/users/:id ➔ findOne</li>
+                  <li style="color: #facc15;">PUT /api/users/:id ➔ update</li>
+                  <li style="color: #f87171;">DELETE /api/users/:id ➔ delete</li>
                 </ul>
               </div>
             </div>
@@ -1477,7 +1531,8 @@
         // Populate checkboxes
         const perms = data.role.permissions;
         const isAdmin = currentUser && currentUser.role === 'ADMIN';
-        ['category', 'ticket', 'ticket-comment'].forEach(plugin => {
+        const pluginList = ['ticket', 'category', 'ticket-comment', 'department', 'user'];
+        pluginList.forEach(plugin => {
           ['create', 'delete', 'find', 'findOne', 'update'].forEach(act => {
             const chk = document.getElementById(`chk_${plugin}_${act}`);
             if (chk) {
@@ -1520,12 +1575,15 @@
       }
 
       const updatedPermissions = {
-        category: {},
         ticket: {},
+        category: {},
         'ticket-comment': {},
+        department: {},
+        user: {},
       };
 
-      ['category', 'ticket', 'ticket-comment'].forEach(plugin => {
+      const pluginList = ['ticket', 'category', 'ticket-comment', 'department', 'user'];
+      pluginList.forEach(plugin => {
         ['create', 'delete', 'find', 'findOne', 'update'].forEach(act => {
           const chk = document.getElementById(`chk_${plugin}_${act}`);
           updatedPermissions[plugin][act] = chk ? chk.checked : false;

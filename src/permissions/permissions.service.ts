@@ -12,6 +12,8 @@ export interface ControllerPermissions {
   category: ActionPermissions;
   ticket: ActionPermissions;
   'ticket-comment': ActionPermissions;
+  department: ActionPermissions;
+  user: ActionPermissions;
 }
 
 export interface RoleDetail {
@@ -43,6 +45,8 @@ export class PermissionsService {
         category: { create: true, delete: true, find: true, findOne: true, update: true },
         ticket: { create: true, delete: true, find: true, findOne: true, update: true },
         'ticket-comment': { create: true, delete: true, find: true, findOne: true, update: true },
+        department: { create: true, delete: true, find: true, findOne: true, update: true },
+        user: { create: true, delete: true, find: true, findOne: true, update: true },
       },
     });
 
@@ -57,6 +61,8 @@ export class PermissionsService {
         category: { create: true, delete: false, find: true, findOne: true, update: true },
         ticket: { create: true, delete: false, find: true, findOne: true, update: true },
         'ticket-comment': { create: true, delete: true, find: true, findOne: true, update: true },
+        department: { create: true, delete: false, find: true, findOne: true, update: true },
+        user: { create: false, delete: false, find: true, findOne: true, update: false },
       },
     });
 
@@ -71,6 +77,8 @@ export class PermissionsService {
         category: { create: false, delete: false, find: true, findOne: true, update: false },
         ticket: { create: true, delete: false, find: true, findOne: true, update: true },
         'ticket-comment': { create: true, delete: false, find: true, findOne: true, update: false },
+        department: { create: false, delete: false, find: true, findOne: true, update: false },
+        user: { create: false, delete: false, find: true, findOne: true, update: false },
       },
     });
 
@@ -85,6 +93,8 @@ export class PermissionsService {
         category: { create: false, delete: false, find: true, findOne: true, update: false },
         ticket: { create: false, delete: false, find: false, findOne: false, update: false },
         'ticket-comment': { create: false, delete: false, find: false, findOne: false, update: false },
+        department: { create: false, delete: false, find: false, findOne: false, update: false },
+        user: { create: false, delete: false, find: false, findOne: false, update: false },
       },
     });
   }
