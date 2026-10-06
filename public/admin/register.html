@@ -3,15 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Login - IT Service Desk</title>
+  <title>Admin Registration - IT Service Desk</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Prompt:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Prompt:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-body: #0b0f19;
       --bg-surface: #111827;
-      --bg-surface-elevated: #161f33;
       --border-subtle: #1e293b;
       --border-focus: #4f46e5;
       --text-main: #f8fafc;
@@ -20,18 +19,12 @@
       --primary: #4f46e5;
       --primary-hover: #4338ca;
       --radius-sm: 6px;
-      --radius-md: 10px;
       --radius-lg: 16px;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: 'Inter', 'Prompt', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Inter', 'Prompt', sans-serif;
       background-color: var(--bg-body);
       color: var(--text-main);
       min-height: 100vh;
@@ -55,7 +48,7 @@
     }
 
     .auth-card {
-      width: 440px;
+      width: 460px;
       max-width: 100%;
       background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
@@ -94,9 +87,6 @@
       letter-spacing: -0.3px;
     }
     .brand-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
       font-size: 11px;
       font-weight: 600;
       color: #a5b4fc;
@@ -140,28 +130,6 @@
       border-color: var(--border-focus);
     }
 
-    .form-options {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-    .form-options label {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
-    }
-    .form-options a {
-      color: #818cf8;
-      text-decoration: none;
-      font-weight: 500;
-    }
-    .form-options a:hover {
-      text-decoration: underline;
-    }
-
     .btn-submit {
       background: var(--primary);
       color: #ffffff;
@@ -176,38 +144,10 @@
       justify-content: center;
       gap: 8px;
       transition: background-color 0.15s ease;
-      margin-top: 4px;
+      margin-top: 6px;
     }
     .btn-submit:hover {
       background: var(--primary-hover);
-    }
-
-    .quick-creds {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px dashed var(--border-subtle);
-      border-radius: var(--radius-sm);
-      padding: 10px 14px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 11.5px;
-    }
-    .quick-creds span {
-      color: var(--text-subtle);
-    }
-    .chip-btn {
-      background: var(--bg-body);
-      border: 1px solid var(--border-subtle);
-      color: #cbd5e1;
-      padding: 3px 8px;
-      border-radius: 4px;
-      font-size: 11px;
-      cursor: pointer;
-      font-family: 'JetBrains Mono', monospace;
-    }
-    .chip-btn:hover {
-      color: white;
-      border-color: #4f46e5;
     }
 
     .auth-footer {
@@ -259,44 +199,43 @@
     <div class="brand-header">
       <div class="brand-icon">🛠️</div>
       <div class="brand-title">IT Service Desk</div>
-      <div class="brand-tag">👑 Admin Console</div>
+      <div class="brand-tag">👑 Admin Setup</div>
     </div>
 
     <div class="section-intro">
-      เข้าสู่ระบบสำหรับผู้ดูแลระบบ (Admin & Technical Operations)
+      ลงทะเบียนบัญชี Super Admin สำหรับผู้ดูแลระบบคนแรก
     </div>
 
-    <form id="adminLoginForm" onsubmit="handleAdminLogin(event)" style="display: flex; flex-direction: column; gap: 14px;">
+    <form id="adminRegisterForm" onsubmit="handleAdminRegister(event)" style="display: flex; flex-direction: column; gap: 14px;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <div class="form-group">
+          <label for="inpFirstName">ชื่อ (Firstname) *</label>
+          <input type="text" class="form-input" id="inpFirstName" placeholder="ชื่อ" required autofocus>
+        </div>
+        <div class="form-group">
+          <label for="inpLastName">นามสกุล (Lastname) *</label>
+          <input type="text" class="form-input" id="inpLastName" placeholder="นามสกุล" required>
+        </div>
+      </div>
+
       <div class="form-group">
-        <label for="inpAdminEmail">อีเมลผู้ดูแล (Admin Email) *</label>
-        <input type="email" class="form-input" id="inpAdminEmail" value="admin@example.com" placeholder="admin@example.com" required autofocus>
+        <label for="inpAdminEmail">อีเมล (Admin Email) *</label>
+        <input type="email" class="form-input" id="inpAdminEmail" placeholder="admin@example.com" required>
       </div>
 
       <div class="form-group">
         <label for="inpAdminPassword">รหัสผ่าน (Password) *</label>
-        <input type="password" class="form-input" id="inpAdminPassword" value="password123" placeholder="password" required>
-      </div>
-
-      <div class="form-options">
-        <label>
-          <input type="checkbox" id="chkRememberMe" style="accent-color: var(--primary);"> จดจำฉันไว้ (Remember Me)
-        </label>
-        <a href="/admin/forgot-password">ลืมรหัสผ่าน?</a>
+        <input type="password" class="form-input" id="inpAdminPassword" placeholder="อย่างน้อย 6 ตัวอักษร" required>
       </div>
 
       <button type="submit" class="btn-submit" id="btnSubmit">
-        <span>เข้าสู่ระบบ Admin 👑</span>
+        <span>สร้างบัญชี Super Admin 👑</span>
       </button>
     </form>
 
-    <div class="quick-creds">
-      <span>บัญชีเริ่มต้น:</span>
-      <button type="button" class="chip-btn" onclick="fillCreds('admin@example.com', 'password123')">admin@example.com</button>
-    </div>
-
     <div class="auth-footer">
       <div>
-        ยังไม่ได้ตั้งค่า Super Admin? <a href="/admin/register">ลงทะเบียนผู้ดูแลคนแรก</a>
+        มีบัญชีผู้ดูแลระบบอยู่แล้ว? <a href="/admin/login">เข้าสู่ระบบ Admin</a>
       </div>
       <div>
         สำหรับพนักงานทั่วไป <a href="/login">ไปที่หน้า User Portal ↗</a>
@@ -304,7 +243,7 @@
     </div>
   </div>
 
-  <div class="toast" id="toastMsg">เข้าสู่ระบบสำเร็จ</div>
+  <div class="toast" id="toastMsg">ลงทะเบียนสำเร็จ</div>
 
   <script>
     const API_BASE = window.location.origin;
@@ -317,51 +256,37 @@
       setTimeout(() => { t.style.display = 'none'; }, 2800);
     }
 
-    function fillCreds(email, pass) {
-      document.getElementById('inpAdminEmail').value = email;
-      document.getElementById('inpAdminPassword').value = pass;
-    }
-
-    async function handleAdminLogin(e) {
+    async function handleAdminRegister(e) {
       e.preventDefault();
+      const firstname = document.getElementById('inpFirstName').value.trim();
+      const lastname = document.getElementById('inpLastName').value.trim();
       const email = document.getElementById('inpAdminEmail').value.trim();
       const password = document.getElementById('inpAdminPassword').value;
-      const rememberMe = document.getElementById('chkRememberMe').checked;
       const btn = document.getElementById('btnSubmit');
 
-      if (!email || !password) {
-        return showToast('กรุณากรอกอีเมลและรหัสผ่าน', true);
-      }
-
       btn.disabled = true;
-      btn.textContent = 'กำลังตรวจสอบ...';
+      btn.textContent = 'กำลังลงทะเบียน...';
 
       try {
-        const res = await fetch(`${API_BASE}/admin/login`, {
+        const res = await fetch(`${API_BASE}/admin/register-admin`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password, rememberMe })
+          body: JSON.stringify({ firstname, lastname, email, password })
         });
 
         const data = await res.json();
         if (!res.ok) {
-          throw new Error(data.message || 'อีเมลหรือรหัสผ่านผู้ดูแลไม่ถูกต้อง');
+          throw new Error(data.message || 'ลงทะเบียนไม่สำเร็จ (อาจมี Super Admin อยู่ในระบบแล้ว)');
         }
 
-        const token = data.data?.token || data.token;
-        const user = data.data?.user || data.user || { email, role: 'ADMIN' };
-
-        localStorage.setItem('auth_token', token);
-        localStorage.setItem('auth_user', JSON.stringify(user));
-
-        showToast('เข้าสู่ระบบ Admin สำเร็จ กำลังเข้าสู่แดชบอร์ด...');
+        showToast('ลงทะเบียน Super Admin สำเร็จ! กำลังนำไปหน้าเข้าสู่ระบบ...');
         setTimeout(() => {
-          window.location.href = '/admin';
-        }, 600);
+          window.location.href = '/admin/login';
+        }, 1200);
       } catch (err) {
         showToast(err.message, true);
         btn.disabled = false;
-        btn.innerHTML = '<span>เข้าสู่ระบบ Admin 👑</span>';
+        btn.innerHTML = '<span>สร้างบัญชี Super Admin 👑</span>';
       }
     }
   </script>

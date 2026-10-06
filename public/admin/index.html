@@ -1221,7 +1221,7 @@
     }
 
     if (!currentToken || !currentUser) {
-      window.location.replace('/admin/login.html');
+      window.location.replace('/admin/login');
     }
 
     let allTickets = [];
@@ -1249,7 +1249,7 @@
     function handleLogout() {
       localStorage.removeItem('auth_token');
       localStorage.removeItem('auth_user');
-      window.location.replace('/admin/login.html');
+      window.location.replace('/admin/login');
     }
 
     function switchMainTab(tab) {

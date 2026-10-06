@@ -3,35 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Login - IT Service Desk</title>
+  <title>User Registration - IT Service Desk</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Prompt:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Prompt:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-body: #0b0f19;
       --bg-surface: #111827;
-      --bg-surface-elevated: #161f33;
       --border-subtle: #1e293b;
-      --border-focus: #4f46e5;
+      --border-focus: #3b82f6;
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
       --text-subtle: #64748b;
-      --primary: #4f46e5;
-      --primary-hover: #4338ca;
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
       --radius-sm: 6px;
-      --radius-md: 10px;
       --radius-lg: 16px;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: 'Inter', 'Prompt', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Inter', 'Prompt', sans-serif;
       background-color: var(--bg-body);
       color: var(--text-main);
       min-height: 100vh;
@@ -49,7 +42,7 @@
       transform: translateX(-50%);
       width: 500px;
       height: 350px;
-      background: radial-gradient(circle, rgba(79, 70, 229, 0.08) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
       pointer-events: none;
       z-index: 0;
     }
@@ -80,12 +73,12 @@
       width: 48px;
       height: 48px;
       border-radius: 12px;
-      background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+      background: linear-gradient(135deg, #3b82f6 0%, #0ea5e9 100%);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 24px;
-      box-shadow: 0 4px 14px rgba(79, 70, 229, 0.3);
+      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
     }
     .brand-title {
       font-size: 18px;
@@ -94,14 +87,11 @@
       letter-spacing: -0.3px;
     }
     .brand-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
       font-size: 11px;
       font-weight: 600;
-      color: #a5b4fc;
-      background: rgba(79, 70, 229, 0.15);
-      border: 1px solid rgba(79, 70, 229, 0.3);
+      color: #93c5fd;
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.3);
       padding: 2px 8px;
       border-radius: 12px;
       text-transform: uppercase;
@@ -140,28 +130,6 @@
       border-color: var(--border-focus);
     }
 
-    .form-options {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-    .form-options label {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
-    }
-    .form-options a {
-      color: #818cf8;
-      text-decoration: none;
-      font-weight: 500;
-    }
-    .form-options a:hover {
-      text-decoration: underline;
-    }
-
     .btn-submit {
       background: var(--primary);
       color: #ffffff;
@@ -176,38 +144,10 @@
       justify-content: center;
       gap: 8px;
       transition: background-color 0.15s ease;
-      margin-top: 4px;
+      margin-top: 6px;
     }
     .btn-submit:hover {
       background: var(--primary-hover);
-    }
-
-    .quick-creds {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px dashed var(--border-subtle);
-      border-radius: var(--radius-sm);
-      padding: 10px 14px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 11.5px;
-    }
-    .quick-creds span {
-      color: var(--text-subtle);
-    }
-    .chip-btn {
-      background: var(--bg-body);
-      border: 1px solid var(--border-subtle);
-      color: #cbd5e1;
-      padding: 3px 8px;
-      border-radius: 4px;
-      font-size: 11px;
-      cursor: pointer;
-      font-family: 'JetBrains Mono', monospace;
-    }
-    .chip-btn:hover {
-      color: white;
-      border-color: #4f46e5;
     }
 
     .auth-footer {
@@ -259,52 +199,45 @@
     <div class="brand-header">
       <div class="brand-icon">🛠️</div>
       <div class="brand-title">IT Service Desk</div>
-      <div class="brand-tag">👑 Admin Console</div>
+      <div class="brand-tag">👤 User Sign Up</div>
     </div>
 
     <div class="section-intro">
-      เข้าสู่ระบบสำหรับผู้ดูแลระบบ (Admin & Technical Operations)
+      สร้างบัญชีผู้ใช้ใหม่สำหรับพนักงานและผู้ใช้บริการ
     </div>
 
-    <form id="adminLoginForm" onsubmit="handleAdminLogin(event)" style="display: flex; flex-direction: column; gap: 14px;">
+    <form id="userRegisterForm" onsubmit="handleUserRegister(event)" style="display: flex; flex-direction: column; gap: 14px;">
       <div class="form-group">
-        <label for="inpAdminEmail">อีเมลผู้ดูแล (Admin Email) *</label>
-        <input type="email" class="form-input" id="inpAdminEmail" value="admin@example.com" placeholder="admin@example.com" required autofocus>
+        <label for="inpUsername">ชื่อผู้ใช้งาน (Username) *</label>
+        <input type="text" class="form-input" id="inpUsername" placeholder="เช่น somchai_d" required autofocus>
       </div>
 
       <div class="form-group">
-        <label for="inpAdminPassword">รหัสผ่าน (Password) *</label>
-        <input type="password" class="form-input" id="inpAdminPassword" value="password123" placeholder="password" required>
+        <label for="inpEmail">อีเมล (Email) *</label>
+        <input type="email" class="form-input" id="inpEmail" placeholder="เช่น somchai@company.com" required>
       </div>
 
-      <div class="form-options">
-        <label>
-          <input type="checkbox" id="chkRememberMe" style="accent-color: var(--primary);"> จดจำฉันไว้ (Remember Me)
-        </label>
-        <a href="/admin/forgot-password">ลืมรหัสผ่าน?</a>
+      <div class="form-group">
+        <label for="inpPassword">รหัสผ่าน (Password) *</label>
+        <input type="password" class="form-input" id="inpPassword" placeholder="อย่างน้อย 6 ตัวอักษร" required>
       </div>
 
       <button type="submit" class="btn-submit" id="btnSubmit">
-        <span>เข้าสู่ระบบ Admin 👑</span>
+        <span>สมัครสมาชิก User 👤</span>
       </button>
     </form>
 
-    <div class="quick-creds">
-      <span>บัญชีเริ่มต้น:</span>
-      <button type="button" class="chip-btn" onclick="fillCreds('admin@example.com', 'password123')">admin@example.com</button>
-    </div>
-
     <div class="auth-footer">
       <div>
-        ยังไม่ได้ตั้งค่า Super Admin? <a href="/admin/register">ลงทะเบียนผู้ดูแลคนแรก</a>
+        มีบัญชีผู้ใช้งานอยู่แล้ว? <a href="/login">เข้าสู่ระบบ</a>
       </div>
       <div>
-        สำหรับพนักงานทั่วไป <a href="/login">ไปที่หน้า User Portal ↗</a>
+        สำหรับผู้ดูแลระบบ <a href="/admin/login">เข้าสู่ระบบ Admin Console ↗</a>
       </div>
     </div>
   </div>
 
-  <div class="toast" id="toastMsg">เข้าสู่ระบบสำเร็จ</div>
+  <div class="toast" id="toastMsg">สมัครสมาชิกสำเร็จ</div>
 
   <script>
     const API_BASE = window.location.origin;
@@ -317,51 +250,42 @@
       setTimeout(() => { t.style.display = 'none'; }, 2800);
     }
 
-    function fillCreds(email, pass) {
-      document.getElementById('inpAdminEmail').value = email;
-      document.getElementById('inpAdminPassword').value = pass;
-    }
-
-    async function handleAdminLogin(e) {
+    async function handleUserRegister(e) {
       e.preventDefault();
-      const email = document.getElementById('inpAdminEmail').value.trim();
-      const password = document.getElementById('inpAdminPassword').value;
-      const rememberMe = document.getElementById('chkRememberMe').checked;
+      const username = document.getElementById('inpUsername').value.trim();
+      const email = document.getElementById('inpEmail').value.trim();
+      const password = document.getElementById('inpPassword').value;
       const btn = document.getElementById('btnSubmit');
 
-      if (!email || !password) {
-        return showToast('กรุณากรอกอีเมลและรหัสผ่าน', true);
-      }
-
       btn.disabled = true;
-      btn.textContent = 'กำลังตรวจสอบ...';
+      btn.textContent = 'กำลังสร้างบัญชี...';
 
       try {
-        const res = await fetch(`${API_BASE}/admin/login`, {
+        const res = await fetch(`${API_BASE}/api/auth/local/register`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password, rememberMe })
+          body: JSON.stringify({ username, email, password })
         });
 
         const data = await res.json();
         if (!res.ok) {
-          throw new Error(data.message || 'อีเมลหรือรหัสผ่านผู้ดูแลไม่ถูกต้อง');
+          throw new Error(data.message || 'การสมัครสมาชิกไม่สำเร็จ (อาจมีอีเมลหรือชื่อผู้ใช้นี้แล้ว)');
         }
 
-        const token = data.data?.token || data.token;
-        const user = data.data?.user || data.user || { email, role: 'ADMIN' };
+        const token = data.jwt;
+        const user = data.user;
 
         localStorage.setItem('auth_token', token);
         localStorage.setItem('auth_user', JSON.stringify(user));
 
-        showToast('เข้าสู่ระบบ Admin สำเร็จ กำลังเข้าสู่แดชบอร์ด...');
+        showToast('สมัครสมาชิกสำเร็จ! กำลังเข้าสู่ระบบ...');
         setTimeout(() => {
           window.location.href = '/admin';
-        }, 600);
+        }, 1000);
       } catch (err) {
         showToast(err.message, true);
         btn.disabled = false;
-        btn.innerHTML = '<span>เข้าสู่ระบบ Admin 👑</span>';
+        btn.innerHTML = '<span>สมัครสมาชิก User 👤</span>';
       }
     }
   </script>

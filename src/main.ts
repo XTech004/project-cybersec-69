@@ -21,7 +21,11 @@ async function bootstrap() {
 
   // Serve Web Admin Dashboard
   const publicAdminDir = path.join(process.cwd(), 'public', 'admin');
-  app.use('/admin', express.static(publicAdminDir));
+  app.use('/admin', express.static(publicAdminDir, { extensions: ['html'] }));
+
+  // Serve Public Root Static
+  const publicDir = path.join(process.cwd(), 'public');
+  app.use(express.static(publicDir, { extensions: ['html'] }));
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('IT Service Desk & Incident Ticket API')
