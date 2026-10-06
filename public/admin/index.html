@@ -1149,12 +1149,9 @@
             </div>
           </div>
           <div style="display: flex; align-items: center; gap: 12px;">
-            <!-- Role Selector Tabs -->
+            <!-- Role Selector Tabs (Only Public) -->
             <div class="role-select-tabs">
               <button class="role-tab-item active" id="btnRolePublic" onclick="selectRoleToConfig('public')">Public</button>
-              <button class="role-tab-item" id="btnRoleAuth" onclick="selectRoleToConfig('authenticated')">Authenticated</button>
-              <button class="role-tab-item" id="btnRoleIT" onclick="selectRoleToConfig('it_support')">IT Support</button>
-              <button class="role-tab-item" id="btnRoleAdmin" onclick="selectRoleToConfig('admin')">Admin</button>
             </div>
             <button class="btn-primary" id="btnSaveRoles" style="padding: 7px 18px;" onclick="saveRolePermissions()">
               💾 Save
@@ -1508,20 +1505,13 @@
     }
 
     // --- Strapi Roles & Permissions Configuration ---
-    async function selectRoleToConfig(roleId) {
-      selectedConfigRoleId = roleId;
-      ['Public', 'Auth', 'IT', 'Admin'].forEach(r => {
-        const btn = document.getElementById(`btnRole${r}`);
-        if (btn) btn.classList.remove('active');
-      });
-
-      if (roleId === 'public') document.getElementById('btnRolePublic').classList.add('active');
-      if (roleId === 'authenticated') document.getElementById('btnRoleAuth').classList.add('active');
-      if (roleId === 'it_support') document.getElementById('btnRoleIT').classList.add('active');
-      if (roleId === 'admin') document.getElementById('btnRoleAdmin').classList.add('active');
+    async function selectRoleToConfig(roleId = 'public') {
+      selectedConfigRoleId = 'public';
+      const btnPublic = document.getElementById('btnRolePublic');
+      if (btnPublic) btnPublic.classList.add('active');
 
       try {
-        const res = await fetch(`${API_BASE}/api/users-permissions/roles/${roleId}`);
+        const res = await fetch(`${API_BASE}/api/users-permissions/roles/public`);
         const data = await res.json();
         currentRolePermissionsData = data.role;
 
