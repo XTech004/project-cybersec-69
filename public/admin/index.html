@@ -513,6 +513,21 @@
       border-color: #334155;
       background: rgba(255, 255, 255, 0.04);
     }
+    .btn-act-danger {
+      background: transparent;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #f87171;
+      padding: 4px 8px;
+      border-radius: var(--radius-sm);
+      font-size: 11.5px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .btn-act-danger:hover {
+      background: rgba(239, 68, 68, 0.15);
+      border-color: #ef4444;
+      color: #ffffff;
+    }
 
     /* Modal Backdrop & Box */
     .modal-backdrop {
@@ -759,12 +774,26 @@
         </div>
         <span class="badge-count" id="badgeCategories">0</span>
       </li>
+      <li class="nav-item" id="navComments" onclick="switchMainTab('comments')">
+        <div class="nav-item-left">
+          <span>💬</span>
+          <span>Comments</span>
+        </div>
+        <span class="badge-count" id="badgeComments">0</span>
+      </li>
+      <li class="nav-item" id="navDepartments" onclick="switchMainTab('departments')">
+        <div class="nav-item-left">
+          <span>🏢</span>
+          <span>Departments</span>
+        </div>
+        <span class="badge-count" id="badgeDepartments">0</span>
+      </li>
       <li class="nav-item" id="navUsers" onclick="switchMainTab('users')">
         <div class="nav-item-left">
           <span>👥</span>
           <span>Users</span>
         </div>
-        <span class="badge-count" id="badgeUsers">4</span>
+        <span class="badge-count" id="badgeUsers">0</span>
       </li>
     </ul>
 
@@ -887,6 +916,15 @@
               <option value="LOW">ไม่เร่งด่วน (LOW)</option>
             </select>
           </div>
+          <div class="filter-group">
+            <span class="filter-label">หมวดหมู่:</span>
+            <select class="filter-select" id="filterCategory" onchange="renderTicketTable()">
+              <option value="ALL">ทุกหมวดหมู่ (All Categories)</option>
+            </select>
+          </div>
+          <button class="btn-act" id="btnResetFilters" onclick="resetTicketFilters()" style="margin-left: auto;">
+            🔄 ล้างตัวกรอง
+          </button>
         </div>
 
         <!-- Tickets Table -->
@@ -915,8 +953,8 @@
       <section id="viewCategories" style="display: none;">
         <div class="view-header">
           <div class="view-title-group">
-            <h2>Incident Categories</h2>
-            <p>หมวดหมู่การแจ้งซ่อมและปัญหาไอที</p>
+            <h2>Incident Categories (หมวดหมู่ปัญหา)</h2>
+            <p>จัดการหมวดหมู่ปัญหาไอที เชื่อมโยงกับตั๋วแจ้งซ่อม และคัดกรองงานได้ทันที</p>
           </div>
           <div class="action-group">
             <button class="btn-primary" onclick="openCreateCategoryModal()">➕ เพิ่มหมวดหมู่ใหม่</button>
@@ -924,18 +962,119 @@
           </div>
         </div>
 
+        <!-- Metrics Overview for Categories -->
+        <div class="metrics-grid" style="grid-template-columns: repeat(3, 1fr); margin-top: 14px;">
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-lbl">หมวดหมู่ทั้งหมด</span>
+              <span class="metric-icon-small">📁</span>
+            </div>
+            <div class="metric-val" id="catMetricTotal">0</div>
+            <div class="metric-sub">ประเภทปัญหาที่เปิดให้บริการ</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-lbl">ตั๋วทั้งหมดในระบบ</span>
+              <span class="metric-icon-small">🎫</span>
+            </div>
+            <div class="metric-val" id="catMetricTickets" style="color: #60a5fa;">0</div>
+            <div class="metric-sub">ตั๋วที่ผูกกับหมวดหมู่ต่างๆ</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-header">
+              <span class="metric-lbl">สิทธิ์การจัดการ</span>
+              <span class="metric-icon-small">🛡️</span>
+            </div>
+            <div class="metric-val" style="font-size: 16px; color: #4ade80; margin-top: 6px;">ADMIN / IT_SUPPORT</div>
+            <div class="metric-sub">สร้าง-แก้ไข (Admin สามารถลบได้)</div>
+          </div>
+        </div>
+
         <div class="table-container" style="margin-top: 16px;">
           <table>
             <thead>
               <tr>
-                <th style="width: 25%;">ชื่อหมวดหมู่</th>
-                <th style="width: 50%;">คำอธิบายรายละเอียด</th>
-                <th style="width: 25%; text-align: right;">รหัสหมวดหมู่ (ID)</th>
+                <th style="width: 22%;">ชื่อหมวดหมู่</th>
+                <th style="width: 36%;">คำอธิบายรายละเอียด</th>
+                <th style="width: 14%;">จำนวนตั๋ว</th>
+                <th style="width: 12%;">รหัสหมวดหมู่</th>
+                <th style="width: 16%; text-align: right;">การจัดการ</th>
               </tr>
             </thead>
             <tbody id="tblCategoriesBody">
               <tr>
-                <td colspan="3" style="text-align: center; padding: 36px; color: var(--text-subtle);">กำลังโหลดหมวดหมู่...</td>
+                <td colspan="5" style="text-align: center; padding: 36px; color: var(--text-subtle);">กำลังโหลดหมวดหมู่...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- View: COMMENTS VIEW -->
+      <section id="viewComments" style="display: none;">
+        <div class="view-header">
+          <div class="view-title-group">
+            <h2>Ticket Comments & Discussions</h2>
+            <p>บันทึกความคิดเห็นและการติดตามความคืบหน้าของงานทั้งหมด</p>
+          </div>
+          <div class="action-group">
+            <button class="btn-secondary" onclick="loadTickets()">🔄 รีเฟรช</button>
+          </div>
+        </div>
+
+        <div class="filter-bar" style="margin-top: 16px;">
+          <div class="filter-group" style="flex: 1;">
+            <span class="filter-label">ค้นหา:</span>
+            <input type="text" class="form-input" id="inpSearchComments" placeholder="พิมพ์ข้อความความคิดเห็น หรือหัวข้อตั๋ว..." oninput="renderCommentsTable()" style="padding: 7px 12px; width: 100%; max-width: 400px;">
+          </div>
+        </div>
+
+        <div class="table-container" style="margin-top: 14px;">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 36%;">ข้อความความคิดเห็น</th>
+                <th style="width: 24%;">ตั๋วที่เกี่ยวข้อง</th>
+                <th style="width: 16%;">ผู้เขียน (Author)</th>
+                <th style="width: 10%;">ประเภท</th>
+                <th style="width: 14%; text-align: right;">การจัดการ</th>
+              </tr>
+            </thead>
+            <tbody id="tblCommentsBody">
+              <tr>
+                <td colspan="5" style="text-align: center; padding: 36px; color: var(--text-subtle);">กำลังโหลดความคิดเห็น...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- View: DEPARTMENTS VIEW -->
+      <section id="viewDepartments" style="display: none;">
+        <div class="view-header">
+          <div class="view-title-group">
+            <h2>Organizational Departments</h2>
+            <p>รายชื่อแผนกและฝ่ายงานทั้งหมด พร้อมสถิติบุคลากรและตั๋วแจ้งซ่อม</p>
+          </div>
+          <div class="action-group">
+            <button class="btn-secondary" onclick="refreshData()">🔄 รีเฟรช</button>
+          </div>
+        </div>
+
+        <div class="table-container" style="margin-top: 16px;">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 25%;">ชื่อแผนก (Department)</th>
+                <th style="width: 18%;">จำนวนบุคลากร (Members)</th>
+                <th style="width: 18%;">ตั๋วแจ้งซ่อมทั้งหมด</th>
+                <th style="width: 24%;">รายชื่อสมาชิกในแผนก</th>
+                <th style="width: 15%; text-align: right;">การจัดการ</th>
+              </tr>
+            </thead>
+            <tbody id="tblDepartmentsBody">
+              <tr>
+                <td colspan="5" style="text-align: center; padding: 36px; color: var(--text-subtle);">กำลังโหลดข้อมูลแผนก...</td>
               </tr>
             </tbody>
           </table>
@@ -1171,6 +1310,29 @@
     </div>
   </div>
 
+  <!-- Modal: Edit Category -->
+  <div class="modal-backdrop" id="modalEditCategory">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">✏️ แก้ไขหมวดหมู่ปัญหา</div>
+        <button class="modal-close-btn" onclick="closeModal('modalEditCategory')">✕</button>
+      </div>
+      <input type="hidden" id="inpEditCatId">
+      <div class="form-group">
+        <label>ชื่อหมวดหมู่ *</label>
+        <input type="text" class="form-input" id="inpEditCatName" placeholder="เช่น Hardware, Software">
+      </div>
+      <div class="form-group">
+        <label>คำอธิบาย</label>
+        <textarea class="form-input" id="inpEditCatDesc" rows="3" placeholder="รายละเอียดของหมวดหมู่นี้..."></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeModal('modalEditCategory')">ยกเลิก</button>
+        <button class="btn-primary" onclick="submitEditCategory()">บันทึกการแก้ไข</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Modal: Comments & Discussion -->
   <div class="modal-backdrop" id="modalComments">
     <div class="modal-box" style="width: 540px;">
@@ -1210,6 +1372,8 @@
 
     let allTickets = [];
     let allCategories = [];
+    let allUsers = [];
+    let selectedFilterDepartment = 'ALL';
     let activeTicketId = null;
     let selectedConfigRoleId = 'public';
     let currentRolePermissionsData = null;
@@ -1237,7 +1401,7 @@
     }
 
     function switchMainTab(tab) {
-      ['tickets', 'categories', 'users', 'roles'].forEach(t => {
+      ['tickets', 'categories', 'comments', 'departments', 'users', 'roles'].forEach(t => {
         const nav = document.getElementById(`nav${t.charAt(0).toUpperCase() + t.slice(1)}`);
         const view = document.getElementById(`view${t.charAt(0).toUpperCase() + t.slice(1)}`);
         if (nav) nav.classList.remove('active');
@@ -1250,14 +1414,24 @@
       if (activeView) activeView.style.display = 'block';
 
       const tabTitleMap = {
-        tickets: 'Tickets',
-        categories: 'Categories',
-        users: 'Users',
-        roles: 'Roles & Permissions'
+        tickets: 'Tickets (ตั๋วแจ้งซ่อม)',
+        categories: 'Incident Categories (หมวดหมู่ปัญหา)',
+        comments: 'Ticket Comments (ความคิดเห็น)',
+        departments: 'Departments (โครงสร้างแผนก)',
+        users: 'System Users (ผู้ใช้งาน)',
+        roles: 'Roles & Permissions (สิทธิ์การใช้งาน)'
       };
       document.getElementById('lblCurrentTabName').textContent = tabTitleMap[tab] || 'Dashboard';
 
-      if (tab === 'roles') {
+      if (tab === 'categories') {
+        loadCategories();
+      } else if (tab === 'comments') {
+        renderCommentsTable();
+      } else if (tab === 'departments') {
+        renderDepartmentsTable();
+      } else if (tab === 'users') {
+        loadUsers();
+      } else if (tab === 'roles') {
         if (!currentUser || currentUser.role !== 'ADMIN') {
           showToast('คุณไม่มีสิทธิ์เข้าถึงส่วนนี้ (เฉพาะผู้ดูแลระบบ Admin เท่านั้น)', true);
           switchMainTab('tickets');
@@ -1382,6 +1556,7 @@
     async function refreshData() {
       await loadCategories();
       await loadTickets();
+      await loadUsers();
     }
 
     async function loadCategories() {
@@ -1391,23 +1566,146 @@
         });
         if (res.status === 401) return handleLogout();
         allCategories = await res.json();
-        document.getElementById('badgeCategories').textContent = Array.isArray(allCategories) ? allCategories.length : 0;
+        
+        const count = Array.isArray(allCategories) ? allCategories.length : 0;
+        const badgeCategories = document.getElementById('badgeCategories');
+        if (badgeCategories) badgeCategories.textContent = count;
+        const catMetricTotal = document.getElementById('catMetricTotal');
+        if (catMetricTotal) catMetricTotal.textContent = count;
         
         const catSelect = document.getElementById('inpTicketCategory');
-        if (Array.isArray(allCategories)) {
+        if (catSelect && Array.isArray(allCategories)) {
           catSelect.innerHTML = allCategories.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+        }
 
-          const tbody = document.getElementById('tblCategoriesBody');
-          tbody.innerHTML = allCategories.map(c => `
-            <tr>
-              <td style="font-weight:600; color:white;">📁 ${c.name}</td>
-              <td style="color:var(--text-muted);">${c.description || '-'}</td>
-              <td style="text-align:right; font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--text-subtle);">${c.id.substring(0,10)}...</td>
-            </tr>
-          `).join('');
+        const filterCat = document.getElementById('filterCategory');
+        if (filterCat && Array.isArray(allCategories)) {
+          const currentVal = filterCat.value;
+          filterCat.innerHTML = `<option value="ALL">📁 ทุกหมวดหมู่ (All Categories)</option>` +
+            allCategories.map(c => {
+              const tCount = c._count?.tickets ?? allTickets.filter(t => t.categoryId === c.id || t.category?.name === c.name).length;
+              return `<option value="${c.id}">${c.name} (${tCount})</option>`;
+            }).join('');
+          if (currentVal && (currentVal === 'ALL' || allCategories.some(c => c.id === currentVal))) {
+            filterCat.value = currentVal;
+          }
+        }
+
+        const tbody = document.getElementById('tblCategoriesBody');
+        if (tbody && Array.isArray(allCategories)) {
+          const isAdminOrIt = currentUser && (currentUser.role === 'ADMIN' || currentUser.role === 'IT_SUPPORT');
+          const isAdmin = currentUser && currentUser.role === 'ADMIN';
+
+          if (allCategories.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:36px; color:var(--text-subtle);">ยังไม่มีหมวดหมู่ในระบบ</td></tr>`;
+            return;
+          }
+
+          tbody.innerHTML = allCategories.map(c => {
+            const tCount = c._count?.tickets ?? allTickets.filter(t => t.categoryId === c.id || t.category?.name === c.name).length;
+            const safeName = (c.name || '').replace(/'/g, "\\'");
+            const safeDesc = (c.description || '').replace(/'/g, "\\'");
+            return `
+              <tr style="cursor: pointer;" onclick="if(event.target.tagName !== 'BUTTON') filterAndShowTicketsByCategory('${c.id}')">
+                <td style="font-weight:600; color:white;">
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    <span style="font-size:15px;">📁</span>
+                    <span>${c.name}</span>
+                  </div>
+                </td>
+                <td style="color:var(--text-muted); font-size:13px;">${c.description || '-'}</td>
+                <td>
+                  <span class="badge" style="background:rgba(59,130,246,0.15); color:#60a5fa; cursor:pointer;" onclick="filterAndShowTicketsByCategory('${c.id}')">
+                    🎫 ${tCount} ใบ
+                  </span>
+                </td>
+                <td style="font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--text-subtle);">
+                  ${c.id.substring(0,8)}...
+                </td>
+                <td style="text-align:right;">
+                  <div style="display:flex; justify-content:flex-end; gap:6px;">
+                    <button class="btn-act" onclick="event.stopPropagation(); filterAndShowTicketsByCategory('${c.id}')" title="ดูตั๋วในหมวดหมู่นี้">🔍 ดูตั๋ว (${tCount})</button>
+                    ${isAdminOrIt ? `<button class="btn-act" onclick="event.stopPropagation(); openEditCategoryModal('${c.id}', '${safeName}', '${safeDesc}')" title="แก้ไขหมวดหมู่">✏️ แก้ไข</button>` : ''}
+                    ${isAdmin ? `<button class="btn-act-danger" onclick="event.stopPropagation(); deleteCategory('${c.id}', '${safeName}')" title="ลบหมวดหมู่">🗑️ ลบ</button>` : ''}
+                  </div>
+                </td>
+              </tr>
+            `;
+          }).join('');
         }
       } catch (err) {
         console.error(err);
+      }
+    }
+
+    function filterAndShowTicketsByCategory(catIdOrName) {
+      switchMainTab('tickets');
+      const catSelect = document.getElementById('filterCategory');
+      if (catSelect) {
+        catSelect.value = catIdOrName;
+      }
+      renderTicketTable();
+      const matched = allCategories.find(c => c.id === catIdOrName || c.name === catIdOrName);
+      showToast(`กรองตั๋วในหมวดหมู่ "${matched?.name || catIdOrName}" เรียบร้อยแล้ว`);
+    }
+
+    function resetTicketFilters() {
+      document.getElementById('filterStatus').value = 'ALL';
+      document.getElementById('filterPriority').value = 'ALL';
+      const catFilter = document.getElementById('filterCategory');
+      if (catFilter) catFilter.value = 'ALL';
+      selectedFilterDepartment = 'ALL';
+      renderTicketTable();
+      showToast('ล้างตัวกรองทั้งหมดเรียบร้อยแล้ว');
+    }
+
+    function openEditCategoryModal(id, name, desc) {
+      document.getElementById('inpEditCatId').value = id;
+      document.getElementById('inpEditCatName').value = name;
+      document.getElementById('inpEditCatDesc').value = desc;
+      openModal('modalEditCategory');
+    }
+
+    async function submitEditCategory() {
+      const id = document.getElementById('inpEditCatId').value;
+      const name = document.getElementById('inpEditCatName').value.trim();
+      const description = document.getElementById('inpEditCatDesc').value.trim();
+      if (!name) return showToast('กรุณากรอกชื่อหมวดหมู่', true);
+
+      try {
+        const res = await fetch(`${API_BASE}/api/categories/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${currentToken}`
+          },
+          body: JSON.stringify({ name, description })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'แก้ไขหมวดหมู่ไม่สำเร็จ');
+        closeModal('modalEditCategory');
+        showToast('แก้ไขหมวดหมู่สำเร็จ!');
+        refreshData();
+      } catch (err) {
+        showToast(err.message, true);
+      }
+    }
+
+    async function deleteCategory(id, name) {
+      if (!confirm(`คุณแน่ใจหรือไม่ว่าต้องการลบหมวดหมู่ "${name}"?`)) return;
+      try {
+        const res = await fetch(`${API_BASE}/api/categories/${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${currentToken}` }
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          throw new Error(data.message || 'ไม่สามารถลบหมวดหมู่ได้ (มีตั๋วผูกอยู่ หรือไม่มีสิทธิ์)');
+        }
+        showToast(`ลบหมวดหมู่ "${name}" สำเร็จ!`);
+        refreshData();
+      } catch (err) {
+        showToast(err.message, true);
       }
     }
 
@@ -1420,8 +1718,12 @@
         allTickets = await res.json();
         if (Array.isArray(allTickets)) {
           document.getElementById('badgeTickets').textContent = allTickets.length;
+          const catMetricTickets = document.getElementById('catMetricTickets');
+          if (catMetricTickets) catMetricTickets.textContent = allTickets.length;
           updateMetrics();
           renderTicketTable();
+          renderCommentsTable();
+          renderDepartmentsTable();
         }
       } catch (err) {
         console.error(err);
@@ -1439,11 +1741,14 @@
     function renderTicketTable() {
       const fStatus = document.getElementById('filterStatus').value;
       const fPriority = document.getElementById('filterPriority').value;
+      const fCat = document.getElementById('filterCategory')?.value || 'ALL';
 
       if (!Array.isArray(allTickets)) return;
       let filtered = allTickets;
       if (fStatus !== 'ALL') filtered = filtered.filter(t => t.status === fStatus);
       if (fPriority !== 'ALL') filtered = filtered.filter(t => t.priority === fPriority);
+      if (fCat !== 'ALL') filtered = filtered.filter(t => (t.categoryId === fCat || t.category?.name === fCat));
+      if (selectedFilterDepartment !== 'ALL') filtered = filtered.filter(t => t.createdBy?.department === selectedFilterDepartment);
 
       const tbody = document.getElementById('tblTicketsBody');
       if (filtered.length === 0) {
@@ -1463,6 +1768,7 @@
         if (t.priority === 'LOW') priBadge = `<span class="badge badge-low">LOW</span>`;
 
         const catName = t.category?.name || 'General';
+        const catId = t.categoryId || t.category?.id || '';
         const authorName = t.createdBy ? `${t.createdBy.firstName || ''} ${t.createdBy.lastName || ''}`.trim() : 'User';
         const dept = t.createdBy?.department || '-';
 
@@ -1472,12 +1778,16 @@
               <div style="font-weight:600; color:white; margin-bottom:2px;">${t.title}</div>
               <div style="font-size:12px; color:var(--text-muted); display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; overflow:hidden;">${t.description}</div>
             </td>
-            <td><span class="badge badge-cat">${catName}</span></td>
+            <td>
+              <span class="badge badge-cat" style="cursor:pointer;" onclick="filterAndShowTicketsByCategory('${catId || catName}')" title="คลิกเพื่อกรองเฉพาะหมวดหมู่นี้">
+                📁 ${catName}
+              </span>
+            </td>
             <td>${priBadge}</td>
             <td>${statusBadge}</td>
             <td>
               <div style="font-weight:500; color:var(--text-main); font-size:12.5px;">${authorName || 'User'}</div>
-              <div style="font-size:11px; color:var(--text-subtle);">แผนก ${dept}</div>
+              <div style="font-size:11px; color:var(--text-subtle); cursor:pointer;" onclick="filterAndShowTicketsByDept('${dept}')">แผนก ${dept}</div>
             </td>
             <td style="text-align:right;">
               <div style="display:flex; justify-content:flex-end; gap:6px;">
@@ -1547,6 +1857,10 @@
     }
 
     function openCreateCategoryModal() {
+      if (currentUser?.role === 'EMPLOYEE') {
+        showToast('เฉพาะผู้ดูแลระบบ (Admin) และ IT Support เท่านั้นที่สามารถสร้างหมวดหมู่ใหม่ได้', true);
+        return;
+      }
       document.getElementById('inpCatName').value = '';
       document.getElementById('inpCatDesc').value = '';
       openModal('modalCreateCategory');
@@ -1566,12 +1880,183 @@
           },
           body: JSON.stringify({ name, description })
         });
-        if (!res.ok) throw new Error('Create category failed');
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'สร้างหมวดหมู่ไม่สำเร็จ');
         closeModal('modalCreateCategory');
         showToast('สร้างหมวดหมู่สำเร็จ!');
         refreshData();
       } catch (err) {
-        showToast('เกิดข้อผิดพลาด (เฉพาะ ADMIN / IT_SUPPORT เท่านั้น)', true);
+        showToast(err.message || 'เกิดข้อผิดพลาด (เฉพาะ ADMIN / IT_SUPPORT เท่านั้น)', true);
+      }
+    }
+
+    async function loadUsers() {
+      try {
+        const res = await fetch(`${API_BASE}/api/users`, {
+          headers: { 'Authorization': `Bearer ${currentToken}` }
+        });
+        if (res.ok) {
+          allUsers = await res.json();
+          const badgeUsers = document.getElementById('badgeUsers');
+          if (badgeUsers) badgeUsers.textContent = Array.isArray(allUsers) ? allUsers.length : 0;
+          renderUsersTable();
+          renderDepartmentsTable();
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    function renderUsersTable() {
+      const tbody = document.getElementById('tblUsersBody');
+      if (!tbody || !Array.isArray(allUsers) || allUsers.length === 0) return;
+      tbody.innerHTML = allUsers.map(u => {
+        let roleBadge = `<span class="badge" style="background:rgba(100, 116, 139, 0.2); color:#cbd5e1; border: 1px solid rgba(100, 116, 139, 0.4);">EMPLOYEE</span>`;
+        let permDesc = 'Create & View Own Tickets';
+        if (u.role === 'ADMIN') {
+          roleBadge = `<span class="badge" style="background:rgba(79, 70, 229, 0.2); color:#a5b4fc; border: 1px solid rgba(79, 70, 229, 0.4);">ADMIN</span>`;
+          permDesc = 'Full SuperAdmin Permissions';
+        } else if (u.role === 'IT_SUPPORT') {
+          roleBadge = `<span class="badge" style="background:rgba(2, 132, 199, 0.2); color:#38bdf8; border: 1px solid rgba(2, 132, 199, 0.4);">IT_SUPPORT</span>`;
+          permDesc = 'Manage & Resolve Tickets';
+        }
+        return `
+          <tr>
+            <td style="font-weight:600; color:white;">${u.firstName || ''} ${u.lastName || ''} (${u.username || 'user'})</td>
+            <td style="color:var(--text-muted);">${u.email}</td>
+            <td>${roleBadge}</td>
+            <td style="color:var(--text-muted);">${u.department || 'General'}</td>
+            <td style="text-align:right; color:#4ade80; font-size:12px;">${permDesc}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function renderDepartmentsTable() {
+      const tbody = document.getElementById('tblDepartmentsBody');
+      if (!tbody) return;
+
+      const deptMap = {};
+      allUsers.forEach(u => {
+        const d = u.department || 'General';
+        if (!deptMap[d]) deptMap[d] = { name: d, users: [], ticketsCount: 0 };
+        deptMap[d].users.push(u);
+      });
+
+      allTickets.forEach(t => {
+        const d = t.createdBy?.department || 'General';
+        if (!deptMap[d]) deptMap[d] = { name: d, users: [], ticketsCount: 0 };
+        deptMap[d].ticketsCount++;
+      });
+
+      const depts = Object.values(deptMap);
+      const badgeDepartments = document.getElementById('badgeDepartments');
+      if (badgeDepartments) badgeDepartments.textContent = depts.length;
+
+      if (depts.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:36px; color:var(--text-subtle);">กำลังรวบรวมข้อมูลแผนก...</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = depts.map(d => `
+        <tr>
+          <td style="font-weight:600; color:white;">🏢 แผนก ${d.name}</td>
+          <td><span class="badge" style="background:rgba(99,102,241,0.15); color:#a5b4fc;">👥 ${d.users.length} คน</span></td>
+          <td><span class="badge" style="background:rgba(59,130,246,0.15); color:#60a5fa;">🎫 ${d.ticketsCount} ใบ</span></td>
+          <td style="font-size:12.5px; color:var(--text-muted);">
+            ${d.users.map(u => `${u.firstName || u.username} (${u.role})`).slice(0, 3).join(', ')}${d.users.length > 3 ? '...' : ''}
+          </td>
+          <td style="text-align:right;">
+            <button class="btn-act" onclick="filterAndShowTicketsByDept('${d.name}')">🔍 ดูตั๋ว (${d.ticketsCount})</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function filterAndShowTicketsByDept(deptName) {
+      selectedFilterDepartment = deptName;
+      switchMainTab('tickets');
+      renderTicketTable();
+      showToast(`กรองตั๋วของแผนก "${deptName}" เรียบร้อยแล้ว`);
+    }
+
+    function renderCommentsTable() {
+      const tbody = document.getElementById('tblCommentsBody');
+      if (!tbody) return;
+
+      const q = (document.getElementById('inpSearchComments')?.value || '').toLowerCase().trim();
+      let allComments = [];
+      allTickets.forEach(t => {
+        (t.comments || []).forEach(c => {
+          allComments.push({
+            ...c,
+            ticketId: t.id,
+            ticketTitle: t.title,
+            ticketStatus: t.status
+          });
+        });
+      });
+
+      const badgeComments = document.getElementById('badgeComments');
+      if (badgeComments) badgeComments.textContent = allComments.length;
+
+      if (q) {
+        allComments = allComments.filter(c =>
+          (c.content || '').toLowerCase().includes(q) ||
+          (c.author?.firstName || '').toLowerCase().includes(q) ||
+          (c.ticketTitle || '').toLowerCase().includes(q)
+        );
+      }
+
+      if (allComments.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:36px; color:var(--text-subtle);">ไม่มีความคิดเห็นในระบบ</td></tr>`;
+        return;
+      }
+
+      const isAdmin = currentUser && currentUser.role === 'ADMIN';
+
+      tbody.innerHTML = allComments.map(c => `
+        <tr>
+          <td>
+            <div style="color:var(--text-main); font-weight:500; font-size:13px; line-height:1.5;">${c.content}</div>
+            <div style="font-size:11px; color:var(--text-subtle); margin-top:3px;">⏱️ ${new Date(c.createdAt).toLocaleString('th-TH')}</div>
+          </td>
+          <td>
+            <div style="font-weight:600; color:#38bdf8; font-size:12.5px; cursor:pointer;" onclick="openCommentsModal('${c.ticketId}')">🎫 ${c.ticketTitle}</div>
+            <span class="badge badge-open" style="font-size:10px; margin-top:2px;">${c.ticketStatus}</span>
+          </td>
+          <td>
+            <div style="font-weight:500; color:white; font-size:12.5px;">${c.author?.firstName || 'ผู้ใช้'} ${c.author?.lastName || ''}</div>
+            <span class="badge" style="font-size:10px; background:rgba(255,255,255,0.06); color:var(--text-muted);">${c.author?.role || 'USER'}</span>
+          </td>
+          <td>
+            ${c.isInternal
+              ? `<span class="badge" style="background:rgba(239,68,68,0.15); color:#f87171;">🔒 ภายใน</span>`
+              : `<span class="badge" style="background:rgba(34,197,94,0.15); color:#4ade80;">🌐 สาธารณะ</span>`
+            }
+          </td>
+          <td style="text-align:right;">
+            <div style="display:flex; justify-content:flex-end; gap:6px;">
+              <button class="btn-act" onclick="openCommentsModal('${c.ticketId}')">🔍 เปิดตั๋ว</button>
+              ${isAdmin ? `<button class="btn-act-danger" onclick="deleteComment('${c.id}')">🗑️</button>` : ''}
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    async function deleteComment(id) {
+      if (!confirm('คุณแน่ใจหรือไม่ว่าต้องการลบความคิดเห็นนี้?')) return;
+      try {
+        const res = await fetch(`${API_BASE}/api/tickets/comments/${id}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${currentToken}` }
+        });
+        if (!res.ok) throw new Error('ลบความคิดเห็นไม่สำเร็จ');
+        showToast('ลบความคิดเห็นสำเร็จ!');
+        loadTickets();
+      } catch (err) {
+        showToast(err.message, true);
       }
     }
 

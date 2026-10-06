@@ -95,4 +95,13 @@ export class TicketController {
   ) {
     return this.ticketService.addComment(id, userId, data.content, data.isInternal);
   }
+
+  @Delete('comments/:commentId')
+  @Roles(Role.ADMIN)
+  @ApiOperation({ summary: 'ลบความคิดเห็น (เฉพาะ ADMIN)' })
+  @ApiOkResponse({ description: 'ลบความคิดเห็นสำเร็จ' })
+  @ApiNotFoundResponse({ description: 'ไม่พบความคิดเห็น' })
+  async removeComment(@Param('commentId') commentId: string) {
+    return this.ticketService.removeComment(commentId);
+  }
 }

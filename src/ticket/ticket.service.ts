@@ -44,6 +44,10 @@ export class TicketService {
           category: true,
           createdBy: true,
           assignedTo: true,
+          comments: {
+            include: { author: true },
+            orderBy: { createdAt: 'desc' },
+          },
         },
       });
     }
@@ -54,6 +58,11 @@ export class TicketService {
         category: true,
         createdBy: true,
         assignedTo: true,
+        comments: {
+          where: { isInternal: false },
+          include: { author: true },
+          orderBy: { createdAt: 'desc' },
+        },
       },
     });
   }
@@ -131,5 +140,13 @@ export class TicketService {
       },
       include: { author: true },
     });
+  }
+
+  async removeComment(commentId: string) {
+    const comment = await this.prisma.comment.findUnique({ where: { id: commentId } });
+    if (!comment) {
+      throw new NotFoundException('ไม่พบความคิดเห็น');
+    }
+    return this.prisma.comment.delete({ where: { id: commentId } });
   }
 }

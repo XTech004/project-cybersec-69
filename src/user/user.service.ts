@@ -18,4 +18,11 @@ export class UserService {
 
     return this.authService.toSafeUser(user);
   }
+
+  async findAll() {
+    const users = await this.prisma.user.findMany({
+      orderBy: { createdAt: 'asc' },
+    });
+    return users.map((u) => this.authService.toSafeUser(u));
+  }
 }

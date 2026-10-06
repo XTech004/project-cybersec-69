@@ -17,4 +17,11 @@ export class UserController {
   async me(@CurrentUser('id') userId: string) {
     return this.userService.findProfile(userId);
   }
+
+  @Get()
+  @ApiOperation({ summary: 'ดูรายชื่อผู้ใช้งานทั้งหมด' })
+  @ApiOkResponse({ description: 'รายการผู้ใช้งานทั้งหมด' })
+  async findAll() {
+    return this.userService.findAll();
+  }
 }
