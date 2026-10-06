@@ -169,33 +169,6 @@
       background: var(--primary-hover);
     }
 
-    .quick-creds {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px dashed var(--border-subtle);
-      border-radius: var(--radius-sm);
-      padding: 10px 14px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 11.5px;
-    }
-    .quick-creds span {
-      color: var(--text-subtle);
-    }
-    .chip-btn {
-      background: var(--bg-body);
-      border: 1px solid var(--border-subtle);
-      color: #cbd5e1;
-      padding: 3px 8px;
-      border-radius: 4px;
-      font-size: 11px;
-      cursor: pointer;
-      font-family: 'JetBrains Mono', monospace;
-    }
-    .chip-btn:hover {
-      color: white;
-      border-color: #3b82f6;
-    }
 
     .auth-footer {
       border-top: 1px solid var(--border-subtle);
@@ -256,12 +229,12 @@
     <form id="userLoginForm" onsubmit="handleUserLogin(event)" style="display: flex; flex-direction: column; gap: 14px;">
       <div class="form-group">
         <label for="inpIdentifier">อีเมลหรือชื่อผู้ใช้ (Email / Username) *</label>
-        <input type="text" class="form-input" id="inpIdentifier" value="employee@example.com" placeholder="เช่น employee@example.com หรือ username" required autofocus>
+        <input type="text" class="form-input" id="inpIdentifier" placeholder="เช่น your_name หรือ email@domain.com" required autofocus autocomplete="username">
       </div>
 
       <div class="form-group">
         <label for="inpPassword">รหัสผ่าน (Password) *</label>
-        <input type="password" class="form-input" id="inpPassword" value="password123" placeholder="password" required>
+        <input type="password" class="form-input" id="inpPassword" placeholder="กรอกรหัสผ่าน" required autocomplete="current-password">
       </div>
 
       <div class="form-options">
@@ -272,12 +245,6 @@
         <span>เข้าสู่ระบบ User 👤</span>
       </button>
     </form>
-
-    <div class="quick-creds">
-      <span>บัญชีทดสอบ:</span>
-      <button type="button" class="chip-btn" onclick="fillCreds('employee@example.com', 'password123')">employee</button>
-      <button type="button" class="chip-btn" onclick="fillCreds('it@example.com', 'password123')">it_support</button>
-    </div>
 
     <div class="auth-footer">
       <div>
@@ -300,11 +267,6 @@
       t.className = 'toast' + (isError ? ' error' : '');
       t.style.display = 'block';
       setTimeout(() => { t.style.display = 'none'; }, 2800);
-    }
-
-    function fillCreds(ident, pass) {
-      document.getElementById('inpIdentifier').value = ident;
-      document.getElementById('inpPassword').value = pass;
     }
 
     async function handleUserLogin(e) {
